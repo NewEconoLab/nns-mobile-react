@@ -16,6 +16,8 @@ interface IState {
   message:string,
   status:string
 }
+
+// 获取竞拍状态：getauctionstate 参数：域名
 class Auction extends React.Component<IHomeProps, IState>
 {
   public prop = this.props.intl.messages;

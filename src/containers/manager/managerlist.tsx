@@ -7,6 +7,8 @@ import {Link} from 'react-router-dom';
 // import DateTool from '@/tools/datetool';
 import './index.less'
 
+// 获取解析地址 getresolvedaddress 参数：域名
+
 export default class ManagerList extends React.Component<IManagerListProps, any>
 {
   // public formatDate = (time:string)=>{    

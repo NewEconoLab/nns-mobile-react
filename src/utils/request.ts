@@ -1,6 +1,5 @@
 import Axios from 'axios';
 
-
 interface IOpts {
   method:string, // 接口名
   params: any[], // 参数

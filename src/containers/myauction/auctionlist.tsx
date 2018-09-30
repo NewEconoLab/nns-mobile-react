@@ -8,6 +8,16 @@ import Hint from '@/components/hint';
 // import q2 from '@/img/q2.png'
 import './index.less'
 import { Button } from 'antd-mobile';
+// 根据竞拍id查询竞拍信息 getauctioninfobyaucitonid
+// 获取域名信息 getdomaininfo 参数：域名
+  /**
+   *   "owner": "ALUGqCZMFWoJBsd2qYhp5ckDVrap5RbSMJ",
+   *   "register": "",
+   *   "resolver": "0x6e2aea28af9c5febea0774759b1b76398e3167f1",
+   *   "TTL": "1568975107",
+   *   "parentOwner": "AMNFdmGuBrU1iaMbYd63L1zucYMdU9hvQU",
+   *   "root": "0"
+   */
 export default class MyAuctionList extends React.Component<any,any>
 {
     public onGotoDetail = () => {

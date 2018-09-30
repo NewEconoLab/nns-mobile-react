@@ -7,6 +7,7 @@ import MyAuctionList from './auctionlist'
 export default class MyAuction extends React.Component
 {
   
+  
   public render()
   {
     return (

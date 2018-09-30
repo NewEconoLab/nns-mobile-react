@@ -16,7 +16,8 @@ import common from '@/store/common';
 interface IState {
     inputValue:string,
     message:string,
-    status:string
+    status:string,
+    color:string
 }
 
 @inject('home')
@@ -28,7 +29,8 @@ export default class Withdraw extends React.Component<IHomeProps, IState>
         this.state = {
           inputValue:"",
           status:"",
-          message:""
+          message:"",
+          color:""
         }
       }
       public async componentDidMount(){
@@ -38,10 +40,12 @@ export default class Withdraw extends React.Component<IHomeProps, IState>
       public change = (value:string) => {
         this.setState({
           inputValue:value,
-          status:'error',
-          message:'erroroooorrrr'
+          status:'',
+          message:'所需CGAS数量：99',
+          color:"red-color"
         });
       }
+      // 发送交易接口sendrawtransaction 传参：已附加签名鉴证的txHex
   public render()
   {
     return (
@@ -68,11 +72,12 @@ export default class Withdraw extends React.Component<IHomeProps, IState>
             <Input 
                 placeholder=""
                 style={{width: 345}}
-                status=""
-                message="所需CGAS数量：99"
+                status={this.state.status}
+                message={this.state.message}
                 value={this.state.inputValue}
                 onChange={this.change}
-                type="text"
+                type="number"
+                color={this.state.color}
             />
             <span className="input-right">全部</span>
         </div>

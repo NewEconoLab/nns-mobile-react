@@ -13,7 +13,8 @@ interface IProps {
     style?:object,
     readonly?:boolean,
     type:string,
-    onBlur?:(event:any)=>void
+    onBlur?:(event:any)=>void,
+    color?:string,
 }
 
 export default class Input extends React.Component<IProps, {}> {
@@ -48,7 +49,7 @@ export default class Input extends React.Component<IProps, {}> {
             <div className="input-tips">
                 {this.props.status === 'success' && <img src={correct} alt=""/>}
                 {this.props.status === 'error' && <img src={error} alt=""/>}
-                <span>{this.props.message}</span>
+                <span className={this.props.color}>{this.props.message}</span>
             </div>
         </div>
         );

@@ -15,6 +15,8 @@ interface IState {
     message:string,
     status:string
   }
+
+  // 发送交易接口sendrawtransaction 传参：已附加签名鉴证的txHex
 export default class Topup extends React.Component<{}, IState>
 {
     constructor(props:any) {
