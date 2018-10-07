@@ -4,10 +4,13 @@ import './index.less';
 import { NavBar, Icon } from 'antd-mobile';
 import {observer, inject} from 'mobx-react';
 
+interface IProps {
+    locale:any
+}
 
 @inject('common')
 @observer
-export default class Header extends React.Component {
+export default class Header extends React.Component<IProps> {
     public cons = () => {
         history.go(-1);
     }
@@ -17,7 +20,7 @@ export default class Header extends React.Component {
                 <NavBar
                     mode="light"
                     icon={<Icon type="left" />}
-                    leftContent="返回"
+                    leftContent={this.props.locale.back}
                     onLeftClick={this.cons}
                 >{this.props['common'].title}</NavBar>
             </div>

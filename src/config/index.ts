@@ -1,7 +1,7 @@
 import TEST_CONFIG from './test.config';
-import TITLE_CONFIG from './title.config';
+import HASH_CONFIG from '@/config/hash.config';
 
 export {
   TEST_CONFIG,
-  TITLE_CONFIG
+  HASH_CONFIG
 }

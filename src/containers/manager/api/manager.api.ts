@@ -1,10 +1,10 @@
 import request from 'utils/request';
 
-export const getdomainbyaddress = ()=>{
+export const getdomainbyaddress = (address:string)=>{
   const opts = {
     method:"getdomainbyaddress",
     params:[
-      "ATBTRWX8v8teMHCvPXovir3Hy92RPnwdEi",
+      address,
       ".neo"
     ]
   }

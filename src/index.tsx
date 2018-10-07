@@ -6,12 +6,14 @@ import App from './App';
 import './reset.less';
 import registerServiceWorker from './registerServiceWorker';
 import zh_CN from 'antd/lib/locale-provider/zh_CN';
+import en_US from 'antd/lib/locale-provider/en_US';
 import { LocaleProvider } from 'antd';
+import storeCommon from '@/store/common';
 
 if (process.env.NODE_ENV === "development") {
   ReactDOM.render(
     <AppContainer>
-      <LocaleProvider locale={zh_CN}>
+      <LocaleProvider locale={storeCommon.language === 'en' ? en_US : zh_CN}>
         <App />
       </LocaleProvider>
     </AppContainer>,

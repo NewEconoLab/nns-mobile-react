@@ -1,4 +1,4 @@
-# playground 共享平台
+# nns-mobile-react
 
 ## 技术选型
 1. React
@@ -16,12 +16,6 @@ npm install / yarn add
 ```shell
 npm start / yarn start
 ```
-
-## 构建 Staging／uat
-提交 pr 到 staging ，合并后 CI 自动部署
-
-## 发布
-提交 pr 由 Master 分支 到 release 分支，合并后由 CI 调用 shipit 自动部署
 
 ## 项目文档
 

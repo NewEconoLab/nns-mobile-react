@@ -2,43 +2,97 @@
  * 域名的解析、映射以及续约
  */
 import * as React from 'react';
+import {inject, observer} from 'mobx-react';
+import {injectIntl} from 'react-intl';
 import TitleText from '@/components/titletext';
 import { Button } from 'antd-mobile';
-import {IProps} from './interface/index.interface';
+import {IState, IProps} from './interface/detail.interface';
+import * as formatTime from 'utils/formatTime';
 import './index.less'
 
-export default class DomainMap extends React.Component<IProps, any>
+@inject('manager')
+@observer
+class DomainMap extends React.Component<IProps, IState>
 {
-  public render()
-  {
-      console.log(this.props.match.params['domain'])
-    return (
-      <div className="domainset-wrap">
-        <div className="mapping-block">
-            <TitleText text="域名"/>
-            <div className="text-normal">sadfasdfa.neo</div>
-        </div>
-        <div className="mapping-block">
-            <TitleText text="地址解析器">
-                {/* <Button type="warning" inline={true} size="small">重置</Button> */}
-                <Button type="primary" inline={true} size="small">设置</Button>
-            </TitleText>
-            <div className="text-normal">6bcc17c5628de5fc05a80cd87add35f0f3f1b0ab</div>
-        </div>
-        <div className="mapping-block">
-            <TitleText text="地址映射">
-                {/* <Button type="warning" inline={true} size="small">重置</Button> */}
-                <Button type="ghost" inline={true} size="small" disabled={true} style={{background:'#ddd',color:'#bbb'}}>设置</Button>
-            </TitleText>
-            <div className="text-normal">AYMa5TcgVfvPxBxzzfYswUHAvXLyaptquh</div>
-        </div>
-        <div className="mapping-block">
-            <TitleText text="到期时间">
-                <Button type="primary" inline={true} size="small">续约</Button>
-            </TitleText>
-            <div className="text-normal">2018/08/14 10:20:20 <span className="text-orange">（即将过期）</span></div>
-        </div>
-      </div>
-    );
-  }
+	public state = {
+		item:{
+			domain:'',      // 域名
+			resolver:'',    // 地址解析器
+			resolverAddr:'',// 地址映射
+			ttl:'' // 到期时间  
+		},
+		timelater:0 // 1 即将过期
+	}
+	public componentDidMount() {
+		if(!this.props.manager.detail) {
+			this.props.history.goBack();
+		}
+	}
+	public dateComputed = (time:string) => {
+    if(new Date().getTime() > formatTime.formatUnixTime(time)) {
+			this.setState({timelater:1})
+      return <span className="text-red">（已过期）</span>;
+    }
+
+    if(formatTime.formatUnixTime(time) - new Date().getTime() <= (86400000 * 60)) {
+      return <span className="text-orange">（即将过期）</span>;
+    }
+
+    return <span/>;
+	}
+	public onChangeResolver = () => {
+		alert('todo');
+		// todo
+	}
+	public onChangeResolverAddr = () => {
+		alert('todo');
+		// todo
+	}
+	public onReNew = () => {
+		alert('todo')
+		// todo
+	}
+	public render() {
+		if(!this.props.manager.detail) {
+			return null;
+		}
+		return (
+			<div className="domainset-wrap">
+				<div className="mapping-block">
+					<TitleText text="域名" />
+					<div className="text-normal">{this.props.manager.detail.domain}</div>
+				</div>
+				<div className="mapping-block">
+					<TitleText text="地址解析器">
+						{
+							this.props.manager.detail.resolver ? 
+							<Button type="warning" inline={true} size="small" onClick={this.onChangeResolver}>重置</Button> :
+							<Button type="primary" inline={true} size="small" onClick={this.onChangeResolver}>设置</Button>
+						}
+					</TitleText>
+					<div className="text-normal">{this.props.manager.detail.resolver || '未设置'}</div>
+				</div>
+				<div className="mapping-block">
+					<TitleText text="地址映射">
+						{
+							this.props.manager.detail.resolverAddr ? 
+							<Button type="warning" inline={true} size="small" onClick={this.onChangeResolverAddr}>重置</Button> :
+							<Button type="ghost" inline={true} size="small" disabled={!this.props.manager.detail.resolver} style={{ background: '#ddd', color: '#bbb' }} onClick={this.onChangeResolverAddr}>设置</Button>
+						}
+					</TitleText>
+					<div className="text-normal">{this.props.manager.detail.resolverAddr || '未设置'}</div>
+				</div>
+				<div className="mapping-block">
+					<TitleText text="到期时间">
+						{
+							this.state.timelater === 1 && <Button type="primary" inline={true} size="small" onClick={this.onReNew}>续约</Button>
+						}
+					</TitleText>
+					<div className="text-normal">{formatTime.format('yyyy/MM/dd hh:mm:ss', this.props.manager.detail.ttl, this.props.intl.locale)} {this.dateComputed(this.props.manager.detail.ttl)}</div>
+				</div>
+			</div>
+		);
+	}
 }
+
+export default injectIntl(DomainMap)

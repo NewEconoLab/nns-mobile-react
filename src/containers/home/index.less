@@ -15,10 +15,15 @@
         padding-bottom: 30px;
         .auction-name{
             padding: 30px 15px 5px 15px;
+            position: relative;
+
+            .input-group {
+                max-width: 3rem;
+            }
         }   
         .auction-neo{
-            position: relative;
-            top: -20px;
+            position: absolute;
+            top: 45px;
         }     
     }
 }
@@ -83,5 +88,14 @@
         position: fixed;
         bottom: .5rem;
         width: 100%;
+
+        .disabled {
+            background:#ddd;
+            color:#bbb;
+
+            &:before {
+                display: none;
+            }  
+        }
     }
 }

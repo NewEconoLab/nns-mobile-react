@@ -1,8 +1,5 @@
 import { RouteComponentProps } from 'react-router-dom';
-
-export interface IProps extends RouteComponentProps{
-  a:1
-}
+import {ICommonStore} from '@/store/interface/common.interface'
 
 export interface IManagerList {
   domain:string,      // 域名
@@ -11,15 +8,19 @@ export interface IManagerList {
   ttl:string          // 到期时间
 }
 
-export interface IManagerListProps {
-  item:IManagerList
+export interface IManagerListProps extends RouteComponentProps {
+  item:IManagerList,
+  intl:any,
+  manager:IManagerStore,
 }
 
 export interface IManagerStore {
   domainList:IManagerList[],
-  getdomainbyaddress:()=>void,
+  detail:IManagerList | null,
+  getdomainbyaddress:(address:string)=>void,
 }
 
-export interface IManagerProps{
-  manager:IManagerStore
+export interface IManagerProps extends RouteComponentProps{
+  manager:IManagerStore,
+  common:ICommonStore,
 }

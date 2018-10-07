@@ -1,4 +1,20 @@
 export default {
+  title: {
+    '/':'NNS',
+    '/tutorial': 'Tutorial',
+    '/exchange': 'CGAS exchange',
+    '/auction': 'My auction',
+    '/manager': 'My domain',
+    '/manager/detail': 'My domain',
+    '/auction/detail':'My auction',
+    '/bonus': 'Bonus',
+    '/record': 'Record',
+    '/topup':'Topup',
+    '/withdraw':'Withdraw',
+  },
+  header:{
+    back:'Back'
+  },
   btn:{
     withdraw:"Withdraw",
     topup:"Top up",

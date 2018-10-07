@@ -10,12 +10,9 @@ import './index.less'
 
 import {observer, inject} from 'mobx-react';
 
-@inject('home')
+@inject('home', 'common')
 @observer
 class NNS extends React.Component<IHomeProps, any> {
-  public async componentDidMount(){
-    await this.props.home.getregisteraddressbalance();
-  }
   public render() {
     return (
       <div className="nns-page">  

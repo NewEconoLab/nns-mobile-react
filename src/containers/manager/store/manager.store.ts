@@ -4,11 +4,12 @@ import {IManagerList, IManagerStore} from '../interface/index.interface';
 
 class manager implements IManagerStore {
   @observable public domainList:IManagerList[] = [];
+  @observable public detail:IManagerList | null = null;
 
-  @action public  getdomainbyaddress = async()=> {
+  @action public  getdomainbyaddress = async(address:string)=> {
     let result:any = null;
     try {
-      result = await Api.getdomainbyaddress();
+      result = await Api.getdomainbyaddress(address);
 
     } catch (error) {
       return false;

@@ -4,7 +4,8 @@ interface IOpts {
   method:string, // 接口名
   params: any[], // 参数
   isGET?:boolean, // 是否是get 请求（默认请求是post）
-  baseUrl?:string // 如果是common 则 取 baseCommonUrl（默认 baseUrl）
+  baseUrl?:string, // 如果是common 则 取 baseCommonUrl（默认 baseUrl）
+  getAll?:boolean, // 是否获取所有返回结果
 }
 
 const baseCommonUrl: string = "https://api.nel.group/api/testnet";
@@ -41,6 +42,10 @@ export default function request(opts: IOpts): Promise<any> {
     Axios(args)
       .then((data: any) => {
         if(data.data.result) {
+          if(opts.getAll) {
+            resolve(data.data);
+            return;
+          }
           resolve(data.data.result);
           return;
         }

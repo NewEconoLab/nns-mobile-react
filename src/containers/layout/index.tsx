@@ -2,11 +2,10 @@
 import * as React from 'react';
 import * as PropTypes from 'prop-types';
 import Header from '@/components/header';
-import {TITLE_CONFIG} from '@/config';
+import {zh_CN, en_US} from '@/language';
 import store from '@/store/common';
 
 import './index.less';
-
 
 export default class LayoutIndex extends React.Component<any, any> {
   public static contextTypes = {
@@ -19,7 +18,7 @@ export default class LayoutIndex extends React.Component<any, any> {
   }
 
   public componentDidMount () {
-    const titles = TITLE_CONFIG;
+    const titles = store.language === 'en' ? en_US.title : zh_CN.title;
     const titleKeys = Object.keys(titles);
 
     // 页面初始化的时候匹配一次
@@ -38,7 +37,7 @@ export default class LayoutIndex extends React.Component<any, any> {
   public render() {
     return (
       <div className="layout-container">
-        <Header />
+        <Header locale={store.language === 'en' ? en_US.header : zh_CN.header}/>
         <div className="layout-main">
           {this.props.children}
         </div>
