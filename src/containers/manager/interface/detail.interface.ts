@@ -1,11 +1,13 @@
-import {IManagerStore } from './index.interface';
+import { IManagerStore } from './index.interface';
 import { RouteComponentProps } from 'react-router-dom';
 
 export interface IState {
-  timelater:number
+  timelater: number,
+  showResolver: boolean,
+  showResolverAddr: boolean
 }
 
-export interface IProps extends RouteComponentProps{
-  intl:any,
-  manager:IManagerStore
+export interface IProps extends RouteComponentProps {
+  intl: any,
+  manager: IManagerStore
 }
