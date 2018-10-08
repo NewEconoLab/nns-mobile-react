@@ -14,7 +14,8 @@ export interface IBonusList {
 }
 
 export interface IBonusListProps {
-  item:IBonusList
+  item:IBonusList,
+  intl:any,
 }
 /**
  * 分红页的数据存储
