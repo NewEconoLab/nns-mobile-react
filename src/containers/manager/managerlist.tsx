@@ -5,7 +5,6 @@ import * as React from 'react';
 import { injectIntl } from 'react-intl';
 import { IManagerListProps } from './interface/index.interface';
 import * as formatTime from 'utils/formatTime';
-// import DateTool from '@/tools/datetool';
 import './index.less'
 
 // 获取解析地址 getresolvedaddress 参数：域名
