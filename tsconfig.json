@@ -13,12 +13,13 @@
     "forceConsistentCasingInFileNames": true,
     "noImplicitReturns": true,
     "noImplicitThis": true,
-    "noImplicitAny": true,
+    // "noImplicitAny": true,
     "strictNullChecks": true,
     "suppressImplicitAnyIndexErrors": true,
     "noUnusedLocals": true,
     "experimentalDecorators": true,
     "allowSyntheticDefaultImports": true,
+    "skipLibCheck": true,
     "paths": {
       // 设着alias别名，相似webpack，相对上面设置的基础路径      
       "@/*":["./src/*"],
@@ -34,6 +35,7 @@
     "acceptance-tests",
     "webpack",
     "jest",
+    "public",
     "src/setupTests.ts"
   ]
 }
