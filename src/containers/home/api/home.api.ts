@@ -3,9 +3,9 @@ import request from 'utils/request';
 /**
  * 获取竞拍状态
  */
-export const getauctionstate =  (args:string) => {
+export const getdomainauctioninfo =  (args:string) => {
   const opts = {
-   method:'getauctionstate',
+   method:'getdomainauctioninfo',
    params:[
     args
    ],

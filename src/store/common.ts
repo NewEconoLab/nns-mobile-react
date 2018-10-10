@@ -23,7 +23,7 @@ class Common{
       return false;
     }
     console.log(result);
-    this.cgasBalance = result[0].nep5balance;
+    this.cgasBalance = Neo.Fixed8.parse(result[0].nep5balance).toString();
     console.log(this.cgasBalance)
     return true;
   }
@@ -40,7 +40,7 @@ class Common{
       return false;
     }
     console.log(result);
-    this.accountBalance = result[0].balance;
+    this.accountBalance = Neo.Fixed8.parse(result[0].balance).toString();
     console.log(this.accountBalance)
     return true;
   }
