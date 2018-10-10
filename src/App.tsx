@@ -11,6 +11,7 @@ import store from "./store";
 import commonStore from './store/common';
 
 import { en_US, zh_CN } from '@/language';
+import coin from './store/coin';
 addLocaleData([...en, ...zh]);
 
 // setTimeout(() => {
@@ -24,6 +25,9 @@ addLocaleData([...en, ...zh]);
 // 初始化请求
 commonStore.getregisteraddressbalance();
 commonStore.getnep5balanceofaddress();
+coin.initUtxos();
+console.log(coin.assets);
+
 
 const ObserverRender = observer(() => {
   let messages = en_US;
