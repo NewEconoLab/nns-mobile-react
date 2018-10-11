@@ -7,7 +7,7 @@ export const getnep5balanceofaddress =  (address:string) => {
   const opts = {
    method:'getnep5balanceofaddress',
    params:[
-    HASH_CONFIG.cgasHash,
+    HASH_CONFIG.id_CGAS.toString(),
     address
    ],
    baseUrl:'common'
@@ -16,28 +16,47 @@ export const getnep5balanceofaddress =  (address:string) => {
 }
 
 /**
- * 获取账户中的cgas
+ * 
+ * @param address 
  */
 export const getregisteraddressbalance =  (address:string) => {
   const opts = {
    method:'getregisteraddressbalance',
    params:[    
     address,
-    HASH_CONFIG.accountCGAS
+    HASH_CONFIG.accountCGAS.toString()
    ]
   }
   return request(opts);
 }
 
-// 发送交易
-export const sendrawtransaction =  (toHex:string) => {
+/**
+ * 发送交易
+ * @param data 交易数据
+ */
+export const sendrawtransaction =  (data:string) => {
   const opts = {
    method:'sendrawtransaction',
    params:[
-    toHex
+    data
    ],
    baseUrl:'common',
    getAll:true
+  }
+  return request(opts);
+}
+
+/**
+ * 获得指定地址对应的utxo
+ * @param address 地址
+ */
+export const getUtxo=(address:string)=>{
+  const opts={
+    method:"getutxo",
+    params:[
+      address
+    ],
+    baseUrl:'common'
   }
   return request(opts);
 }
