@@ -644,6 +644,7 @@ declare namespace ThinNeo
     {
         hash: Uint8Array;
         index: number;
+        addr:string;
     }
     class Witness
     {
@@ -685,7 +686,7 @@ declare namespace ThinNeo
         witnesses: Witness[];
         SerializeUnsigned(writer: Neo.IO.BinaryWriter): void;
         Serialize(writer: Neo.IO.BinaryWriter): void;
-        extdata: IExtData;
+        extdata: IExtData|null;
         DeserializeUnsigned(ms: Neo.IO.BinaryReader): void;
         Deserialize(ms: Neo.IO.BinaryReader): void;
         GetMessage(): Uint8Array;
