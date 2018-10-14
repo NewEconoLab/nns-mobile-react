@@ -37,7 +37,6 @@ export default function request(opts: IOpts): Promise<any> {
     data: JSON.stringify(makeRpcPostBody(opts.method, opts.params)),
     ...defaultConfig,
   }
-
   return new Promise((resolve, reject) => {
     Axios(args)
       .then((data: any) => {

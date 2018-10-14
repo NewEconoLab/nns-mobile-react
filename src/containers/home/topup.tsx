@@ -13,6 +13,8 @@ import classnames from 'classnames';
 import { ITopupProps } from './interface/topup.interface';
 import './index.less'
 import TitleText from '@/components/titletext';
+import { nnstools } from '@/utils/nnstools';
+import DomainSelling from '@/store/DomainSelling';
 
 // 发送交易接口sendrawtransaction 传参：已附加签名鉴证的txHex
 @inject('topup', 'common')
@@ -20,13 +22,10 @@ import TitleText from '@/components/titletext';
 export default class Topup extends React.Component<ITopupProps>
 {
 	public change = (value: string) => {
-
 		if (/\./.test(value) && value.split('.')[1].length > 8) {
 			return false;
 		}
-		this.props.topup.inputModule = {
-			inputValue: value,
-		}
+		this.props.topup.inputModule.inputValue = value;
 
 		return true;
 	}
@@ -34,6 +33,20 @@ export default class Topup extends React.Component<ITopupProps>
 		this.props.topup.inputModule = {
 			inputValue: this.props.common.accountBalance
 		}
+	}
+	/**
+	 * onTopup
+	 */
+	public onTopup() {
+		alert(this.props);
+		DomainSelling.initRoot()
+		.then(
+			data=>{
+				alert(this.props.topup.inputModule.inputValue);
+				alert(DomainSelling.RootNeo.register.toString());
+				nnstools.rechargeReg(this.props.topup.inputModule.inputValue)
+			}
+		)
 	}
 	public onWithDraw = async () => {
 		// todo
@@ -81,7 +94,7 @@ export default class Topup extends React.Component<ITopupProps>
 							type="primary"
 							className={disabledClassName}
 							disabled={disabled}
-							onClick={this.onWithDraw}
+							onClick={this.onTopup}
 						>充值</Button>
 					</WingBlank>
 				</div>

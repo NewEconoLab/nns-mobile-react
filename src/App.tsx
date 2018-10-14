@@ -23,9 +23,15 @@ addLocaleData([...en, ...zh]);
 // }, 6000)
 
 // 初始化请求
-commonStore.getregisteraddressbalance();
-commonStore.getnep5balanceofaddress();
-o3tools.init();
+o3tools.init(res=>{
+  if(res){
+    commonStore.getregisteraddressbalance();
+    commonStore.getnep5balanceofaddress();
+    return true;
+  }else{
+    return false;
+  }
+});
 coin.initUtxos();
 
 const ObserverRender = observer(() => {
@@ -37,14 +43,13 @@ const ObserverRender = observer(() => {
     locale = 'zh';
   }
 
-
   return (
     <IntlProvider
       locale={locale}
       messages={messages}
     >
       {
-        commonStore.accountBalance && commonStore.cgasBalance ?
+        (commonStore.address&&commonStore.accountBalance && commonStore.cgasBalance) ?
           renderRoutes(routes) :
           <div />
       }

@@ -2,6 +2,7 @@ import { CoinTool } from "./cointools";
 import { HASH_CONFIG, WALLET_CONFIG } from "@/config";
 import { Transaction } from "./transaction";
 import o3tools from "./o3tools";
+import common from "@/store/common";
 
 export class Contract
 {
@@ -12,13 +13,13 @@ export class Contract
      * @param method 方法名
      * @param param 参数
      */
-    public static buildScript(appCall: Neo.Uint160, method: string, param: string[]): Uint8Array
+    public static buildScript(appCall: Neo.Uint160, method: string, param: string[]): ThinNeo.ScriptBuilder
     {
         const sb = new ThinNeo.ScriptBuilder();
         sb.EmitParamJson(param); // 第二个参数是个数组
         sb.EmitPushString(method);
         sb.EmitAppCall(appCall);
-        return sb.ToArray();
+        return sb;
     }
 
     /**
@@ -27,7 +28,7 @@ export class Contract
      * @param method 方法名
      * @param param 参数
      */
-    public static buildScript_random(appCall: Neo.Uint160, method: string, param: string[]): Uint8Array
+    public static buildScript_random(appCall: Neo.Uint160, method: string, param: string[]): ThinNeo.ScriptBuilder
     {
         const sb = new ThinNeo.ScriptBuilder();
         // 生成随机数
@@ -39,7 +40,7 @@ export class Contract
         sb.EmitParamJson(param);// 第二个参数是个数组
         sb.EmitPushString(method);
         sb.EmitAppCall(appCall);
-        return sb.ToArray();
+        return sb;
     }
     
     /**
@@ -57,11 +58,24 @@ export class Contract
             tran.creatInuptAndOutup(gass,WALLET_CONFIG.netfee);
         }
         const msg = tran.GetMessage().clone();
-        o3tools.sign(msg.toHexString(),(res)=>{
+        o3tools.sign(msg.toHexString(),res=>{
             if(!res)
             {return false}
             else
-            {return true}
+            {
+                common.sendrawtransaction(res)
+                .then(data =>
+                    {
+                    return true;
+                    }
+                )
+                .catch(error=>
+                    {           
+                        return false;
+                    }         
+                )
+                return true;
+            }
         });
     }
 }

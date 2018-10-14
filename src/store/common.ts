@@ -5,7 +5,7 @@ import { observable, action } from 'mobx';
 class Common{
   @observable public title:string = ''; // 标题
   @observable public language:string = 'zh';  // 当前语言
-  @observable public address:string = 'ATBTRWX8v8teMHCvPXovir3Hy92RPnwdEi'; // 当前地址
+  @observable public address:string = ''; // 当前地址
   @observable public publicKey:string='';
   @observable public network:string = 'testnet';  // 当前网络
   @observable public accountBalance:string = '';    // 账户中的cgas
@@ -23,9 +23,9 @@ class Common{
       this.cgasBalance = '0';
       return false;
     }
-    console.log(result);
+    alert(this.address)
     this.cgasBalance = Neo.Fixed8.parse(result[0].nep5balance).toString();
-    console.log(this.cgasBalance)
+    alert(this.cgasBalance)
     return true;
   }
   /**

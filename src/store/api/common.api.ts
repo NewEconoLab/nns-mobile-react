@@ -60,3 +60,18 @@ export const getUtxo=(address:string)=>{
   }
   return request(opts);
 }
+
+
+/**
+ * 获得指定地址对应的utxo
+ * @param address 地址
+ */
+export const getDomainInfo=(domain:string)=>{
+  const opts={
+    method:"getdomaininfo",
+    params:[
+      domain
+    ]
+  }
+  return request(opts);
+}

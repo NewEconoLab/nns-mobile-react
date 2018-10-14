@@ -1,5 +1,4 @@
 import common from "@/store/common";
-
 export class O3Tool
 {
     public signData:string; // 待签名数据
@@ -18,9 +17,36 @@ export class O3Tool
     /**
      * 初始化 O3 SDK
      */
-    public init()
-    {
-        o3.init(response=>this.callback(response))
+    public init(call:(connect:boolean)=>{})
+    {        
+        o3.init(response=>{
+            if(response==null)
+            {
+                throw new Error("response is undefined");
+            }
+            else
+            {
+                switch (response.command) {
+                    case 'init':
+                        o3.requestToConnect();
+                        break;            
+                    case 'requestToConnect':
+                        o3.getAccounts();
+                        break;
+                    case 'getAccounts':
+                        common.address = response.data.accounts[0].neo.address;
+                        common.publicKey = response.data.accounts[0].neo.publicKey;
+                        call(true);
+                        break;
+                    case 'requestToSign':
+                        this.signcall(response.data);
+                        break;
+                    default:
+                        break;
+                }
+            }
+            return true;
+        })
     }
 
     /**
@@ -30,31 +56,6 @@ export class O3Tool
     public callback(response)
     {
         console.log("response :" + response);
-        if(response==null)
-        {
-            throw new Error("response is undefined");
-        }
-        else
-        {
-            switch (response.command) {
-                case 'init':
-                    o3.requestToConnect();
-                    break;            
-                case 'requestToConnect':
-                    o3.getAccounts();
-                    break;
-                case 'getAccounts':
-                    common.address = response.data.accounts[0].neo.address;
-                    common.publicKey = response.data.accounts[0].neo.publicKey;
-                    break;
-                case 'requestToSign':
-                    this.signcall(response.data);
-                    break;
-                default:
-                    break;
-            }
-        }
-        return true;
     }
 }
 
