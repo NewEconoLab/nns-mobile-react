@@ -27,6 +27,7 @@ o3tools.init(res => {
     // commonStore.getregisteraddressbalance()
     commonStore.getnep5balanceofaddress();
     commonStore.getregisteraddressbalance();
+    alert(commonStore.publicKey.hexToBytes());
     return true
   } else {
     return false

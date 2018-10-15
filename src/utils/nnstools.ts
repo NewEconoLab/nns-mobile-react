@@ -109,17 +109,25 @@ export class nnstools{
             }
             else
             {
-                // Parameter inversion 
-                tran.setScript(script.ToArray());   // 塞入执行合约用的脚本 hash
-                const msg = tran.GetMessage().clone();
-                o3tools.sign(msg.toHexString(),data=>{  // 调用 o3签名
-                    alert(data);
-                    common.sendrawtransaction(data)
-                    .then(value=>{
-                        return value;
-                    })
-                    return true;
+                const promise = new Promise((resolve, reject) =>{
+                    // Parameter inversion 
+                    tran.setScript(script.ToArray());   // 塞入执行合约用的脚本 hash
+                    const msg = tran.GetMessage().clone();
+                    o3tools.sign(msg.toHexString(),res =>{
+                    
+            tran.AddWitness((res as string).hexToBytes(), common.publicKey.hexToBytes(), common.address);
+            const data: Uint8Array = tran.GetRawData();                        
+                        common.sendrawtransaction(data.toHexString())
+                        .then(value=>{
+                            resolve(value)
+                        })
+                        .catch(error=>{
+                            reject(error)
+                        })
+                    }
+                    )
                 })
+                return promise;
             }
 
             // return txid;

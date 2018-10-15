@@ -8,7 +8,7 @@ export class O3Tool {
    * @param data 待签名数据
    * @param call 接受签名数据的回调
    */
-  public sign(data: string, call: (response: any) => {}) {
+  public sign(data: string, call: any) {
     this.signcall = call
     o3.requestToSignRawTransaction(data)
   }
