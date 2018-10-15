@@ -35,7 +35,7 @@ export class O3Tool {
             call(true)
             break
           case 'requestToSign':
-            this.signcall(response.data)
+            this.signcall(response.data.signatureData);
             break
           default:
             break
