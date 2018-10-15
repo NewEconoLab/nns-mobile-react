@@ -72,4 +72,3 @@ const o3 = {
 }
 window.o3 = o3
 window.o3.VERSION = '0.0.1'
-export default o3

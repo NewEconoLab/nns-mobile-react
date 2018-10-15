@@ -9,9 +9,9 @@ import Layout from './containers/layout/index';
 import routes from './routers';
 import store from "./store";
 import commonStore from './store/common';
-
 import { en_US, zh_CN } from '@/language';
 import coin from './store/coin';
+import o3tools from './utils/o3tools';
 addLocaleData([...en, ...zh]);
 
 // setTimeout(() => {
@@ -23,11 +23,16 @@ addLocaleData([...en, ...zh]);
 // }, 6000)
 
 // 初始化请求
-commonStore.getregisteraddressbalance();
-commonStore.getnep5balanceofaddress();
+o3tools.init(res=>{
+  if(res){
+    commonStore.getregisteraddressbalance();
+    commonStore.getnep5balanceofaddress();
+    return true;
+  }else{
+    return false;
+  }
+});
 coin.initUtxos();
-console.log(coin.assets);
-
 
 const ObserverRender = observer(() => {
   let messages = en_US;
@@ -38,14 +43,13 @@ const ObserverRender = observer(() => {
     locale = 'zh';
   }
 
-
   return (
     <IntlProvider
       locale={locale}
       messages={messages}
     >
       {
-        commonStore.accountBalance && commonStore.cgasBalance ?
+        (commonStore.address&&commonStore.accountBalance && commonStore.cgasBalance) ?
           renderRoutes(routes) :
           <div />
       }
