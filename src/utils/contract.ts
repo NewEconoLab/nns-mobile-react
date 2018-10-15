@@ -1,7 +1,8 @@
 import { CoinTool } from "./cointools";
 import { HASH_CONFIG, WALLET_CONFIG } from "@/config";
 import { Transaction } from "./transaction";
-import { O3Tool } from "./o3tools";
+import o3tools from './o3tools'
+import common from '@/store/common'
 
 export class Contract
 {
@@ -42,24 +43,39 @@ export class Contract
         return sb;
     }
     
-    /**
-     * invokeTrans 方式调用合约塞入attributes
-     * @param script 合约的script
-     */
-    public static async contractInvokeTrans_attributes(script: Uint8Array)
-    {
-        const tran:Transaction = new Transaction();
-        try {
-            const utxos = await CoinTool.getAssets();
-            const gass = utxos[ HASH_CONFIG.id_GAS ];
-            tran.setScript(script);
-            if(gass)
-            {
-                tran.creatInuptAndOutup(gass,WALLET_CONFIG.netfee);
-            }
-            O3Tool.sign(data =>{alert(data)})
-        } catch (error) {
-            // alert(JSON.stringify(error))
-        }
+  /**
+   * invokeTrans 方式调用合约塞入attributes
+   * @param script 合约的script
+   */
+  public static async contractInvokeTrans_attributes(script: Uint8Array) {
+    alert("test")
+    const utxos = await CoinTool.getAssets()
+    alert("test1");
+    const gass = utxos[HASH_CONFIG.id_GAS];
+    alert("test2")
+    const tran: Transaction = new Transaction()
+    tran.setScript(script)
+    if (gass) {
+      tran.creatInuptAndOutup(gass, WALLET_CONFIG.netfee)
     }
+    const msg = tran.GetMessage().clone()
+    alert('sign')
+    o3tools.sign(msg.toHexString(), res => {
+      alert('go-requestToSign')
+      alert(JSON.stringify(res))
+      if (!res) {
+        return false
+      } else {
+        common
+          .sendrawtransaction(res)
+          .then(data => {
+            return true
+          })
+          .catch(error => {
+            return false
+          })
+        return true
+      }
+    })
+  }
 }

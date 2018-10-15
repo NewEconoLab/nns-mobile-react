@@ -10,7 +10,7 @@ import routes from './routers';
 import store from "./store";
 import commonStore from './store/common';
 import { en_US, zh_CN } from '@/language';
-import { O3Tool } from './utils/o3tools';
+import o3tools from '@/utils/o3tools';
 addLocaleData([...en, ...zh]);
 
 // setTimeout(() => {
@@ -22,7 +22,16 @@ addLocaleData([...en, ...zh]);
 // }, 6000)
 
 // 初始化请求
-O3Tool.init();
+o3tools.init(res => {
+  if (res) {
+    // commonStore.getregisteraddressbalance()
+    commonStore.getnep5balanceofaddress();
+    commonStore.getregisteraddressbalance();
+    return true
+  } else {
+    return false
+  }
+})
 // coin.initUtxos();
 
 // 初始化鼠标随机方法

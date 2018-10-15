@@ -56,8 +56,7 @@ export const getUtxo=(address:string)=>{
     params:[
       address
     ],
-    baseUrl:'common',
-    getAll:true
+    baseUrl:'common'
   }
   return request(opts);
 }
