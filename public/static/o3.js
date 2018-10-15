@@ -27,12 +27,12 @@ const _sendMessage = function(command, data) {
 const o3 = {
   init: function(callback) {
     callbackHandler = callback
-    console.log(callbackHandler)
     _sendMessage('init')
   },
 
   //This is the method that both iOS and Android will call after the operation finished.
   callback: function(response) {
+    alert(JSON.stringify(response));
     callbackHandler(response)
   },
 

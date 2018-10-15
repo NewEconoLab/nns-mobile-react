@@ -1,8 +1,7 @@
 import { CoinTool } from "./cointools";
 import { HASH_CONFIG, WALLET_CONFIG } from "@/config";
 import { Transaction } from "./transaction";
-import o3tools from "./o3tools";
-import common from "@/store/common";
+import { O3Tool } from "./o3tools";
 
 export class Contract
 {
@@ -49,33 +48,18 @@ export class Contract
      */
     public static async contractInvokeTrans_attributes(script: Uint8Array)
     {
-        const utxos = await CoinTool.getAssets();
-        const gass = utxos[ HASH_CONFIG.id_GAS ];
         const tran:Transaction = new Transaction();
-        tran.setScript(script);
-        if(gass)
-        {
-            tran.creatInuptAndOutup(gass,WALLET_CONFIG.netfee);
-        }
-        const msg = tran.GetMessage().clone();
-        o3tools.sign(msg.toHexString(),res=>{
-            if(!res)
-            {return false}
-            else
+        try {
+            const utxos = await CoinTool.getAssets();
+            const gass = utxos[ HASH_CONFIG.id_GAS ];
+            tran.setScript(script);
+            if(gass)
             {
-                common.sendrawtransaction(res)
-                .then(data =>
-                    {
-                    return true;
-                    }
-                )
-                .catch(error=>
-                    {           
-                        return false;
-                    }         
-                )
-                return true;
+                tran.creatInuptAndOutup(gass,WALLET_CONFIG.netfee);
             }
-        });
+            O3Tool.sign(data =>{alert(data)})
+        } catch (error) {
+            // alert(JSON.stringify(error))
+        }
     }
 }

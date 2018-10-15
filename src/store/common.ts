@@ -18,6 +18,11 @@ class Common{
     let result:any = [];
     try {
       result = await Api.getnep5balanceofaddress(this.address);
+      if(!result)
+      {
+        this.cgasBalance = '0';
+        return false;
+      }
     }catch(e) {
       console.log(e)
       this.cgasBalance = '0';
@@ -35,6 +40,11 @@ class Common{
     let result:any = [];
     try {
       result = await Api.getregisteraddressbalance(this.address);
+      if(!result)
+      {
+        this.accountBalance = '0';
+        return false;
+      }
     }catch(e) {
       console.log(e)
       this.accountBalance = '0';

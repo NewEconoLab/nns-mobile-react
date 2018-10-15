@@ -10,8 +10,7 @@ import routes from './routers';
 import store from "./store";
 import commonStore from './store/common';
 import { en_US, zh_CN } from '@/language';
-import coin from './store/coin';
-import o3tools from './utils/o3tools';
+import { O3Tool } from './utils/o3tools';
 addLocaleData([...en, ...zh]);
 
 // setTimeout(() => {
@@ -23,16 +22,11 @@ addLocaleData([...en, ...zh]);
 // }, 6000)
 
 // 初始化请求
-o3tools.init(res=>{
-  if(res){
-    commonStore.getregisteraddressbalance();
-    commonStore.getnep5balanceofaddress();
-    return true;
-  }else{
-    return false;
-  }
-});
-coin.initUtxos();
+O3Tool.init();
+// coin.initUtxos();
+
+// 初始化鼠标随机方法
+Neo.Cryptography.RandomNumberGenerator.startCollectors();
 
 const ObserverRender = observer(() => {
   let messages = en_US;

@@ -18,6 +18,8 @@ export class Transaction extends ThinNeo.Transaction
         this.extdata = null;
         this.witnesses = [];
         this.attributes = [];
+        this.inputs = [];
+        this.outputs = [];
     }
 
     /**

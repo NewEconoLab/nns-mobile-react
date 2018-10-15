@@ -37,13 +37,10 @@ export default class Topup extends React.Component<ITopupProps>
 	/**
 	 * onTopup
 	 */
-	public onTopup() {
-		alert(this.props);
+	public onTopup = () => {
 		DomainSelling.initRoot()
 		.then(
 			data=>{
-				alert(this.props.topup.inputModule.inputValue);
-				alert(DomainSelling.RootNeo.register.toString());
 				nnstools.rechargeReg(this.props.topup.inputModule.inputValue)
 			}
 		)

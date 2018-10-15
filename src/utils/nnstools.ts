@@ -35,6 +35,7 @@ export class nnstools{
             const res = await Contract.contractInvokeTrans_attributes(script);
             return res;
         } catch (error) {
+            alert(JSON.stringify(error));
             throw new Error(error);
         }
     }
