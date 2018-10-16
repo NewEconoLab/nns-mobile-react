@@ -37,6 +37,10 @@ export class nnstools{
         const script = sb.ToArray();
         try {
             const res = await Contract.contractInvokeTrans_attributes(script);
+            if(res)
+            {
+                alert(res);
+            }
             return res;
         } catch (error) {
             alert(JSON.stringify(error));

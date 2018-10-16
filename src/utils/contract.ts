@@ -3,6 +3,7 @@ import { HASH_CONFIG, WALLET_CONFIG } from "@/config";
 import { Transaction } from "./transaction";
 import o3tools from './o3tools'
 import common from '@/store/common'
+import alert from "@/components/alert";
 
 export class Contract
 {
@@ -48,34 +49,30 @@ export class Contract
    * @param script 合约的script
    */
   public static async contractInvokeTrans_attributes(script: Uint8Array) {
-    alert("test")
     const utxos = await CoinTool.getAssets()
-    alert("test1");
     const gass = utxos[HASH_CONFIG.id_GAS];
-    alert("test2")
     const tran: Transaction = new Transaction()
     tran.setScript(script)
     if (gass) {
       tran.creatInuptAndOutup(gass, WALLET_CONFIG.netfee)
     }
-    const msg = tran.GetMessage().clone()
-    alert('sign')
-    o3tools.sign(msg.toHexString(), res => {
-      alert('go-requestToSign')
-      alert(JSON.stringify(res))
-      if (!res) {
-        return false
-      } else {
-        common
-          .sendrawtransaction(res)
-          .then(data => {
-            return true
-          })
-          .catch(error => {
-            return false
-          })
-        return true
-      }
+    const msg = tran.GetMessage().clone();
+    const promise = new Promise((resolve, reject) =>{
+      o3tools.sign(msg.toHexString(),res =>{        
+        tran.AddWitness((res as string).hexToBytes(),common.publicKey.hexToBytes(), common.address);
+        const data: Uint8Array = tran.GetRawData();   
+        alert("tranHex",data.toHexString(),"确定",()=>{
+          return true;
+        })
+        common.sendrawtransaction(data.toHexString())
+        .then(value=>{
+          resolve(value)
+        })
+        .catch(error=>{
+          reject(error)
+        })
+      })
     })
+    return promise;
   }
 }
