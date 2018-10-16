@@ -40,8 +40,7 @@ export const sendrawtransaction =  (data:string) => {
    params:[
     data
    ],
-   baseUrl:'common',
-   getAll:true
+   baseUrl:'common'
   }
   return request(opts);
 }

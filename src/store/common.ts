@@ -60,6 +60,7 @@ class Common{
     let result:any = null;
     try {
       result =  await Api.sendrawtransaction(toHex);
+      alert(JSON.stringify(result));
     }catch(e) {
       return false;
     }
