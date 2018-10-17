@@ -2,27 +2,18 @@
 import * as React from 'react';
 import '../index.less';
 import close from '@/img/close.png';
-import Input from '@/components/Input/Input'
-interface IState {
-    inputValue:string,
-    message:string,
-    status:string
-  }
-export default class Addbid extends React.Component<{}, IState>{
-    constructor(props:any) {
-        super(props);
-        this.state = {
-          inputValue:"",
-          status:"",
-          message:""
-        }
-      }
+import Input from '@/components/Input/Input';
+import { IAuctionProps } from "@/containers/myauction/interface/index.interface";
+
+export default class Addbid extends React.Component<IAuctionProps>{
+    
       public change = (value:string) => {
-        this.setState({
-          inputValue:value,
-          status:'error',
-          message:'erroroooorrrr'
-        });
+          this.props.myauction.myBid = value;
+        // this.setState({
+        //   inputValue:value,
+        //   status:'error',
+        //   message:'erroroooorrrr'
+        // });
       }
     public render(){
         return(
@@ -43,7 +34,7 @@ export default class Addbid extends React.Component<{}, IState>{
                                 style={{width: 200}}
                                 status=""
                                 message=""
-                                value={this.state.inputValue}
+                                value={this.props.myauction.myBid}
                                 onChange={this.change}
                                 type="text"
                             />

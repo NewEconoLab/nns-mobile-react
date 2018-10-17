@@ -7,6 +7,55 @@ import { Transaction } from "@/utils/transaction";
 import o3tools from "@/utils/o3tools";
 
 export class nnstools{
+
+    
+    /**
+     * 域名转hash    
+     * #region 域名转hash算法
+     * 域名转hash算法
+     * aaa.bb.test =>{"test","bb","aa"}
+     * @param domain 域名
+     */
+    public static nameHash(domain: string): Neo.Uint256
+    {
+        const domainBytes:Uint8Array = ThinNeo.Helper.String2Bytes(domain);
+        const hashd = Neo.Cryptography.Sha256.computeHash(domainBytes);
+        return new Neo.Uint256(hashd);
+    }
+
+    /**
+     * 子域名转hash
+     * @param roothash  根域名hash
+     * @param subdomain 子域名
+     */
+    public static nameHashSub(roothash: Neo.Uint256, subdomain: string): Neo.Uint256
+    {
+        const bs: Uint8Array = ThinNeo.Helper.String2Bytes(subdomain);
+        if (bs.length === 0)
+        {
+            return roothash;
+        }
+        const domain = Neo.Cryptography.Sha256.computeHash(bs);
+        const domainBytes = new Uint8Array(domain);
+        const domainUint8arry = domainBytes.concat(new Uint8Array(roothash.bits.buffer));
+        const sub = Neo.Cryptography.Sha256.computeHash(domainUint8arry);
+        return new Neo.Uint256(sub);
+    }
+
+    /**
+     * 返回一组域名的最终hash
+     * @param domainarray 域名倒叙的数组
+     */
+    public static nameHashArray(domainarray: string[]): Neo.Uint256
+    {
+        domainarray.reverse();
+        let hash: Neo.Uint256 = this.nameHash(domainarray[ 0 ]);
+        for (let i = 1; i < domainarray.length; i++)
+        {
+            hash = this.nameHashSub(hash, domainarray[ i ]);
+        }
+        return hash;
+    }
     
     /**
      * 注册器充值
@@ -16,13 +65,18 @@ export class nnstools{
     {
         const addressto = ThinNeo.Helper.GetAddressFromScriptHash(DomainSelling.RootNeo.register);
         const address = common.address;
+        alert(address);
+        alert(addressto);
+        alert(amount);
+        const count = Neo.Fixed8.parse(amount).getData().toNumber();
+        alert(amount);
         const sb = Contract.buildScript_random(
-            DomainSelling.RootNeo.register,
+            HASH_CONFIG.id_CGAS,
             "transfer",
             [
                 "(addr)" + address,// from
                 "(addr)" + addressto,// to
-                "(int)" + amount.replace(".", "")// value
+                "(int)" + count// value
             ]);
         //// 这个方法是为了在同一笔交易中转账并充值
         //// 当然你也可以分为两笔交易
@@ -51,7 +105,7 @@ export class nnstools{
     /**
      * 域名开标
      */
-    public static async startAuciton(subname: string, register:Neo.Uint160,roothash:Neo.Uint160)
+    public static async startAuciton(register:Neo.Uint160,roothash:Neo.Uint160,subname: string)
     {
         try
         {
@@ -77,10 +131,10 @@ export class nnstools{
      * 竞标加价
      * @param domain 域名
      */
-    public static async raise(id: string, amount: number, register: Neo.Uint160)
+    public static async raise(id: string, amount: string, register: Neo.Uint160)
     {
         const who = new Neo.Uint160(ThinNeo.Helper.GetPublicKeyScriptHash_FromAddress(common.address).buffer as ArrayBuffer);
-        const count = Neo.Fixed8.parse(amount.toString()).getData().toNumber()
+        const count = Neo.Fixed8.parse(amount).getData().toNumber()
         const sb = Contract.buildScript_random(
             register,
             "raise",
@@ -117,12 +171,15 @@ export class nnstools{
                     // Parameter inversion 
                     tran.setScript(script.ToArray());   // 塞入执行合约用的脚本 hash
                     const msg = tran.GetMessage().clone();
-                    o3tools.sign(msg.toHexString(),res =>{
-                    
-            tran.AddWitness((res as string).hexToBytes(), common.publicKey.hexToBytes(), common.address);
-            const data: Uint8Array = tran.GetRawData();                        
+                    o3tools.sign(msg.toHexString(),res =>{                            
+                        tran.AddWitness((res as string).hexToBytes(), common.publicKey.hexToBytes(), common.address);
+                        const data: Uint8Array = tran.GetRawData();                        
                         common.sendrawtransaction(data.toHexString())
                         .then(value=>{
+                            if(!value)
+                            {
+                                reject("Transaction send failed");
+                            }
                             resolve(value)
                         })
                         .catch(error=>{

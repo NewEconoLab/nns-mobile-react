@@ -61,11 +61,11 @@ export class Contract
       o3tools.sign(msg.toHexString(),res =>{        
         tran.AddWitness((res as string).hexToBytes(),common.publicKey.hexToBytes(), common.address);
         const data: Uint8Array = tran.GetRawData();   
-        alert("tranHex",data.toHexString(),"确定",()=>{
-          return true;
-        })
         common.sendrawtransaction(data.toHexString())
         .then(value=>{
+          alert("tranHex",JSON.stringify(data.toHexString()),"确定",()=>{
+            return true;
+          })
           resolve(value)
         })
         .catch(error=>{

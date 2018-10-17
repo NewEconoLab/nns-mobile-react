@@ -32,7 +32,6 @@ const o3 = {
 
   //This is the method that both iOS and Android will call after the operation finished.
   callback: function(response) {
-    alert(JSON.stringify(response));
     callbackHandler(response)
   },
 

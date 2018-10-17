@@ -28,9 +28,7 @@ class Common{
       this.cgasBalance = '0';
       return false;
     }
-    alert(this.address)
     this.cgasBalance = Neo.Fixed8.parse(result[0].nep5balance).toString();
-    alert(this.cgasBalance)
     return true;
   }
   /**
@@ -64,11 +62,11 @@ class Common{
     }catch(e) {
       return false;
     }
-    if(!result.txid) {
+    if(!result[0].txid) {
       return false;
     }
     
-    return true;
+    return result[0];
   }
 }
 

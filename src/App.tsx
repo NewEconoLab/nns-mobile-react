@@ -11,6 +11,7 @@ import store from "./store";
 import commonStore from './store/common';
 import { en_US, zh_CN } from '@/language';
 import o3tools from '@/utils/o3tools';
+import DomainSelling from './store/DomainSelling';
 addLocaleData([...en, ...zh]);
 
 // setTimeout(() => {
@@ -27,12 +28,12 @@ o3tools.init(res => {
     // commonStore.getregisteraddressbalance()
     commonStore.getnep5balanceofaddress();
     commonStore.getregisteraddressbalance();
-    alert(commonStore.publicKey.hexToBytes());
     return true
   } else {
     return false
   }
 })
+DomainSelling.initRoot();
 // coin.initUtxos();
 
 // 初始化鼠标随机方法
