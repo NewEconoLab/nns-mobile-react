@@ -1,8 +1,9 @@
 import { CoinTool } from "./cointools";
 import { HASH_CONFIG, WALLET_CONFIG } from "@/config";
 import { Transaction } from "./transaction";
-import o3tools from "./o3tools";
-import common from "@/store/common";
+import o3tools from './o3tools'
+import common from '@/store/common'
+import alert from "@/components/alert";
 
 export class Contract
 {
@@ -43,39 +44,35 @@ export class Contract
         return sb;
     }
     
-    /**
-     * invokeTrans 方式调用合约塞入attributes
-     * @param script 合约的script
-     */
-    public static async contractInvokeTrans_attributes(script: Uint8Array)
-    {
-        const utxos = await CoinTool.getAssets();
-        const gass = utxos[ HASH_CONFIG.id_GAS ];
-        const tran:Transaction = new Transaction();
-        tran.setScript(script);
-        if(gass)
-        {
-            tran.creatInuptAndOutup(gass,WALLET_CONFIG.netfee);
-        }
-        const msg = tran.GetMessage().clone();
-        o3tools.sign(msg.toHexString(),res=>{
-            if(!res)
-            {return false}
-            else
-            {
-                common.sendrawtransaction(res)
-                .then(data =>
-                    {
-                    return true;
-                    }
-                )
-                .catch(error=>
-                    {           
-                        return false;
-                    }         
-                )
-                return true;
-            }
-        });
+  /**
+   * invokeTrans 方式调用合约塞入attributes
+   * @param script 合约的script
+   */
+  public static async contractInvokeTrans_attributes(script: Uint8Array) {
+    const utxos = await CoinTool.getAssets()
+    const gass = utxos[HASH_CONFIG.id_GAS];
+    const tran: Transaction = new Transaction()
+    tran.setScript(script)
+    if (gass) {
+      tran.creatInuptAndOutup(gass, WALLET_CONFIG.netfee)
     }
+    const msg = tran.GetMessage().clone();
+    const promise = new Promise((resolve, reject) =>{
+      o3tools.sign(msg.toHexString(),res =>{        
+        tran.AddWitness((res as string).hexToBytes(),common.publicKey.hexToBytes(), common.address);
+        const data: Uint8Array = tran.GetRawData();   
+        alert("tranHex",data.toHexString(),"确定",()=>{
+          return true;
+        })
+        common.sendrawtransaction(data.toHexString())
+        .then(value=>{
+          resolve(value)
+        })
+        .catch(error=>{
+          reject(error)
+        })
+      })
+    })
+    return promise;
+  }
 }

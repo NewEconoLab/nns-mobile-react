@@ -18,6 +18,8 @@ export class Transaction extends ThinNeo.Transaction
         this.extdata = null;
         this.witnesses = [];
         this.attributes = [];
+        this.inputs = [];
+        this.outputs = [];
     }
 
     /**
@@ -49,7 +51,7 @@ export class Transaction extends ThinNeo.Transaction
         for (const utxo of utxos) 
         {
             const input = new ThinNeo.TransactionInput();
-            input.hash = utxo.txid.hexToBytes();
+            input.hash = utxo.txid.hexToBytes().reverse();
             input.index = utxo.n;
             input.addr = utxo.addr;
             count = count.add(utxo.count);

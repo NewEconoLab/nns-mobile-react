@@ -48,7 +48,10 @@ export default function request(opts: IOpts): Promise<any> {
           resolve(data.data.result);
           return;
         }
-
+        else if(data.data.error["code"]===-1)
+        {
+          resolve(null);
+        }
         reject(data.data.error);
       })
       .catch((err: any) => { reject(err) });

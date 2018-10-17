@@ -14,6 +14,11 @@ export class CoinTool{
         try 
         {
             const utxos = await Api.getUtxo(common.address);   // 获得为使用的utxo
+            alert(JSON.stringify(utxos));
+            if(!utxos)
+            {
+                return {};
+            }
             const marks = MarkUtxo.getMark();   // 获得被标记的utxo
             const assets = {};        
             // 对utxo进行归类，并且将count由string转换成 Neo.Fixed8
@@ -42,7 +47,13 @@ export class CoinTool{
         } 
         catch (error) 
         {
-            throw error;             
+            if(error["code"]==="-1")
+            {
+                return {};
+            }else
+            {
+                throw error; 
+            }            
         }
     }
 

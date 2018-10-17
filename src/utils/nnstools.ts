@@ -1,6 +1,10 @@
 import common from "@/store/common";
 import { Contract } from "./contract";
 import DomainSelling from "@/store/DomainSelling";
+import { HASH_CONFIG } from "@/config";
+import { CoinTool } from "@/utils/cointools";
+import { Transaction } from "@/utils/transaction";
+import o3tools from "@/utils/o3tools";
 
 export class nnstools{
     
@@ -33,8 +37,13 @@ export class nnstools{
         const script = sb.ToArray();
         try {
             const res = await Contract.contractInvokeTrans_attributes(script);
+            if(res)
+            {
+                alert(res);
+            }
             return res;
         } catch (error) {
+            alert(JSON.stringify(error));
             throw new Error(error);
         }
     }
@@ -79,5 +88,56 @@ export class nnstools{
         );
         const res = await Contract.contractInvokeTrans_attributes(sb.ToArray());
         return res;
+    }
+
+
+    
+    /**
+     * Gas兑换CGas
+     * @param count 兑换数量
+     */
+    public async exchangeCGas(count: number)
+    {
+        // 获得登陆信息
+        const script = Contract.buildScript(HASH_CONFIG.id_CGAS, "mintTokens", []);
+        // 获得sgas的合约地址
+        const cgasaddr = ThinNeo.Helper.GetAddressFromScriptHash(HASH_CONFIG.id_CGAS);
+        try
+        {
+            const utxos = await CoinTool.getAssets();
+            const tran = new Transaction(); // 创建交易体
+            tran.creatInuptAndOutup(utxos[HASH_CONFIG.id_GAS],Neo.Fixed8.fromNumber(count),cgasaddr); // 给交易体塞入输入输出 (这个我没给你弄手续费)
+            if (tran.inputs.length + tran.outputs.length > 60)
+            {
+                throw new Error("Don't have enough change")
+            }
+            else
+            {
+                const promise = new Promise((resolve, reject) =>{
+                    // Parameter inversion 
+                    tran.setScript(script.ToArray());   // 塞入执行合约用的脚本 hash
+                    const msg = tran.GetMessage().clone();
+                    o3tools.sign(msg.toHexString(),res =>{
+                    
+            tran.AddWitness((res as string).hexToBytes(), common.publicKey.hexToBytes(), common.address);
+            const data: Uint8Array = tran.GetRawData();                        
+                        common.sendrawtransaction(data.toHexString())
+                        .then(value=>{
+                            resolve(value)
+                        })
+                        .catch(error=>{
+                            reject(error)
+                        })
+                    }
+                    )
+                })
+                return promise;
+            }
+
+            // return txid;
+        } catch (error)
+        {
+            throw error;
+        }
     }
 }
