@@ -33,6 +33,7 @@ o3tools.init(res => {
     return false
   }
 })
+
 DomainSelling.initRoot();
 // coin.initUtxos();
 

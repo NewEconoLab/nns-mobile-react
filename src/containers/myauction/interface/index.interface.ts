@@ -26,6 +26,7 @@ export interface IMyAuctionStore {
   auctionList:IAuctionList[],
   detail:IAuctionList | null,
   myBid:string,
+  showDialog:boolean,
   getauctioninfobyaddress:(address:string)=>Promise<boolean>,
 }
 
