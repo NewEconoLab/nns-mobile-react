@@ -1,3 +1,5 @@
 export default {
-    utxoMark: "NEL_WALLET_SESSION_UTXO_MARK",  // 标记的utxo
+    utxoMark: 'NELWALLET_O3_SESSION_UTXO_MARK',  // 标记的utxo
+    taskList: 'NELWALLET_O3_SESSION_TASK_LIST',
+    blockCount: 'NELWALLET_O3_SESSION_BLOCK_HEIGHT'
   }

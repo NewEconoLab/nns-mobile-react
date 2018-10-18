@@ -12,6 +12,7 @@ import commonStore from './store/common';
 import { en_US, zh_CN } from '@/language';
 import o3tools from '@/utils/o3tools';
 import DomainSelling from './store/DomainSelling';
+import taskmanager from './store/taskmanager';
 addLocaleData([...en, ...zh]);
 
 // setTimeout(() => {
@@ -32,7 +33,9 @@ o3tools.init(res => {
   } else {
     return false
   }
-})
+});
+
+taskmanager.update();
 
 DomainSelling.initRoot();
 // coin.initUtxos();
