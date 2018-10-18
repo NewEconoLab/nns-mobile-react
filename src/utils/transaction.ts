@@ -73,7 +73,7 @@ export class Transaction extends ThinNeo.Transaction
                     output.assetId = assetId;
                     output.value = sendcount;
                     output.toAddress = ThinNeo.Helper.GetPublicKeyScriptHash_FromAddress(target);
-                    this.outputs.push(output);
+                    this.outputs.push(output); 
                 }
             }
             const change = count.subtract(sendcount); // 应该找零的值

@@ -9,7 +9,6 @@ class DomainSelling implements IDomainSelling {
         try {            
             const res = await Api.getDomainInfo("neo");
         if (res) {
-            alert(res[0].register);
             this.RootNeo.owner = res[0].owner;
             this.RootNeo.register = Neo.Uint160.parse((res[0].register as string).replace("0x",""));
             this.RootNeo.resolver = res.resolver ? Neo.Uint160.parse(res[0].resolver) : null;

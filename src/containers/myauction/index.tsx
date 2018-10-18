@@ -13,6 +13,13 @@ export default class MyAuction extends React.Component<IAuctionProps>
 {
   
   public componentDidMount() {
+    const a = sessionStorage.getItem("a");
+    if(!a)
+    {
+      sessionStorage.setItem("a","test");      
+    }else{
+      alert(a);
+    }
     this.props.myauction.getauctioninfobyaddress(this.props.common.address);
   }
   public render()
