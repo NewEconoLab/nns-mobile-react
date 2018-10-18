@@ -21,7 +21,6 @@ export class O3Tool {
       if (response == null) {
         throw new Error('response is undefined')
       } else {
-        alert(JSON.stringify(response))
         switch (response.command) {
           case 'init':
             o3.requestToConnect()

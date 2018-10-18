@@ -30,11 +30,11 @@ export default function request(opts: IOpts): Promise<any> {
   if (opts.baseUrl === 'common') {
     url = baseCommonUrl;
   }
-  
+  const params = makeRpcPostBody(opts.method, opts.params);
   const args = {
     url,
-    method:opts.isGET? 'GET' : 'POST',
-    data: JSON.stringify(makeRpcPostBody(opts.method, opts.params)),
+    method: opts.isGET ? 'GET' : 'POST',
+    [opts.isGET ? 'params' : 'data']: opts.method ? params : JSON.stringify(params),
     ...defaultConfig,
   }
   return new Promise((resolve, reject) => {

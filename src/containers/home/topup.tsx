@@ -41,6 +41,7 @@ export default class Topup extends React.Component<ITopupProps>
 		DomainSelling.initRoot()
 		.then(
 			data=>{
+				// const amount = Neo.Fixed8.parse(this.props.topup.inputModule.inputValue).toString()
 				nnstools.rechargeReg(this.props.topup.inputModule.inputValue)
 			}
 		)

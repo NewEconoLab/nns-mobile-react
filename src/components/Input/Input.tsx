@@ -11,6 +11,7 @@ interface IProps {
 	message?: string,
 	value: string,
 	onChange: (event: any) => void,
+	onFocus?: () => void,
 	style?: object,
 	readonly?: boolean,
 	type: string,
@@ -35,6 +36,11 @@ export default class Input extends React.Component<IProps, {}> {
 			this.props.onBlur(event.target.value);
 		}
 	}
+	public onFocus = () => {
+		if(this.props.onFocus) {
+			this.props.onFocus();
+		}
+	}
 	public render() {
 		return (
 			<div className="input-group">
@@ -47,6 +53,7 @@ export default class Input extends React.Component<IProps, {}> {
 					style={this.props.style}
 					readOnly={this.props.readonly}
 					onBlur={this.onInputBlur}
+					onFocus = {this.onFocus}
 				/>
 				<div className="input-tips">
 					{this.props.status === 'success' && <img src={correct} alt="" />}
