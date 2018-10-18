@@ -50,8 +50,30 @@ export enum TaskState
     fail,
 }
 
+/**
+ * 任务类型
+ */
+export enum TaskType
+{
+    openAuction,// 开标
+    addPrice,// 资产更新 在tx交易成功后添加资产更新任务，资产更新立即执行
+    topup,// 充值
+    withdraw,// 退款
+    domainRenewal,// 域名续约
+    domainMapping,// 域名映射
+    domainResovle,// 域名合约地址
+    gasToSgas,// gas转sgas
+    sgasToGas,// sgas转gas
+    getGasTest,// 测试网领取gas
+    getDomain,// 领取域名
+    recoverSgas,// 退回sgas
+    ClaimGas,// 领取Gas
+    tranfer,// 交易确认 需要签名的任务，涉及资产变动
+}
+
 export interface ITaskmanager 
 {
-    taskList:{[type:string]:Task}
-    update:()=>void
-}
+    taskList:{[type:string]:Task};
+    update:()=>void;
+    addTask:(task: Task, type: TaskType)=>void;
+}   
