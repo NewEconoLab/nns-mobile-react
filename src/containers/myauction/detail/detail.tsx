@@ -6,13 +6,12 @@ import TitleText from '@/components/titletext';
 import Hint from '@/components/hint';
 import { IAuctionDetailProps } from '../interface/index.interface';
 import * as formatTime from 'utils/formatTime';
-// import q1 from '@/img/q1.png'
-// import q2 from '@/img/q2.png'
+import { AuctionState } from '@/store/interface/auction.interface';
 import '../index.less'
 export default class Detail extends React.Component<IAuctionDetailProps>
 {
 	public bidder = () => {
-		if(!this.props.myauction.detail) {
+		if (!this.props.myauction.detail) {
 			return null;
 		}
 		const address = this.props.myauction.detail.maxBuyer.replace(/^(\w{4})(.*)(\w{4})$/, '$1...$3');
@@ -23,7 +22,7 @@ export default class Detail extends React.Component<IAuctionDetailProps>
 	}
 	public render() {
 		const detail = this.props.myauction.detail;
-		if(!detail) {
+		if (!detail) {
 			return null;
 		}
 		return (
@@ -31,26 +30,23 @@ export default class Detail extends React.Component<IAuctionDetailProps>
 				<div className="domain-detail">
 					<TitleText text="域名信息">
 						<div className="status-group">
-							{/* todo state 不确定  */}
 							{
-								detail.auctionState === '0401' &&
+								detail.auctionState === AuctionState.end &&
 								<div>
 									<span>状态：</span>
 									<span className="status-end">已结束</span>
 								</div>
 							}
-							{/* todo state 不确定  */}
 							{
-								detail.auctionState === '0301' &&
+								detail.auctionState === AuctionState.random &&
 								<div>
 									<span>状态：</span>
 									<span className="status-random">随机期</span>
 									<Hint />
 								</div>
 							}
-							{/* todo  state 不确定 */}
 							{
-								detail.auctionState === '0201' &&
+								detail.auctionState === AuctionState.fixed &&
 								<div>
 									<span>状态：</span>
 									<span className="status-being">确定期</span>

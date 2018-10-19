@@ -11,6 +11,7 @@ import './index.less'
 import { Button } from 'antd-mobile';
 import { IAuctionListProps } from './interface/index.interface';
 import * as formatTime from 'utils/formatTime';
+import { AuctionState } from '@/store/interface/auction.interface';
 // 根据竞拍id查询竞拍信息 getauctioninfobyaucitonid
 // 获取域名信息 getdomaininfo 参数：域名
 /**
@@ -28,7 +29,7 @@ class MyAuctionList extends React.Component<IAuctionListProps>
 		this.props.myauction.detail = this.props.item;
 		this.props.history.push('/auction/detail')
 	}
-	
+
 	public bidder = () => {
 		const address = this.props.item.maxBuyer.replace(/^(\w{4})(.*)(\w{4})$/, '$1...$3');
 		if (this.props.item.maxBuyer === this.props.common.address) {
@@ -37,7 +38,6 @@ class MyAuctionList extends React.Component<IAuctionListProps>
 		return <span>他人（ {address} ）</span>
 	}
 	public btnStatus = () => {
-		// const address = this.props.item.maxBuyer.replace(/^(\w{4})(.*)(\w{4})$/, '$1...$3');
 		if (this.props.item.maxBuyer === this.props.common.address) {
 			return <Button type="primary" inline={true} size="small">领取域名</Button>
 		}
@@ -46,32 +46,29 @@ class MyAuctionList extends React.Component<IAuctionListProps>
 	public render() {
 		const item = this.props.item;
 		console.log("列表页");
-		
+
 		console.log(item);
 		return (
 			<div className="myauction-wrap box-wrap">
 				<TitleText text="竞拍域名">
 					<div className="status-group">
-						{/* todo state 不确定  */}
 						{
-							item.auctionState === '0401' &&
+							item.auctionState === AuctionState.end &&
 							<div>
 								<span>状态：</span>
 								<span className="status-end">已结束</span>
 							</div>
 						}
-						{/* todo state 不确定  */}
 						{
-							item.auctionState === '0301' &&
+							item.auctionState === AuctionState.random &&
 							<div>
 								<span>状态：</span>
 								<span className="status-random">随机期</span>
 								<Hint />
 							</div>
 						}
-						{/* todo  state 不确定 */}
 						{
-							item.auctionState === '0201' &&
+							item.auctionState === AuctionState.fixed &&
 							<div>
 								<span>状态：</span>
 								<span className="status-being">确定期</span>
@@ -89,9 +86,8 @@ class MyAuctionList extends React.Component<IAuctionListProps>
 							<div className="auction-normal">开标时间：{formatTime.format('yyyy/MM/dd hh:mm:ss', this.props.item.startTime.blocktime.toString(), this.props.intl.locale)}</div>
 						</div>
 						<div className="list-right">
-						{/* todo 按钮状态 */}
 							{
-								item.auctionState === '0401' && this.btnStatus()
+								item.auctionState === AuctionState.end && this.btnStatus()
 							}
 						</div>
 					</div>

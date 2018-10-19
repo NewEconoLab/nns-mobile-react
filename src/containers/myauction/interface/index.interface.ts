@@ -24,6 +24,11 @@ export interface IAuctionProps extends RouteComponentProps{
   myauction:IMyAuctionStore
 }
 
+export interface IAuctionAddbidProps extends RouteComponentProps{
+  common:ICommonStore,
+  myauction:IMyAuctionStore
+}
+
 export interface IMyAuctionStore {
   // auctionList:IAuctionListStore ,
   detail:IAuction | null,
@@ -46,7 +51,7 @@ export interface IAuctionListProps extends RouteComponentProps {
 }
 
 export interface IAuctionDetailProps extends RouteComponentProps{
-  auctionList:IAuctionListStore,
+  // auctionList:IAuctionListStore,
   myauction:IMyAuctionStore,
   common:ICommonStore,
   intl:any,

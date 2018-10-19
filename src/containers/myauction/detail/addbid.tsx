@@ -5,21 +5,16 @@ import '../index.less';
 import close from '@/img/close.png';
 import Input from '@/components/Input/Input';
 import {Button} from 'antd-mobile';
-import { IAuctionProps } from "@/containers/myauction/interface/index.interface";
+import { IAuctionAddbidProps } from "@/containers/myauction/interface/index.interface";
 import { nnstools } from '@/utils/nnstools';
 import DomainSelling from '@/store/DomainSelling';
 import { IAuction } from '@/store/interface/auction.interface';
 
 @observer
-export default class Addbid extends React.Component<IAuctionProps>{
+export default class Addbid extends React.Component<IAuctionAddbidProps>{
     
       public change = (value:string) => {
           this.props.myauction.myBid = value;
-        // this.setState({
-        //   inputValue:value,
-        //   status:'error',
-        //   message:'erroroooorrrr'
-        // });
       }
       public addBid = async ()=>
       {
@@ -53,7 +48,7 @@ export default class Addbid extends React.Component<IAuctionProps>{
                         </div>
                     </div>
                     <div className="addbid-content">
-                        <div className="addbid-account">竞拍账户余额： 99 CGAS</div>                    
+                        <div className="addbid-account">竞拍账户余额： {this.props.common.accountBalance} CGAS</div>                    
                         <div className="addbid-amount">
                             <span className="addbid-text">本次加价：</span>
                             <Input 

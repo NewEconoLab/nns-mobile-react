@@ -6,7 +6,7 @@ import { TABLE_CONFIG } from '@/config';
 
 class AuctionManager implements IAuctionListStore {
  @observable public auctionList:{[auctionId:string]:IAuction} = {};
-
+ @observable public filterAuctionList:{[auctionId:string]:IAuction} = {};
  @action public getAuctionInfoByAddress = async (address:string) => {
    let result:any = null;
    
@@ -19,6 +19,7 @@ class AuctionManager implements IAuctionListStore {
    const list:IAuction[] = result[0].list;
    for (const auction of list) {
      this.auctionList[auction.auctionId] = auction;
+     this.filterAuctionList[auction.auctionId] = auction;
    }
 
    sessionStorage.setItem(TABLE_CONFIG.auctionList,JSON.stringify(this.auctionList));

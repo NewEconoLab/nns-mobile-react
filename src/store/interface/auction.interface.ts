@@ -18,6 +18,7 @@ export interface IAuction {
 
 export interface IAuctionListStore {
     auctionList:{[auctionId:string]:IAuction},
+    filterAuctionList:{[auctionId:string]:IAuction},
     getAuctionInfoByAddress:(address:string)=>void,
     updateAuctionList:()=>void,
 }

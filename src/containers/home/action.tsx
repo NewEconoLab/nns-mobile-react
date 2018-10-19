@@ -40,11 +40,6 @@ class Action extends React.Component<IHomeProps,any> {
         // 定义功能
         const data = [
             {
-                icon: tutorial,
-                text: this.home.action.tutorial,
-                page:'tutorial'
-            },
-            {
                 icon: cgas,
                 text: this.home.action.exchange,
                 page:'exchange'
@@ -68,6 +63,11 @@ class Action extends React.Component<IHomeProps,any> {
                 icon: record,
                 text: this.home.action.record,
                 page:'record'
+            },
+            {
+                icon: tutorial,
+                text: this.home.action.tutorial,
+                page:'tutorial'
             }
         ];
 
