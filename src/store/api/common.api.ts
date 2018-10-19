@@ -120,7 +120,8 @@ export const getRehargeAndTransfer=(txid:string)=>{
 export const getBlockCount=()=>{
   const opts={
     method:"getblockcount",
-    params:[]
+    params:[],
+    baseUrl:"common"
   }
   return request(opts);
 }

@@ -1,5 +1,7 @@
 import { Task, TaskState, ConfirmType } from "@/store/interface/taskmanager.interface";
 import * as Api from '@/store/api/common.api';
+import taskmanager from "@/store/taskmanager";
+import { TABLE_CONFIG } from "@/config";
 
 export class TaskTool
 {
@@ -48,7 +50,7 @@ export class TaskTool
                         ress[ task.txid ] = await Api.getRehargeAndTransfer(task.txid)[0];
                         break;
                     default:
-                        ress[ task.txid ] = await Api.hasTx(task.txid);
+                        ress[ task.txid ] = await Api.hasTx(task.txid)[0];
                         break;
                 }
             } else  // 如果状态是 成功或者失败就没必要调用api查询返回结果了
@@ -57,6 +59,31 @@ export class TaskTool
             }
         }
         return ress;
+    }
+
+    public static start()
+    {
+        console.log("============开始执行循环逻辑");
+        setInterval(
+        async ()=>
+        {
+            const height = sessionStorage.getItem(TABLE_CONFIG.blockCount);
+            const res = await Api.getBlockCount();
+            
+            // tslint:disable-next-line:radix
+            const count = res?parseInt(res[0]["blockcount"] as string)-1 : 0;
+            if(!height) 
+            {
+                sessionStorage.setItem(TABLE_CONFIG.blockCount,count+"");
+                taskmanager.update();
+            }
+            // tslint:disable-next-line:radix
+            else if(count-parseInt(height)>0)
+            {
+                sessionStorage.setItem(TABLE_CONFIG.blockCount,count+"")
+                taskmanager.update();
+            }
+        },5000)
     }
 
 }

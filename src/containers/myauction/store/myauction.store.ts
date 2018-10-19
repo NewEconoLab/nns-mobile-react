@@ -11,7 +11,7 @@ class MyAuctuon implements IMyAuctionStore {
  @action public getauctioninfobyaddress = async (address:string) => {
    let result:any = null;
    try {
-    result = await Api.getauctioninfobyaddress(address, 1, 1);
+    result = await Api.getauctioninfobyaddress(address, 1, 100);
    }catch(e) {
      return false;
    }

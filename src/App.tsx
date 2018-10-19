@@ -12,7 +12,7 @@ import commonStore from './store/common';
 import { en_US, zh_CN } from '@/language';
 import o3tools from '@/utils/o3tools';
 import DomainSelling from './store/DomainSelling';
-import taskmanager from './store/taskmanager';
+import { TaskTool } from './utils/tasktools';
 addLocaleData([...en, ...zh]);
 
 // setTimeout(() => {
@@ -35,9 +35,8 @@ o3tools.init(res => {
   }
 });
 
-taskmanager.update();
-
 DomainSelling.initRoot();
+TaskTool.start();
 // coin.initUtxos();
 
 // 初始化鼠标随机方法
