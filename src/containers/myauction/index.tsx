@@ -11,6 +11,7 @@ import { inject, observer } from 'mobx-react';
 @observer
 export default class MyAuction extends React.Component<IAuctionProps>
 {
+<<<<<<< HEAD
   // 显示选项框
   public showModal =  (e) =>
   {
@@ -45,6 +46,16 @@ export default class MyAuction extends React.Component<IAuctionProps>
   }
   public componentDidMount()
   {
+=======
+  
+  public componentDidMount() {
+    const a = sessionStorage.getItem("a");
+    {
+      sessionStorage.setItem("a","test");      
+    }else{
+      alert(a);
+    }
+>>>>>>> 08ef316591557a31e926cec86abab7cbd42d9bcd
     this.props.myauction.getauctioninfobyaddress(this.props.common.address);
   }
   public render()

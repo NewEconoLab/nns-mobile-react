@@ -74,3 +74,53 @@ export const getDomainInfo=(domain:string)=>{
   }
   return request(opts);
 }
+
+/**
+ * 判断交易是否入链
+ * @param txid 交易id
+ */
+export const hasTx=(txid:string)=>{
+  const opts={
+    method:"hastx",
+    params:[
+      txid
+    ]
+  }
+  return request(opts);
+}
+
+/**
+ * 判断合约调用是否抛出 notify
+ * @param txid 交易id
+ */
+export const hasContract=(txid:string)=>{
+  const opts={
+    method:"hascontract",
+    params:[
+      txid
+    ]
+  }
+  return request(opts);
+}
+
+/**
+ * 判断双交易是否成功
+ * @param txid 交易id
+ */
+export const getRehargeAndTransfer=(txid:string)=>{
+  const opts={
+    method:"getrechargeandtransfer",
+    params:[
+      txid
+    ]
+  }
+  return request(opts);
+}
+
+export const getBlockCount=()=>{
+  const opts={
+    method:"getblockcount",
+    params:[]
+  }
+  return request(opts);
+}
