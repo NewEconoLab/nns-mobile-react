@@ -7,7 +7,11 @@ class MyAuctuon implements IMyAuctionStore {
  @observable public auctionList:IAuctionList[] = [];
  @observable public detail:IAuctionList | null = null;
  @observable public showDialog:boolean = false;
-
+ @observable public modal:boolean = false;
+ @observable public statusValue:string = 'all';
+ @observable public peopleValue:string = 'all';
+ @observable public clickStatus:string = 'all';
+ @observable public clickPeople:string = 'all';
  @action public getauctioninfobyaddress = async (address:string) => {
    let result:any = null;
    try {

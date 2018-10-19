@@ -95,6 +95,7 @@ export default {
     ended:"Ended",
     other:"Other",
     me:"Me",
+    all:"All",
     tip1:"The auction period is the first stage of the auction and its duration is 3 days, during which all bids are valid. An overtime bidding of up to 2 days will be triggered when someone bids on the last day of the auction period. Otherwise the auction ends at the end of the fixed period.",
     tip2:"The overtime bidding is the second stage of the auction. Its maximum duration is 2 days. During this period, any bid may trigger the end of the bidding of this domain and the bid will be invalid. The latter one bids, the more likely it triggers the end of the bidding. So it's advised to place a bid as early as possible to avoid missing this domain.",
     info:{
@@ -151,6 +152,8 @@ export default {
   message:{
     successmsg:"Successful operation",
     waitmsg:"Please be patient and wait for the operation to be confirmed！",
+    errmsg: "Operation failed",
+    errmsgtip1: "请求错误，请稍好再次尝试哦...",
     exchangemsg:'"CGAS exchange"（ 1 GAS → 1 CGAS ） is confirmed！',
     startauctionmsg:'"Start auction" 1234567.neo is confirmed！',
     raisebidmsg:'"Raise bid" 1234567.neo （ 0.1 CGAS ）is confirmed！',

@@ -42,7 +42,8 @@ export default (title: string, message: string, btnText: string, onConfirm: () =
                 <div className="comp-alert-container">
                     <div className="mask" onClick={this.onClose} />
                     <div className="alert-wrapper">
-                        <img src={require('@/img/right1.png')} className="alert-success-icon" />
+                        <img src={require('@/img/right2.png')} className="alert-success-icon" />
+                        {/* <img src={require('@/img/wrong2.png')} className="alert-success-icon" /> */}
                         <div className="alert-title" dangerouslySetInnerHTML={{ '__html': this.props.title }} />
                         <div className="alert-content" dangerouslySetInnerHTML={{ '__html': this.props.message }} />
                         <div className="alert-button-group">
