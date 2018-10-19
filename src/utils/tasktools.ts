@@ -2,6 +2,8 @@ import { Task, TaskState, ConfirmType } from "@/store/interface/taskmanager.inte
 import * as Api from '@/store/api/common.api';
 import taskmanager from "@/store/taskmanager";
 import { TABLE_CONFIG } from "@/config";
+import auctionmanager from "@/store/auctionmanager";
+import common from "@/store/common";
 
 export class TaskTool
 {
@@ -76,12 +78,14 @@ export class TaskTool
             {
                 sessionStorage.setItem(TABLE_CONFIG.blockCount,count+"");
                 taskmanager.update();
+                auctionmanager.getAuctionInfoByAddress(common.address);
             }
             // tslint:disable-next-line:radix
             else if(count-parseInt(height)>0)
             {
                 sessionStorage.setItem(TABLE_CONFIG.blockCount,count+"")
                 taskmanager.update();
+                auctionmanager.updateAuctionList();
             }
         },5000)
     }
