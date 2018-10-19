@@ -23,15 +23,12 @@ import * as formatTime from 'utils/formatTime';
  */
 class MyAuctionList extends React.Component<IAuctionListProps>
 {
+	// 跳转到竞拍详情页
 	public onGotoDetail = () => {
 		this.props.myauction.detail = this.props.item;
 		this.props.history.push('/auction/detail')
 	}
-	// public onClickEvent = (e:any)=>{
-	//     console.log(e)
-	//     const url = 'auction'
-	//     this.props.history.push(url);       
-	// }
+	
 	public bidder = () => {
 		const address = this.props.item.maxBuyer.replace(/^(\w{4})(.*)(\w{4})$/, '$1...$3');
 		if (this.props.item.maxBuyer === this.props.common.address) {
@@ -39,8 +36,18 @@ class MyAuctionList extends React.Component<IAuctionListProps>
 		}
 		return <span>他人（ {address} ）</span>
 	}
+	public btnStatus = () => {
+		// const address = this.props.item.maxBuyer.replace(/^(\w{4})(.*)(\w{4})$/, '$1...$3');
+		if (this.props.item.maxBuyer === this.props.common.address) {
+			return <Button type="primary" inline={true} size="small">领取域名</Button>
+		}
+		return <Button type="primary" inline={true} size="small">领回竞拍金</Button>
+	}
 	public render() {
 		const item = this.props.item;
+		console.log("列表页");
+		
+		console.log(item);
 		return (
 			<div className="myauction-wrap box-wrap">
 				<TitleText text="竞拍域名">
@@ -79,11 +86,13 @@ class MyAuctionList extends React.Component<IAuctionListProps>
 							<div className="auction-name">{item.domain}</div>
 							<div className="auction-normal">当前最高价：{item.maxPrice} CGAS</div>
 							<div className="auction-normal">出价者：{this.bidder()}</div>
-							<div className="auction-normal">开标时间：{formatTime.format('yyyy/MM/dd hh:mm:ss', this.props.item.startTime.blocktime, this.props.intl.locale)}</div>
+							<div className="auction-normal">开标时间：{formatTime.format('yyyy/MM/dd hh:mm:ss', this.props.item.startTime.blocktime.toString(), this.props.intl.locale)}</div>
 						</div>
 						<div className="list-right">
 						{/* todo 按钮状态 */}
-							<Button type="primary" inline={true} size="small">领取域名</Button>
+							{
+								item.auctionState === '0401' && this.btnStatus()
+							}
 						</div>
 					</div>
 				</div>

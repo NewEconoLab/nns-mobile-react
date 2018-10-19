@@ -1,10 +1,10 @@
 import {observable, action} from 'mobx';
 import * as Api from '@/store/api/domain.api';
-import { IAuctionListManager, IAuction, AuctionState, IAuctionAddress } from './interface/auction.interface';
+import { IAuctionListStore, IAuction, AuctionState, IAuctionAddress } from './interface/auction.interface';
 import common from './common';
 import { TABLE_CONFIG } from '@/config';
 
-class AuctionManager implements IAuctionListManager {
+class AuctionManager implements IAuctionListStore {
  @observable public auctionList:{[auctionId:string]:IAuction} = {};
 
  @action public getAuctionInfoByAddress = async (address:string) => {

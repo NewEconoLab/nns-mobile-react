@@ -63,7 +63,7 @@ export default class Detail extends React.Component<IAuctionDetailProps>
 						<div className="auction-name">{detail.domain}</div>
 						<div className="auction-normal">当前最高价：{detail.maxPrice} CGAS</div>
 						<div className="auction-normal">出价者：{this.bidder()}</div>
-						<div className="auction-normal">开标时间：{formatTime.format('yyyy/MM/dd hh:mm:ss', detail.startTime.blocktime, this.props.intl.locale)}</div>
+						<div className="auction-normal">开标时间：{formatTime.format('yyyy/MM/dd hh:mm:ss', detail.startTime.blocktime.toString(), this.props.intl.locale)}</div>
 						<div className="auction-normal">我的出价总和：<span className="text-red">7</span> CGAS</div>   {/*todo  出价总和怎么求*/}
 					</div>
 				</div>

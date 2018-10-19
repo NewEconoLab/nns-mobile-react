@@ -5,9 +5,10 @@ import '../index.less';
 import close from '@/img/close.png';
 import Input from '@/components/Input/Input';
 import {Button} from 'antd-mobile';
-import { IAuctionProps, IAuctionList } from "@/containers/myauction/interface/index.interface";
+import { IAuctionProps } from "@/containers/myauction/interface/index.interface";
 import { nnstools } from '@/utils/nnstools';
 import DomainSelling from '@/store/DomainSelling';
+import { IAuction } from '@/store/interface/auction.interface';
 
 @observer
 export default class Addbid extends React.Component<IAuctionProps>{
@@ -22,7 +23,7 @@ export default class Addbid extends React.Component<IAuctionProps>{
       }
       public addBid = async ()=>
       {
-          const auction = this.props.myauction.detail as IAuctionList;
+          const auction = this.props.myauction.detail as IAuction;
           try {
               alert(this.props.myauction.myBid);
             const res = await nnstools.raise(auction.auctionId,this.props.myauction.myBid,DomainSelling.RootNeo.register);

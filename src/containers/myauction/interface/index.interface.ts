@@ -1,30 +1,32 @@
 import { RouteComponentProps } from 'react-router-dom';
 import {ICommonStore} from '@/store/interface/common.interface'
+import { IAuction,IAuctionListStore } from '@/store/interface/auction.interface';
 
 export interface IProps extends RouteComponentProps{
   a:1
 }
 
-export interface IAuctionList {
-  domain:string    // 域名
-  auctionId:string,
-  maxPrice:string, // 最高价格
-  maxBuyer:string, // 出价者
-  startAddress:string, // 开标人
-  startTime:{
-    blocktime:string
-  },
-  auctionState:string, // 状态
-} 
+// export interface IAuctionList {
+//   domain:string    // 域名
+//   auctionId:string,
+//   maxPrice:string, // 最高价格
+//   maxBuyer:string, // 出价者
+//   startAddress:string, // 开标人
+//   startTime:{
+//     blocktime:string
+//   },
+//   auctionState:string, // 状态
+// } 
 
 export interface IAuctionProps extends RouteComponentProps{
+  auctionmanager:IAuctionListStore,
+  common:ICommonStore,
   myauction:IMyAuctionStore
-  common:ICommonStore
 }
 
 export interface IMyAuctionStore {
-  auctionList:IAuctionList[],
-  detail:IAuctionList | null,
+  // auctionList:IAuctionListStore ,
+  detail:IAuction | null,
   myBid:string,
   showDialog:boolean,
   modal:boolean,
@@ -32,17 +34,19 @@ export interface IMyAuctionStore {
   peopleValue:string,
   clickStatus:string,
   clickPeople:string,
-  getauctioninfobyaddress:(address:string)=>Promise<boolean>,
+  // getauctioninfobyaddress:(address:string)=>Promise<boolean>,
 }
 
 export interface IAuctionListProps extends RouteComponentProps {
-  item:IAuctionList,
+  item:IAuction,
   common:ICommonStore,
   intl:any,
-  myauction:IMyAuctionStore
+  myauction:IMyAuctionStore,
+  // auctionList:IAuctionListStore,
 }
 
 export interface IAuctionDetailProps extends RouteComponentProps{
+  auctionList:IAuctionListStore,
   myauction:IMyAuctionStore,
   common:ICommonStore,
   intl:any,

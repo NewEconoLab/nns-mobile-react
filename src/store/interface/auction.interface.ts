@@ -16,13 +16,15 @@ export interface IAuction {
     addWho: IAuctionAddress;
   } 
 
-export interface IAuctionListManager {
+export interface IAuctionListStore {
     auctionList:{[auctionId:string]:IAuction},
     getAuctionInfoByAddress:(address:string)=>void,
     updateAuctionList:()=>void,
 }
 
-
+export interface IAuctionListProps{
+    myauction:IAuctionListStore
+}
 
 /**
  * 竞拍状态枚举类

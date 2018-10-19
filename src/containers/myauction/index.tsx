@@ -2,15 +2,17 @@
  * 我的竞拍
  */
 import * as React from 'react';
-import { SearchBar, Modal, Button } from 'antd-mobile';
+import { SearchBar,Modal,Button } from 'antd-mobile';
 import TitleText from '@/components/titletext';
-import MyAuctionList from './auctionlist'
-import { IAuctionProps, IAuctionList } from './interface/index.interface';
+// import MyAuctionList from './auctionlist';
+import { IAuctionProps } from './interface/index.interface';
 import { inject, observer } from 'mobx-react';
-@inject('common', 'myauction')
+// import { IAuction } from '@/store/interface/auction.interface';
+@inject('common', 'myauction','auctionmanager')
 @observer
 export default class MyAuction extends React.Component<IAuctionProps>
 {
+  
   // 显示选项框
   public showModal =  (e) =>
   {
@@ -43,9 +45,34 @@ export default class MyAuction extends React.Component<IAuctionProps>
     this.props.myauction.statusValue = this.props.myauction.clickStatus;
     this.props.myauction.peopleValue = this.props.myauction.clickPeople;
   }
+  // 循环加载dom
+  public myAuctionList = ()=>{
+    console.log("auctionlist");
+    // console.log(this.props.auctionmanager);
+    const auctionList = this.props.auctionmanager.auctionList;
+    console.log(typeof auctionList);
+    
+    console.log(auctionList);
+    // let list:IAuction[];
+    for (const auctionId in auctionList) {
+      if (auctionList.hasOwnProperty(auctionId)) {
+        // const auction = auctionList[auctionId];
+        // console.log("循环里");        
+        // console.log(auction)
+        // list.push(auction);
+        // console.log("打印");
+        // console.log(list)
+        // return <MyAuctionList item={auctionList} key={auctionList['auctionId']} {...this.props} />
+      }
+    }
+    // <MyAuctionList item={list} key={list['auctionId']} {...this.props} />
+    return <div />
+  }
   public componentDidMount()
   {
-    this.props.myauction.getauctioninfobyaddress(this.props.common.address);
+    console.log(this.props.auctionmanager.auctionList);
+    
+    // this.props.auctionParam.getauctioninfobyaddress(this.props.common.address);
   }
   public render()
   {
@@ -58,14 +85,16 @@ export default class MyAuction extends React.Component<IAuctionProps>
             <img src={srcImg} alt="" />
           </div>
         </div>
-        {
-          this.props.myauction.auctionList.map((item: IAuctionList, index: number) =>
+        {this.myAuctionList()}
+        {/* {
+          this.props.auctionManager.auctionList.map((item: IAuctionList, index: number) =>
           {
             return (
               <MyAuctionList item={item} key={index} {...this.props} />
             )
           })
-        }
+        } */}
+        {/* <MyAuctionList item={item} key={index} {...this.props} /> */}
         <Modal
           popup={true}
           visible={this.props.myauction.modal}
