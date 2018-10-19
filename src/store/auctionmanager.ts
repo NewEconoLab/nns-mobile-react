@@ -9,20 +9,31 @@ class AuctionManager implements IAuctionListManager {
 
  @action public getAuctionInfoByAddress = async (address:string) => {
    let result:any = null;
+   console.log("========== initial auction list");
+   
    try {
     result = await Api.getauctioninfobyaddress(address, 1, 100);
+    console.log(result);
+    
    }catch(e) {
      return false;
    }
    this.auctionList = result[0].list;
+   sessionStorage.setItem(TABLE_CONFIG.auctionList,JSON.stringify(this.auctionList));
    return true;
  }
  
  @action public async updateAuctionList()
  {
+   console.log("=============================updateAuction");
+   console.log(this.auctionList);
+   
    const ids: string[] = [];
-   for (const auction of this.auctionList) 
-   {
+   
+   // tslint:disable-next-line:prefer-for-of
+   for (let index = 0; index < this.auctionList.length; index++) {
+     const auction = this.auctionList[index];
+     
     if (auction.auctionState === AuctionState.end)
     {
         if (auction.addWho)
@@ -48,10 +59,16 @@ class AuctionManager implements IAuctionListManager {
         ids.push(auction.auctionId);
     }
    }
+   console.log(ids);
+   
    const result = await Api.getAuctionInfoByAucitonid(common.address, ids, ".neo");
    if (result)
    {
+     console.log("============================="+result);
+     
        const list = result[ 0 ].list as IAuction[];
+       console.log(list);
+       
       for (const auction of list) 
       {        
         if (auction.auctionState !== AuctionState.pass)
@@ -63,7 +80,10 @@ class AuctionManager implements IAuctionListManager {
                 auction.addWho = who.address === common.address?who:{address:common.address,totalValue:0} as IAuctionAddress;
               }
             }
+            console.log(JSON.stringify(auction));
+            
             this.auctionList[ auction.auctionId ] = auction;
+            
         }
         else
         {
