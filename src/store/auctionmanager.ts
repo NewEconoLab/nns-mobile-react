@@ -5,63 +5,62 @@ import common from './common';
 import { TABLE_CONFIG } from '@/config';
 
 class AuctionManager implements IAuctionListManager {
- @observable public auctionList:IAuction[] = [];
+ @observable public auctionList:{[auctionId:string]:IAuction} = {};
 
  @action public getAuctionInfoByAddress = async (address:string) => {
    let result:any = null;
-   console.log("========== initial auction list");
    
    try {
     result = await Api.getauctioninfobyaddress(address, 1, 100);
-    console.log(result);
     
    }catch(e) {
      return false;
    }
-   this.auctionList = result[0].list;
+   const list:IAuction[] = result[0].list;
+   for (const auction of list) {
+     this.auctionList[auction.auctionId] = auction;
+   }
+
    sessionStorage.setItem(TABLE_CONFIG.auctionList,JSON.stringify(this.auctionList));
    return true;
  }
- 
  @action public async updateAuctionList()
  {
-   console.log("=============================updateAuction");
-   console.log(this.auctionList);
-   
    const ids: string[] = [];
-   
-   // tslint:disable-next-line:prefer-for-of
-   for (let index = 0; index < this.auctionList.length; index++) {
-     const auction = this.auctionList[index];
-     
-    if (auction.auctionState === AuctionState.end)
-    {
-        if (auction.addWho)
-        {
-            if (auction.maxBuyer === auction.addWho.address)    // 未领取的域名需要更新
-            {
-                if (!auction.addWho.getdomainTime)
-                {
-                  ids.push(auction.auctionId);
-                }
-            }
-            else                                      // 未退币的域名需要更新
-            {
-                if (!auction.addWho.accountTime)
-                {
-                  ids.push(auction.auctionId);
-                }
-            }
-        }
-    }
-    else                                          // 未结束的域名都需要更新
-    {
-        ids.push(auction.auctionId);
-    }
+   for (const auctionId in this.auctionList) {
+     if (this.auctionList.hasOwnProperty(auctionId)) {
+       const auction = this.auctionList[auctionId];
+       if (auction.auctionState === AuctionState.end)
+       {
+           if (auction.addWho)
+           {
+               if (auction.maxBuyer === auction.addWho.address)    // 未领取的域名需要更新
+               {
+                   if (!auction.addWho.getdomainTime)
+                   {
+                     ids.push(auction.auctionId);
+                   }
+               }
+               else                                      // 未退币的域名需要更新
+               {
+                   if (!auction.addWho.accountTime)
+                   {
+                     ids.push(auction.auctionId);
+                   }
+               }
+           }
+       }
+       else                                          // 未结束的域名都需要更新
+       {
+           ids.push(auction.auctionId);
+       }
+     }
    }
    console.log(ids);
    
    const result = await Api.getAuctionInfoByAucitonid(common.address, ids, ".neo");
+   console.log(result);
+   
    if (result)
    {
      console.log("============================="+result);
@@ -79,9 +78,7 @@ class AuctionManager implements IAuctionListManager {
               {
                 auction.addWho = who.address === common.address?who:{address:common.address,totalValue:0} as IAuctionAddress;
               }
-            }
-            console.log(JSON.stringify(auction));
-            
+            }            
             this.auctionList[ auction.auctionId ] = auction;
             
         }
