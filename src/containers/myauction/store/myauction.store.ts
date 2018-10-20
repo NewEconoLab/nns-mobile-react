@@ -13,6 +13,11 @@ class MyAuctuon implements IMyAuctionStore {
  @observable public peopleValue:string = '0';
  @observable public clickStatus:string = '0';
  @observable public clickPeople:string = '0';
+
+ @action public setDetail(auction:IAuction)
+ {
+     this.detail = auction;
+ }
 //  @action public getauctioninfobyaddress = async (address:string) => {
 //    let result:any = null;
 //    try {

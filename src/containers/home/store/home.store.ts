@@ -40,7 +40,9 @@ class Home implements IHomeStore {
     let result: any = null;
     try {
       result = await Api.getdomainauctioninfo(this.inputModule.inputValue + '.neo');
-      console.log(result)
+      if(!result) 
+      {throw new Error("no data");
+      }
     } catch (e) {
       if(!this.inputModule.inputValue) {
         return false;

@@ -39,6 +39,7 @@ export interface IMyAuctionStore {
   peopleValue:string,
   clickStatus:string,
   clickPeople:string,
+  setDetail:(detail:IAuction)=>void,
   // getauctioninfobyaddress:(address:string)=>Promise<boolean>,
 }
 

@@ -15,12 +15,12 @@ import { IHomeProps } from '@/containers/home/interface/home.interface';
 import { injectIntl } from 'react-intl'
 import { nnstools } from '@/utils/nnstools';
 import DomainSelling from '@/store/DomainSelling';
-
+import detail from '../myauction/detail';
 
 // 获取竞拍状态：getauctionstate 参数：域名
 @inject('common', 'home')
 @observer
-class Auction extends React.Component<IHomeProps>
+class Auction extends React.Component<IHomeProps,IAuctionDetailProps>
 {
   public prop = this.props.intl.messages;
   public componentDidMount() {
@@ -40,6 +40,10 @@ class Auction extends React.Component<IHomeProps>
     Alert(this.prop.message.successmsg, this.prop.message.waitmsg, this.prop.btn.confirm, function () {
       alert('我点击了确认按钮')
     });
+  }
+  public onRaiseAuction = async () => 
+  {
+    //
   }
   public render() {
     return (
@@ -67,7 +71,7 @@ class Auction extends React.Component<IHomeProps>
             }
             {
               this.props.home.isStatus === 2 &&
-              <Link to="/auction"><Button type="primary">{this.prop.btn.join}</Button></Link>
+              <Link to="/auction/detail"><Button type="primary">{this.prop.btn.join}</Button></Link>
             }
           </WingBlank>
         }
