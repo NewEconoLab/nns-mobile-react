@@ -1,6 +1,7 @@
 import { observable, autorun, action } from 'mobx';
 import { IHomeStore, InputModule, IMessages } from '../interface/home.interface';
 import * as Api from '../api/home.api';
+import { IAuction } from '@/store/interface/auction.interface';
 class Home implements IHomeStore {
   @observable public inputModule: InputModule = {
     inputValue: "",
@@ -15,6 +16,8 @@ class Home implements IHomeStore {
     successmsg2:''
   }
   @observable public isStatus:number = 0; // 竞拍状态 0 默认活着不可用， 1 未使用， 2 正在竞拍
+
+  @observable public auctionInfo:IAuction;
 
   constructor() {
     autorun(() => {
@@ -31,17 +34,23 @@ class Home implements IHomeStore {
       }
       // 输入即发送请求
       if(this.inputModule.inputValue){
-        this.getauctionstate();
+        this.getAuctionState();
       }     
     })
   }
   // 域名开拍状态
-  @action public getauctionstate = async () => {
+
+  @action public async getAuctionState() {
     let result: any = null;
     try {
-      result = await Api.getdomainauctioninfo(this.inputModule.inputValue + '.neo');
-      if(!result) 
-      {throw new Error("no data");
+      result = await Api.getdomainauctioninfo(this.inputModule.inputValue?this.inputModule.inputValue+".neo":"");
+      if(!result)
+      {
+        this.inputModule.message = this.messages.successmsg;
+        this.inputModule.color = '';
+        this.inputModule.status = 'success';
+        this.isStatus = 1;
+        return true;
       }
     } catch (e) {
       if(!this.inputModule.inputValue) {
@@ -52,53 +61,29 @@ class Home implements IHomeStore {
       this.inputModule.color = '';
       this.inputModule.status = 'success';
       this.isStatus = 0;
-      return false;
     }
-    switch(result[0].auctionState){
-      // 竞拍状态 0 默认不可竞拍， 1 未开拍， 2 正在竞拍
-      case '0101': // 开拍
-        this.inputModule.message = this.messages.successmsg2;
-        this.inputModule.color = '';
-        this.inputModule.status = 'success';
-        this.isStatus = 2;
-        break;
-      case '0201': // 确定期
-        this.inputModule.message = this.messages.successmsg2;
-        this.inputModule.color = '';
-        this.inputModule.status = 'success';
-        this.isStatus = 2;
-        break;
-      case '0301': // 随机期
-        this.inputModule.message = this.messages.successmsg2;
-        this.inputModule.color = '';
-        this.inputModule.status = 'success';
-        this.isStatus = 2;
-        break;
-      case '0401': // 结束期
-        this.inputModule.message = this.messages.errmsg2;
-        this.inputModule.color = 'red-color';
-        this.inputModule.status = 'error';
-        this.isStatus = 0;
-        return false;
-        break;
-      case '0501': // 流拍
-        this.inputModule.message = this.messages.successmsg;
-        this.inputModule.color = '';
-        this.inputModule.status = 'success';
-        this.isStatus = 1;
-        break;
-      case '0601': // 过期
-        this.inputModule.message = this.messages.successmsg;
-        this.inputModule.color = '';
-        this.inputModule.status = 'success';
-        this.isStatus = 1;
-        break;
-      case '0701': // 未开标
-        this.inputModule.message = this.messages.successmsg;
-        this.inputModule.color = '';
-        this.inputModule.status = 'success';
-        this.isStatus = 1;
-        break;      
+
+    this.auctionInfo = result[0];
+    if(this.auctionInfo.auctionState==='0201'||this.auctionInfo.auctionState==="0301")
+    {
+      this.inputModule.message = this.messages.successmsg2;
+      this.inputModule.color = '';
+      this.inputModule.status = 'success';
+      this.isStatus = 2;
+    }
+    else if(this.auctionInfo.auctionState==='0401')
+    {
+      this.inputModule.message = this.messages.errmsg2;
+      this.inputModule.color = 'red-color';
+      this.inputModule.status = 'error';
+      this.isStatus = 0;
+    }
+    else
+    {      
+      this.inputModule.message = this.messages.successmsg;
+      this.inputModule.color = '';
+      this.inputModule.status = 'success';
+      this.isStatus = 1;
     }
     return true;
   }

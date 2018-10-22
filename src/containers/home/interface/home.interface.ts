@@ -1,5 +1,7 @@
 import { RouteComponentProps } from 'react-router-dom';
 import {ICommonStore} from '@/store/interface/common.interface';
+import { IAuction } from '@/store/interface/auction.interface';
+import { IMyAuctionStore } from '@/containers/myauction/interface/index.interface';
 export interface IGriddataItem {
   icon:string,
   text:string,
@@ -23,12 +25,14 @@ export interface IMessages {
 export interface IHomeStore {
   inputModule:InputModule,
   isStatus:number,
-  messages:IMessages
+  messages:IMessages,
+  auctionInfo:IAuction
 }
 
 
 export interface IHomeProps extends RouteComponentProps {
   intl:any,
   common:ICommonStore,
-  home:IHomeStore
+  home:IHomeStore,
+  myauction:IMyAuctionStore,
 }

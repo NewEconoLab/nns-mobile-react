@@ -65,7 +65,6 @@ export class TaskTool
 
     public static start()
     {
-        console.log("============开始执行循环逻辑");
         setInterval(
         async ()=>
         {

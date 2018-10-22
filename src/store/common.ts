@@ -67,6 +67,20 @@ class Common{
     
     return result[0];
   }
+
+  @action public rechargeAndTransfer = async (data1:Uint8Array,data2:Uint8Array)=>{
+    let result:any = null;
+    try {
+      result =  await Api.rechargeAndTransfer(data1,data2);
+    }catch(e) {
+      return false;
+    }
+    if(!result[0].txid) {
+      return false;
+    }
+    
+    return result[0];
+  }
 }
 
 // 外部使用require

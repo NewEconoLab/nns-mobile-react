@@ -144,6 +144,44 @@ export class nnstools{
         return res;
     }
 
+    
+    /**
+     * 结束竞拍
+     * @param domain 域名
+     */
+    public static async bidSettlement(id: string, register: Neo.Uint160)
+    {
+        const who = new Neo.Uint160(ThinNeo.Helper.GetPublicKeyScriptHash_FromAddress(common.address).buffer as ArrayBuffer);
+        const script = Contract.buildScript_random(
+            register,
+            "bidSettlement",
+            [
+                "(hex160)" + who.toString(),
+                "(hex256)" + id
+            ]
+        );
+        const res = await Contract.buildInvokeTrans_attributes(script.ToArray());
+        return res;
+    }
+
+    /**
+     * 获得领取域名
+     * @param domain 域名
+     */
+    public static async collectDomain(id: string, register: Neo.Uint160):Promise<Uint8Array>
+    {
+        const who = new Neo.Uint160(ThinNeo.Helper.GetPublicKeyScriptHash_FromAddress(common.address).buffer as ArrayBuffer);
+        const script = Contract.buildScript_random(
+            register,
+            "collectDomain",
+            [
+                "(hex160)" + who.toString(),
+                "(hex256)" + id
+            ]
+        );
+        const res = await Contract.buildInvokeTrans_attributes(script.ToArray());
+        return res;
+    }
 
     
     /**

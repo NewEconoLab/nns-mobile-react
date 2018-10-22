@@ -43,6 +43,33 @@ export class Contract
         sb.EmitAppCall(appCall);
         return sb;
     }
+
+  /**
+   * invokeTrans 方式调用合约塞入attributes
+   * @param script 合约的script
+   */
+  public static async buildInvokeTrans_attributes(script: Uint8Array) {
+    const utxos = await CoinTool.getAssets()
+    const gass = utxos[HASH_CONFIG.id_GAS];
+    const tran: Transaction = new Transaction()
+    tran.setScript(script)
+    if (gass) {
+      tran.creatInuptAndOutup(gass, WALLET_CONFIG.netfee)
+    }
+    const msg = tran.GetMessage().clone();
+    const promise:Promise<Uint8Array> = new Promise((resolve, reject) =>{
+      o3tools.sign(msg.toHexString(),res =>{        
+        tran.AddWitness((res as string).hexToBytes(),common.publicKey.hexToBytes(), common.address);
+        try {
+          const data: Uint8Array = tran.GetRawData();   
+          resolve(data);
+        } catch (error) {
+          reject(error);
+        }        
+      })
+    })
+    return promise;
+  }
     
   /**
    * invokeTrans 方式调用合约塞入attributes

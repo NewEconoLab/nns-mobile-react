@@ -1,4 +1,4 @@
-import {observable} from 'mobx';
+import {observable, action} from 'mobx';
 // import * as Api from '../api/index.api';
 import { IMyAuctionStore} from '../interface/index.interface';
 import { IAuction } from '@/store/interface/auction.interface';
@@ -14,7 +14,7 @@ class MyAuctuon implements IMyAuctionStore {
  @observable public clickStatus:string = '0';
  @observable public clickPeople:string = '0';
 
- @action public setDetail(auction:IAuction)
+ @action public setDetail = (auction:IAuction)=>
  {
      this.detail = auction;
  }

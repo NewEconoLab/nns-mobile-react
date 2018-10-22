@@ -9,15 +9,23 @@ class AuctionManager implements IAuctionListStore {
  @observable public filterAuctionList:{[auctionId:string]:IAuction} = {};
  @action public getAuctionInfoByAddress = async (address:string) => {
    let result:any = null;
-   
    try {
-    result = await Api.getauctioninfobyaddress(address, 1, 100);
-    
+    result = await Api.getauctioninfobyaddress(address, 1, 100);    
    }catch(e) {
      return false;
    }
    const list:IAuction[] = result[0].list;
    for (const auction of list) {
+    if (auction.addwholist)
+    {
+      for (const who of auction.addwholist) 
+      {
+        auction.addWho = who.address === common.address?who:{address:common.address,totalValue:0} as IAuctionAddress;
+      }
+    }else
+    {
+      auction.addWho = {address:common.address,totalValue:0} as IAuctionAddress
+    }       
      this.auctionList[auction.auctionId] = auction;
      this.filterAuctionList[auction.auctionId] = auction;
    }
@@ -57,18 +65,12 @@ class AuctionManager implements IAuctionListStore {
        }
      }
    }
-   console.log(ids);
    
    const result = await Api.getAuctionInfoByAucitonid(common.address, ids, ".neo");
-   console.log(result);
    
    if (result)
    {
-     console.log("============================="+result);
-     
-       const list = result[ 0 ].list as IAuction[];
-       console.log(list);
-       
+     const list = result[ 0 ].list as IAuction[];
       for (const auction of list) 
       {        
         if (auction.auctionState !== AuctionState.pass)
@@ -81,14 +83,12 @@ class AuctionManager implements IAuctionListStore {
               }
             }            
             this.auctionList[ auction.auctionId ] = auction;
-            
         }
         else
         {
             delete this.auctionList[ auction.auctionId ];
         }
       }
-
       sessionStorage.setItem(TABLE_CONFIG.auctionList,JSON.stringify(this.auctionList));
    }
  }

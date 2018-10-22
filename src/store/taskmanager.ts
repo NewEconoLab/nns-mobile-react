@@ -21,7 +21,7 @@ class TaskManager implements ITaskmanager
    
     @action public update()
     {
-        console.log("---------------------------执行 任务管理器 update方法----------------------");
+        // console.log("---------------------------执行 任务管理器 update方法----------------------");
     }
     
 }

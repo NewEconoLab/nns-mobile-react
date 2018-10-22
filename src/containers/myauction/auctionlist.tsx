@@ -38,10 +38,25 @@ class MyAuctionList extends React.Component<IAuctionListProps>
 		return <span>他人（ {address} ）</span>
 	}
 	public btnStatus = () => {
-		if (this.props.item.maxBuyer === this.props.common.address) {
-			return <Button type="primary" inline={true} size="small">领取域名</Button>
+		if (this.props.item.maxBuyer === this.props.common.address) 
+		{
+			if(this.props.item.addWho.getdomainTime)
+			{
+				return <Button type="primary" disabled={true} inline={true} size="small">域名已领取</Button>
+			}else
+			{
+				return <Button type='primary' inline={true} size='small' > 领取域名</Button>
+			}
 		}
-		return <Button type="primary" inline={true} size="small">领回竞拍金</Button>
+		else
+		{
+			if(this.props.item.addWho.accountTime)
+			{
+				return <Button type="primary" disabled={true} inline={true} size="small">竞拍金已领回</Button>
+			}else{				
+				return <Button type="primary" inline={true} size="small">领回竞拍金</Button>
+			}
+		}
 	}
 	public render() {
 		const item = this.props.item;
