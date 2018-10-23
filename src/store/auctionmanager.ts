@@ -109,4 +109,4 @@ class AuctionManager implements IAuctionListStore {
   }
 }
 
-export default new AuctionManager();
+export default new AuctionManager(); 
