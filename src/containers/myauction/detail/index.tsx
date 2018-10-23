@@ -16,7 +16,7 @@ import { nnstools } from '@/utils/nnstools';
 import DomainSelling from '@/store/DomainSelling';
 import taskmanager from '@/store/taskmanager';
 import { Task, ConfirmType, TaskType } from '@/store/interface/taskmanager.interface';
-import alert from '@/components/alert';
+import Alert from '@/components/alert';
 
 @inject('myauction', 'common')
 @observer
@@ -37,7 +37,7 @@ class DomainDetail extends React.Component<IAuctionDetailProps>
     /**
      * 退回竞拍金
      */
-    public async bidSettlement()
+    public bidSettlement = async ()=>
     {
         try {
             const data = await nnstools.bidSettlement(this.detail.auctionId,DomainSelling.RootNeo.register);
@@ -49,29 +49,42 @@ class DomainDetail extends React.Component<IAuctionDetailProps>
                     new Task(ConfirmType.tranfer, txid, { domain: this.detail.fulldomain, amount: this.detail.addWho.totalValue }),
                     TaskType.recoverSgas
                 );
+                Alert(this.prop.message.successmsg, this.prop.message.waitmsg, this.prop.btn.confirm, ()=>{ 
+                    return;
+                });
             }
         } catch (error) {
             console.error(error);            
         }
     }
 
-    public async getDomain()
+    public getDomain = async () =>
     {
+        console.log(this.detail.addWho.accountTime);
+        
         if(this.detail.addWho.accountTime && this.detail.addWho.accountTime.blockindex > 0)
         {
-            const data:Uint8Array = await nnstools.collectDomain(this.detail.auctionId,DomainSelling.RootNeo.register);
-            const res = await common.sendrawtransaction(data.toHexString());
-            if (res[ "txid" ])
-            {
-                const txid = res[ "txid" ];
-                taskmanager.addTask(
-                    new Task(ConfirmType.contract, txid, { domain: this.detail.fulldomain, amount: this.detail.addWho.totalValue }),
-                    TaskType.getDomain
-                );
-                
-                alert(this.prop.message.successmsg, this.prop.message.waitmsg, this.prop.btn.confirm, ()=>{ 
-                    return;
-                });
+            try {
+                const data:Uint8Array = await nnstools.collectDomain(this.detail.auctionId,DomainSelling.RootNeo.register);
+                const res = await common.sendrawtransaction(data.toHexString());
+                if (res[ "txid" ])
+                {
+                    const txid = res[ "txid" ];
+                    taskmanager.addTask(
+                        new Task(ConfirmType.contract, txid, { domain: this.detail.fulldomain, amount: this.detail.addWho.totalValue }),
+                        TaskType.getDomain
+                    );
+                    
+                    Alert(this.prop.message.successmsg, this.prop.message.waitmsg, this.prop.btn.confirm, ()=>{ 
+                        console.log("成功了");                        
+                    });
+                }
+            } catch (error) {
+                console.error(error)
+                Alert(this.prop.message.successmsg, this.prop.message.waitmsg, this.prop.btn.confirm, ()=>
+                {
+                    console.log(error);                    
+                })
             }
         }
         else
@@ -80,17 +93,23 @@ class DomainDetail extends React.Component<IAuctionDetailProps>
             const data2 = await nnstools.collectDomain(this.detail.auctionId,DomainSelling.RootNeo.register);
             try {
                 const res = await common.rechargeAndTransfer(data1,data2);
-                if (res[ "txid" ])
+                if (res[ "errCode" ]&& res["errCode"]==="0000")
                 {
                     const txid = res[ "txid" ];
+                    console.log("            txid:"+txid);
+                    
                     taskmanager.addTask(
                         new Task(ConfirmType.contract, txid, { domain: this.detail.fulldomain, amount: this.detail.addWho.totalValue }),
                         TaskType.getDomain
                     );
-                }          
-                alert(this.prop.message.successmsg, this.prop.message.waitmsg, this.prop.btn.confirm, ()=>{ 
-                    return;
-                });      
+                    Alert(this.prop.message.successmsg, this.prop.message.waitmsg, this.prop.btn.confirm, ()=>{ 
+                        return;
+                    });      
+                }
+                else
+                {
+                    throw new Error("交易发送失败");                    
+                }
             } catch (error) {
                 console.error(error)
             }

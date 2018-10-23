@@ -1,6 +1,6 @@
 // 加价模块
 import * as React from 'react';
-import {observer} from 'mobx-react';
+import {observer, inject} from 'mobx-react';
 import '../index.less';
 import close from '@/img/close.png';
 import Input from '@/components/Input/Input';
@@ -9,10 +9,16 @@ import { IAuctionAddbidProps } from "@/containers/myauction/interface/index.inte
 import { nnstools } from '@/utils/nnstools';
 import DomainSelling from '@/store/DomainSelling';
 import { IAuction } from '@/store/interface/auction.interface';
+import { injectIntl } from 'react-intl'
+import Alert from '@/components/alert';
 
+// 获取竞拍状态：getauctionstate 参数：域名
+@inject('common','myauction')
 @observer
-export default class Addbid extends React.Component<IAuctionAddbidProps>{
+
+class Addbid extends React.Component<IAuctionAddbidProps>{
     
+  public prop = this.props.intl.messages;
       public change = (value:string) => {
           this.props.myauction.myBid = value;
       }
@@ -20,13 +26,12 @@ export default class Addbid extends React.Component<IAuctionAddbidProps>{
       {
           const auction = this.props.myauction.detail as IAuction;
           try {
-              alert(this.props.myauction.myBid);
             const res = await nnstools.raise(auction.auctionId,this.props.myauction.myBid,DomainSelling.RootNeo.register);
             if(res)
             {
-              // Alert(this.prop.message.successmsg, this.prop.message.waitmsg, this.prop.btn.confirm, function () {
-              //   alert('我点击了确认按钮')
-              // });
+              Alert(this.prop.message.successmsg, this.prop.message.waitmsg, this.prop.btn.confirm,  ()=>{
+                  return;
+              });
             }
           } catch (error) {
               console.log(error);
@@ -73,3 +78,6 @@ export default class Addbid extends React.Component<IAuctionAddbidProps>{
         )
     }
 }
+
+
+export default injectIntl(Addbid);

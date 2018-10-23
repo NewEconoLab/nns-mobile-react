@@ -5,7 +5,7 @@ import { observable, action } from 'mobx';
 class Common{
   @observable public title:string = ''; // 标题
   @observable public language:string = 'zh';  // 当前语言
-  @observable public address:string = 'AHDV7M54NHukq8f76QQtBTbrCqKJrBH9UF'; // 当前地址
+  @observable public address:string = 'AeDbQBwD9sDMyLV7RgHBQEFTiHctgFHtF4'; // 当前地址
   @observable public publicKey:string='';
   @observable public network:string = 'testnet';  // 当前网络
   @observable public accountBalance:string = '';    // 账户中的cgas
@@ -71,11 +71,11 @@ class Common{
   @action public rechargeAndTransfer = async (data1:Uint8Array,data2:Uint8Array)=>{
     let result:any = null;
     try {
-      result =  await Api.rechargeAndTransfer(data1,data2);
+      result =  await Api.rechargeAndTransfer(data1.toHexString(),data2.toHexString());
     }catch(e) {
       return false;
     }
-    if(!result[0].txid) {
+    if(!result[0]) {
       return false;
     }
     

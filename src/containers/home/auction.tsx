@@ -34,7 +34,7 @@ class Auction extends React.Component<IHomeProps>
     this.props.home.inputModule.inputValue = value;
   }
   public onStartAuction = async () => {
-    const roothash = nnstools.nameHash("neo");
+    const roothash = nnstools.nameHash("test");
     nnstools.startAuciton(DomainSelling.RootNeo.register,roothash,this.props.home.inputModule.inputValue)
     Alert(this.prop.message.successmsg, this.prop.message.waitmsg, this.prop.btn.confirm, function () {
       alert('我点击了确认按钮')

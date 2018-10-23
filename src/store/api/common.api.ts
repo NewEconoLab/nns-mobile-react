@@ -126,11 +126,13 @@ export const getBlockCount=()=>{
   return request(opts);
 }
 
-export const rechargeAndTransfer=(data1:Uint8Array,data2:Uint8Array)=>{
+export const rechargeAndTransfer=(data1:string,data2:string)=>{
   const opts={
     method:"rechargeandtransfer",
-    params:[data1.toHexString(),data2.toHexString()],
-    baseUrl:"common"
+    params:[
+      data1,
+      data2
+    ]
   }
   return request(opts);
 }

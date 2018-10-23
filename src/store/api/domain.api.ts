@@ -1,12 +1,13 @@
 import request from 'utils/request';
 
-export const getauctioninfobyaddress = (address:string,pageIndex:number, pageSize:number) => {
+export const getauctioninfobyaddress = (address:string,pageIndex:number, pageSize:number,root?:string) => {
     const opts = {
       method:'getauctioninfobyaddress',
       params:[
         address,
         pageIndex,
-        pageSize
+        pageSize,
+        "."+root?root:"neo"
       ],
      }
      return request(opts);

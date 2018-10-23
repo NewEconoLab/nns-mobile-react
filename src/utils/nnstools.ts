@@ -65,11 +65,7 @@ export class nnstools{
     {
         const addressto = ThinNeo.Helper.GetAddressFromScriptHash(DomainSelling.RootNeo.register);
         const address = common.address;
-        alert(address);
-        alert(addressto);
-        alert(amount);
         const count = Neo.Fixed8.parse(amount).getData().toNumber();
-        alert(amount);
         const sb = Contract.buildScript_random(
             HASH_CONFIG.id_CGAS,
             "transfer",
@@ -93,9 +89,12 @@ export class nnstools{
             const res = await Contract.contractInvokeTrans_attributes(script);
             if(res)
             {
-                alert(res);
+                return res;
             }
-            return res;
+            else
+            {
+                throw new Error("交易发送异常");                
+            }
         } catch (error) {
             alert(JSON.stringify(error));
             throw new Error(error);
