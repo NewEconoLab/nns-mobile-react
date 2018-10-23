@@ -44,7 +44,6 @@ export default class MyAuction extends React.Component<IAuctionProps>
     let keysArr:string[] = [];
  
     if(this.props.myauction.statusValue.toString() === "0") {
-      console.log(33333)
       this.props.auctionmanager.filterAuctionList = list;
     }else {
       keysArr = Object.keys(this.props.auctionmanager.auctionList).filter((keys:string) => {

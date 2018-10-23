@@ -7,7 +7,7 @@ export const getauctioninfobyaddress = (address:string,pageIndex:number, pageSiz
         address,
         pageIndex,
         pageSize,
-        "."+root?root:"neo"
+        "."+(root?root:"neo")
       ],
      }
      return request(opts);

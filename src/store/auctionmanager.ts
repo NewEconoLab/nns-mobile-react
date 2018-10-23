@@ -10,11 +10,11 @@ class AuctionManager implements IAuctionListStore {
  @action public getAuctionInfoByAddress = async (address:string) => {
    let result:any = null;
    try {
-    result = await Api.getauctioninfobyaddress(address, 1, 100);    
+    result = await Api.getauctioninfobyaddress(address, 1, 100,'test');    
    }catch(e) {
      return false;
    }
-   const list:IAuction[] = result[0].list;
+   const list:IAuction[] = result?result[0].list:[];
    for (const auction of list) {
     if (auction.addwholist)
     {
@@ -37,6 +37,13 @@ class AuctionManager implements IAuctionListStore {
    sessionStorage.setItem(TABLE_CONFIG.auctionList,JSON.stringify(this.auctionList));
    return true;
  }
+
+ @action public addAuction(auction:IAuction)
+ {
+   this.auctionList[auction.auctionId] = auction;
+   sessionStorage.setItem(TABLE_CONFIG.auctionList,JSON.stringify(this.auctionList));
+ }
+
  @action public async updateAuctionList()
  {
    const ids: string[] = [];

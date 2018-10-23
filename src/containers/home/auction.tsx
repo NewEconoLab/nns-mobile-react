@@ -15,6 +15,10 @@ import { IHomeProps } from '@/containers/home/interface/home.interface';
 import { injectIntl } from 'react-intl'
 import { nnstools } from '@/utils/nnstools';
 import DomainSelling from '@/store/DomainSelling';
+import taskmanager from '@/store/taskmanager';
+import { Task, ConfirmType, TaskType } from '@/store/interface/taskmanager.interface';
+import auctionmanager from '@/store/auctionmanager';
+import { IAuction } from '@/store/interface/auction.interface';
 
 // 获取竞拍状态：getauctionstate 参数：域名
 @inject('common', 'home','myauction')
@@ -35,10 +39,20 @@ class Auction extends React.Component<IHomeProps>
   }
   public onStartAuction = async () => {
     const roothash = nnstools.nameHash("test");
-    nnstools.startAuciton(DomainSelling.RootNeo.register,roothash,this.props.home.inputModule.inputValue)
-    Alert(this.prop.message.successmsg, this.prop.message.waitmsg, this.prop.btn.confirm, function () {
-      alert('我点击了确认按钮')
-    });
+    const res = await nnstools.startAuciton(DomainSelling.RootNeo.register,roothash,this.props.home.inputModule.inputValue);
+    if(res['txid']){
+      const domain = this.props.home.inputModule.inputValue;
+      const auction  = {} as IAuction;
+      auction["auctionId"]= res["txid"];
+      auction["domain"] = this.props.home.inputModule.inputValue
+      auction["fulldomain"] = auction["domain"]+".test";
+      // auction["addWho"]
+      auctionmanager.addAuction(auction);
+      taskmanager.addTask(new Task(ConfirmType.contract,res['txid'],{ domain:auction["fulldomain"] }),TaskType.openAuction)
+      Alert(this.prop.message.successmsg, this.prop.message.waitmsg, this.prop.btn.confirm, function () {
+        return;
+      });
+    }
   }
   public onRaiseAuction = async () => 
   {

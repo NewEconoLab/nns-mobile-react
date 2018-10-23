@@ -14,7 +14,6 @@ export class CoinTool{
         try 
         {
             const utxos = await Api.getUtxo(common.address);   // 获得为使用的utxo
-            alert(JSON.stringify(utxos));
             if(!utxos)
             {
                 return {};

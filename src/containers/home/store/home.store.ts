@@ -81,7 +81,7 @@ class Home implements IHomeStore {
       this.isStatus = 0;
     }
     else
-    {      
+    {
       this.inputModule.message = this.messages.successmsg;
       this.inputModule.color = '';
       this.inputModule.status = 'success';
