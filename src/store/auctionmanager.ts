@@ -44,6 +44,9 @@ class AuctionManager implements IAuctionListStore {
    sessionStorage.setItem(TABLE_CONFIG.auctionList,JSON.stringify(this.auctionList));
  }
 
+ /**
+  * 这部分功能之后还要转移，现在是这个方法暂时在这里做更新操作
+  */
  @action public async updateAuctionList()
  {
    const ids: string[] = [];
@@ -52,23 +55,23 @@ class AuctionManager implements IAuctionListStore {
        const auction = this.auctionList[auctionId];
        if (auction.auctionState === AuctionState.end)
        {
-           if (auction.addWho)
+         if (auction.addWho)
+         {
+           if (auction.maxBuyer === auction.addWho.address)    // 未领取的域名需要更新
            {
-               if (auction.maxBuyer === auction.addWho.address)    // 未领取的域名需要更新
-               {
-                   if (!auction.addWho.getdomainTime)
-                   {
-                     ids.push(auction.auctionId);
-                   }
-               }
-               else                                      // 未退币的域名需要更新
-               {
-                   if (!auction.addWho.accountTime)
-                   {
-                     ids.push(auction.auctionId);
-                   }
-               }
-           }
+             if (!auction.addWho.getdomainTime)
+             {
+               ids.push(auction.auctionId);
+              }
+            }
+            else                                      // 未退币的域名需要更新
+            {
+              if (!auction.addWho.accountTime)
+              {
+                ids.push(auction.auctionId);
+              }
+            }
+          }
        }
        else                                          // 未结束的域名都需要更新
        {
@@ -76,34 +79,34 @@ class AuctionManager implements IAuctionListStore {
        }
      }
    }
-   
-   const result = await Api.getAuctionInfoByAucitonid(common.address, ids, ".test");
-   
-   if (result)
-   {
-     const list = result[ 0 ].list as IAuction[];
-      for (const auction of list) 
-      {        
-        if (auction.auctionState !== AuctionState.pass)
-        {
-            if (auction.addwholist)
-            {
-              for (const who of auction.addwholist) 
-              {
-                auction.addWho = who.address === common.address?who:{address:common.address,totalValue:0} as IAuctionAddress;
+   if(ids.length>0){  // 如果有需要更新的id 则进方法进行更新
+     console.log(ids.length);
+     const result = await Api.getAuctionInfoByAucitonid(common.address, ids, ".test");
+     if (result)
+     {
+       const list = result[ 0 ].list as IAuction[];
+       for (const auction of list)
+       {
+         if (auction.auctionState !== AuctionState.pass)
+         {
+           if (auction.addwholist)
+           {
+             for (const who of auction.addwholist)
+             {
+               auction.addWho = who.address === common.address?who:{address:common.address,totalValue:0} as IAuctionAddress;
               }
-            }            
+            }
             this.auctionList[ auction.auctionId ] = auction;
-        }
-        else
-        {
+          }
+          else
+          {
             delete this.auctionList[ auction.auctionId ];
+          }
         }
+        sessionStorage.setItem(TABLE_CONFIG.auctionList,JSON.stringify(this.auctionList));
       }
-      sessionStorage.setItem(TABLE_CONFIG.auctionList,JSON.stringify(this.auctionList));
-   }
- }
-
+    }
+  }
 }
 
 export default new AuctionManager();
