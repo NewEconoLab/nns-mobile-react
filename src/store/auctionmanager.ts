@@ -94,7 +94,8 @@ class AuctionManager implements IAuctionListStore {
        }
      }
    }
-   if(ids.length>0){  // 如果有需要更新的id 则进方法进行更新
+   if(ids.length>0)
+   {  // 如果有需要更新的id 则进方法进行更新
      console.log(ids.length);
      const result = await Api.getAuctionInfoByAucitonid(common.address, ids, ".test");
      if (result)

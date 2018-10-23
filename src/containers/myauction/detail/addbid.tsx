@@ -11,6 +11,8 @@ import DomainSelling from '@/store/DomainSelling';
 import { IAuction } from '@/store/interface/auction.interface';
 import { injectIntl } from 'react-intl'
 import Alert from '@/components/alert';
+import taskmanager from '@/store/taskmanager';
+import { Task, ConfirmType, TaskType } from '@/store/interface/taskmanager.interface';
 
 // 获取竞拍状态：getauctionstate 参数：域名
 @inject('common','myauction')
@@ -29,9 +31,10 @@ class Addbid extends React.Component<IAuctionAddbidProps>{
             const res = await nnstools.raise(auction.auctionId,this.props.myauction.myBid,DomainSelling.RootNeo.register);
             if(res)
             {
-              Alert(this.prop.message.successmsg, this.prop.message.waitmsg, this.prop.btn.confirm,  ()=>{
-                  return;
-              });
+                taskmanager.addTask(new Task(ConfirmType.contract,res['txid'],{ domain:auction["fulldomain"], amount: this.props.myauction.myBid }),TaskType.addPrice)
+                Alert(this.prop.message.successmsg, this.prop.message.waitmsg, this.prop.btn.confirm,  ()=>{
+                    return;
+                });
             }
           } catch (error) {
               console.log(error);

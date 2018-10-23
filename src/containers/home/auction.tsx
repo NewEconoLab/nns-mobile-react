@@ -18,7 +18,7 @@ import DomainSelling from '@/store/DomainSelling';
 import taskmanager from '@/store/taskmanager';
 import { Task, ConfirmType, TaskType } from '@/store/interface/taskmanager.interface';
 import auctionmanager from '@/store/auctionmanager';
-import { IAuction, IAuctionAddress } from '@/store/interface/auction.interface';
+import { IAuction, IAuctionAddress, AuctionState } from '@/store/interface/auction.interface';
 import common from '@/store/common';
 
 // 获取竞拍状态：getauctionstate 参数：域名
@@ -46,6 +46,7 @@ class Auction extends React.Component<IHomeProps>
       auction["auctionId"]= res["txid"];
       auction["domain"] = this.props.home.inputModule.inputValue
       auction["fulldomain"] = auction["domain"]+".test";
+      auction["auctionState"] = AuctionState.open;
       const who:IAuctionAddress={} as IAuctionAddress;
       who["address"]=common.address;
       who["totalValue"]=0;

@@ -127,7 +127,7 @@ class DomainDetail extends React.Component<IAuctionDetailProps>
         
         // todo 时间轴还没写，出价还没写
         let btn;
-        if(detail.auctionState===AuctionState.expire||detail.auctionState===AuctionState.fixed)
+        if(detail.auctionState===AuctionState.random||detail.auctionState===AuctionState.fixed)
         {
             btn = <Button type="primary"  onClick={this.onShowDialog} style={{borderRadius:'0'}} className="detail-btn">出价</Button>
         }
