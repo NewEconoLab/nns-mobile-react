@@ -37,6 +37,7 @@ class Addbid extends React.Component<IAuctionAddbidProps>{
               console.log(error);
               
           }
+          this.onClose();
       }
 
     public onClose = () => {

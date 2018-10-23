@@ -7,6 +7,16 @@ import { TABLE_CONFIG } from '@/config';
 class AuctionManager implements IAuctionListStore {
  @observable public auctionList:{[auctionId:string]:IAuction} = {};
  @observable public filterAuctionList:{[auctionId:string]:IAuction} = {};
+ @action public initFilterAuctionList = () => {
+  const sessionAutionList = sessionStorage.getItem(TABLE_CONFIG.auctionList);
+  if(sessionAutionList){
+    const auctionList = JSON.parse(sessionAutionList);
+   this.auctionList = auctionList;
+   this.filterAuctionList = auctionList;
+  }else {
+    this.getAuctionInfoByAddress(common.address);
+  }
+ }
  @action public getAuctionInfoByAddress = async (address:string) => {
    let result:any = null;
    try {
@@ -50,6 +60,11 @@ class AuctionManager implements IAuctionListStore {
  @action public async updateAuctionList()
  {
    const ids: string[] = [];
+   // 因为 用 filterAuctionList 存储 帅选后的状态，这里判断下，更新actionList 的时候，同步更新filterAuctionList
+   let isFilter = true;
+   if(Object.keys(this.auctionList).length === Object.keys(this.filterAuctionList).length) {
+    isFilter = false;
+   }
    for (const auctionId in this.auctionList) {
      if (this.auctionList.hasOwnProperty(auctionId)) {
        const auction = this.auctionList[auctionId];
@@ -105,6 +120,11 @@ class AuctionManager implements IAuctionListStore {
         }
         sessionStorage.setItem(TABLE_CONFIG.auctionList,JSON.stringify(this.auctionList));
       }
+    }
+
+    // 同步更新filterAuctionList
+    if(!isFilter) {
+      this.filterAuctionList = this.auctionList;
     }
   }
 }

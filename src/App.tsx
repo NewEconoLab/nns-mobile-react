@@ -9,6 +9,7 @@ import Layout from './containers/layout/index';
 import routes from './routers';
 import store from "./store";
 import commonStore from './store/common';
+import auctionmanagerStore from './store/auctionmanager';
 import { en_US, zh_CN } from '@/language';
 // import o3tools from '@/utils/o3tools';
 import DomainSelling from './store/DomainSelling';
@@ -28,6 +29,7 @@ addLocaleData([...en, ...zh]);
 //   if (res) {
     commonStore.getregisteraddressbalance();
     commonStore.getnep5balanceofaddress();
+    auctionmanagerStore.initFilterAuctionList();
     DomainSelling.initRoot();
     TaskTool.start();
 //     console.log("Address:   "+commonStore.address );

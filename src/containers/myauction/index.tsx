@@ -5,13 +5,16 @@ import * as React from 'react';
 import { SearchBar, Modal, Button } from 'antd-mobile';
 import TitleText from '@/components/titletext';
 import MyAuctionList from './auctionlist';
-import { IAuctionProps } from './interface/index.interface';
+import { IAuctionProps, IAuctionState } from './interface/index.interface';
 import { inject, observer } from 'mobx-react';
 import { AuctionState } from '@/store/interface/auction.interface';
 @inject('common', 'myauction', 'auctionmanager')
 @observer
-export default class MyAuction extends React.Component<IAuctionProps>
+export default class MyAuction extends React.Component<IAuctionProps, IAuctionState>
 {
+  public state = {
+    searchValue: ''
+  }
   // 显示选项框
   public showModal = (e) => {
     e.preventDefault(); // 修复 Android 上点击穿透
@@ -41,13 +44,13 @@ export default class MyAuction extends React.Component<IAuctionProps>
 
     const list = this.props.auctionmanager.auctionList;
     let newList = {};
-    let keysArr:string[] = [];
- 
-    if(this.props.myauction.statusValue.toString() === "0") {
+    let keysArr: string[] = [];
+
+    if (this.props.myauction.statusValue.toString() === "0") {
       this.props.auctionmanager.filterAuctionList = list;
-    }else {
-      keysArr = Object.keys(this.props.auctionmanager.auctionList).filter((keys:string) => {
-        if(list[keys].auctionState === this.props.myauction.statusValue) {
+    } else {
+      keysArr = Object.keys(this.props.auctionmanager.auctionList).filter((keys: string) => {
+        if (list[keys].auctionState === this.props.myauction.statusValue) {
           return true;
         }
 
@@ -60,15 +63,15 @@ export default class MyAuction extends React.Component<IAuctionProps>
       this.props.auctionmanager.filterAuctionList = newList;
     }
 
-    if(this.props.myauction.peopleValue.toString() !== "0") {
-      keysArr = Object.keys(this.props.auctionmanager.filterAuctionList).filter((keys:string) => {
-        if(this.props.myauction.peopleValue.toString() === "1") {
-          if(this.props.auctionmanager.filterAuctionList[keys].maxBuyer === this.props.common.address) {
+    if (this.props.myauction.peopleValue.toString() !== "0") {
+      keysArr = Object.keys(this.props.auctionmanager.filterAuctionList).filter((keys: string) => {
+        if (this.props.myauction.peopleValue.toString() === "1") {
+          if (this.props.auctionmanager.filterAuctionList[keys].maxBuyer === this.props.common.address) {
             return true;
           }
           return false;
-        }else {
-          if(this.props.auctionmanager.filterAuctionList[keys].maxBuyer !== this.props.common.address) {
+        } else {
+          if (this.props.auctionmanager.filterAuctionList[keys].maxBuyer !== this.props.common.address) {
             return true;
           }
           return false;
@@ -80,16 +83,44 @@ export default class MyAuction extends React.Component<IAuctionProps>
       keysArr.forEach((keys) => {
         newList[keys] = list[keys];
       })
+      this.setState({
+        searchValue: ''
+      })
       this.props.auctionmanager.filterAuctionList = newList;
     }
 
+  }
+  public onSearchChange = (value: string) => {
+    this.setState({
+      searchValue: value
+    })
+    const list = this.props.auctionmanager.auctionList;
+    const newList = {};
+    const keysArr: string[] = Object.keys(list);
+    keysArr.forEach((key: string, index: number) => {
+      if (list[key].domain.indexOf(value) !== -1) {
+        newList[key] = list[key];
+      }
+    })
+
+    if (this.props.myauction.statusValue !== "0") {
+      this.props.myauction.statusValue = "0";
+      this.props.myauction.peopleValue = "0";
+      this.props.myauction.clickStatus = "0";
+      this.props.myauction.clickPeople = "0";
+    }
+    this.props.auctionmanager.filterAuctionList = newList;
   }
   public render() {
     const srcImg = (this.props.myauction.statusValue === '0' && this.props.myauction.peopleValue === '0') ? require('@/img/noselect.png') : require('@/img/yesselect.png');
     return (
       <div>
         <div className="search-box">
-          <SearchBar placeholder="按域名查找" style={{ "width": "85%" }} />
+          <SearchBar
+            placeholder="按域名查找"
+            style={{ "width": "85%" }}
+            value={this.state.searchValue}
+            onChange={this.onSearchChange} />
           <div className="select-icon" onClick={this.showModal}>
             <img src={srcImg} alt="" />
           </div>

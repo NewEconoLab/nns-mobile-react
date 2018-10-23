@@ -18,6 +18,11 @@ export interface IProps extends RouteComponentProps{
 //   auctionState:string, // 状态
 // } 
 
+export interface IAuctionState {
+  searchValue:string
+}
+
+
 export interface IAuctionProps extends RouteComponentProps{
   auctionmanager:IAuctionListStore,
   common:ICommonStore,

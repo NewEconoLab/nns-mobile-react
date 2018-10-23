@@ -32,6 +32,7 @@ class DomainDetail extends React.Component<IAuctionDetailProps>
     }
     public onShowDialog = () => {
         this.props.myauction.showDialog = true;
+        this.props.myauction.myBid = '';
     }
     
     /**
