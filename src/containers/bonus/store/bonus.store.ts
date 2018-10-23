@@ -1,6 +1,7 @@
 import {observable, action} from 'mobx';
 import {IBonusStore, IBonusList} from '../interface/index.interface';
 import * as Api from '../api/bonus.api';
+import common from '@/store/common';
 
 class Bonus implements IBonusStore {
   @observable public bonusList:IBonusList[] = [];
@@ -8,7 +9,7 @@ class Bonus implements IBonusStore {
   @action public async getBonusListByAddress() {
     let result:any = [];
     try {
-      result = await Api.getBonusListByAddress("ATBTRWX8v8teMHCvPXovir3Hy92RPnwdEi",1,10);
+      result = await Api.getBonusListByAddress(common.address,1,10);
     }catch(e) {
       console.log(e)
       return false;

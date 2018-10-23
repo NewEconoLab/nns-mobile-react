@@ -16,7 +16,6 @@ export default class Bonus extends React.Component<IBonusProps, any>
 {
   public async componentDidMount() {
     await this.props.bonus.getBonusListByAddress();
-    console.log(this.props.bonus.bonusList)
   }
   
   public render()
