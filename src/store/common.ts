@@ -5,7 +5,7 @@ import { observable, action } from 'mobx';
 class Common{
   @observable public title:string = ''; // 标题
   @observable public language:string = 'zh';  // 当前语言
-  @observable public address:string = ''; // 当前地址
+  @observable public address:string = 'AeDbQBwD9sDMyLV7RgHBQEFTiHctgFHtF4'; // 当前地址
   @observable public publicKey:string='';
   @observable public network:string = 'testnet';  // 当前网络
   @observable public accountBalance:string = '';    // 账户中的cgas

@@ -10,7 +10,7 @@ import routes from './routers';
 import store from "./store";
 import commonStore from './store/common';
 import { en_US, zh_CN } from '@/language';
-import o3tools from '@/utils/o3tools';
+// import o3tools from '@/utils/o3tools';
 import DomainSelling from './store/DomainSelling';
 import { TaskTool } from './utils/tasktools';
 addLocaleData([...en, ...zh]);
@@ -24,19 +24,19 @@ addLocaleData([...en, ...zh]);
 // }, 6000)
 
 // 初始化请求
-o3tools.init(res => {
-  if (res) {
+// o3tools.init(res => {
+//   if (res) {
     commonStore.getregisteraddressbalance();
     commonStore.getnep5balanceofaddress();
     DomainSelling.initRoot();
     TaskTool.start();
-    console.log("Address:   "+commonStore.address );
+//     console.log("Address:   "+commonStore.address );
     
-    return true
-  } else {
-    return false
-  }
-});
+//     return true
+//   } else {
+//     return false
+//   }
+// });
 
 
 // 初始化鼠标随机方法

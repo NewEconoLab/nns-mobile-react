@@ -68,6 +68,29 @@ export class CoinTool{
         return tran;
     }
 
+    /**
+     * 构造并发送交易
+     * @param {ThinNeo.Transaction} tran 
+     * @param {string} randomStr
+     */
+    public static signData(msg: Uint8Array)
+    {
+        try
+        {
+            const WIF = "KyKtTeuYN41h3z6T3rzrqGYZXturhsDAazjvUFzntjuXpCTzrhNc";
+            const prekey = ThinNeo.Helper.GetPrivateKeyFromWIF(WIF);
+            const pubkey = ThinNeo.Helper.GetPublicKeyFromPrivateKey(prekey)
+            const addr = ThinNeo.Helper.GetAddressFromPublicKey(pubkey);
+            common.address = addr;
+            const signdata = ThinNeo.Helper.Sign(msg, prekey);
+            return signdata;
+        } catch (error)
+        {
+            throw new Error("Signature interrupt");
+        }
+
+    }
+
     
 
 }

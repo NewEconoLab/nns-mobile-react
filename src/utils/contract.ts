@@ -1,9 +1,9 @@
 import { CoinTool } from "./cointools";
 import { HASH_CONFIG, WALLET_CONFIG } from "@/config";
 import { Transaction } from "./transaction";
-import o3tools from './o3tools'
+// import o3tools from './o3tools'
 import common from '@/store/common'
-import alert from "@/components/alert";
+// import alert from "@/components/alert";
 
 export class Contract
 {
@@ -57,18 +57,26 @@ export class Contract
       tran.creatInuptAndOutup(gass, WALLET_CONFIG.netfee)
     }
     const msg = tran.GetMessage().clone();
-    const promise:Promise<Uint8Array> = new Promise((resolve, reject) =>{
-      o3tools.sign(msg.toHexString(),res =>{        
-        tran.AddWitness((res as string).hexToBytes(),common.publicKey.hexToBytes(), common.address);
-        try {
-          const data: Uint8Array = tran.GetRawData();   
-          resolve(data);
-        } catch (error) {
-          reject(error);
-        }        
-      })
-    })
-    return promise;
+    const WIF = "KyKtTeuYN41h3z6T3rzrqGYZXturhsDAazjvUFzntjuXpCTzrhNc";
+    const prekey = ThinNeo.Helper.GetPrivateKeyFromWIF(WIF);
+    const pubkey = ThinNeo.Helper.GetPublicKeyFromPrivateKey(prekey)
+    const addr = ThinNeo.Helper.GetAddressFromPublicKey(pubkey);
+    const signdata = ThinNeo.Helper.Sign(msg, prekey);
+    tran.AddWitness(signdata, pubkey, addr);
+    const data: Uint8Array = tran.GetRawData();
+    return data;
+    // const promise:Promise<Uint8Array> = new Promise((resolve, reject) =>{
+    //   o3tools.sign(msg.toHexString(),res =>{        
+    //     tran.AddWitness((res as string).hexToBytes(),common.publicKey.hexToBytes(), common.address);
+    //     try {
+    //       const data: Uint8Array = tran.GetRawData();   
+    //       resolve(data);
+    //     } catch (error) {
+    //       reject(error);
+    //     }        
+    //   })
+    // })
+    // return promise;
   }
     
   /**
@@ -83,23 +91,34 @@ export class Contract
     if (gass) {
       tran.creatInuptAndOutup(gass, WALLET_CONFIG.netfee)
     }
-    const msg = tran.GetMessage().clone();
-    const promise = new Promise((resolve, reject) =>{
-      o3tools.sign(msg.toHexString(),res =>{        
-        tran.AddWitness((res as string).hexToBytes(),common.publicKey.hexToBytes(), common.address);
-        const data: Uint8Array = tran.GetRawData();   
-        common.sendrawtransaction(data.toHexString())
-        .then(value=>{
-          alert("tranHex",JSON.stringify(data.toHexString()),"确定",()=>{
-            return true;
-          })
-          resolve(value)
-        })
-        .catch(error=>{
-          reject(error)
-        })
-      })
-    })
-    return promise;
+    
+    const WIF = "KyKtTeuYN41h3z6T3rzrqGYZXturhsDAazjvUFzntjuXpCTzrhNc";
+    const prekey = ThinNeo.Helper.GetPrivateKeyFromWIF(WIF);
+    const pubkey = ThinNeo.Helper.GetPublicKeyFromPrivateKey(prekey)
+    const addr = ThinNeo.Helper.GetAddressFromPublicKey(pubkey);
+    const signdata = ThinNeo.Helper.Sign(tran.GetMessage().clone(), prekey);
+    tran.AddWitness(signdata, pubkey, addr);
+    const data: Uint8Array = tran.GetRawData();
+    const res = await common.sendrawtransaction(data.toHexString())
+    return res;
+    // const msg = tran.GetMessage().clone();
+    // const promise = new Promise((resolve, reject) =>{      
+      
+      // o3tools.sign(msg.toHexString(),res =>{        
+      //   tran.AddWitness((res as string).hexToBytes(),common.publicKey.hexToBytes(), common.address);
+      //   const data: Uint8Array = tran.GetRawData();   
+      //   common.sendrawtransaction(data.toHexString())
+      //   .then(value=>{
+      //     alert("tranHex",JSON.stringify(data.toHexString()),"确定",()=>{
+      //       return true;
+      //     })
+      //     resolve(value)
+      //   })
+      //   .catch(error=>{
+      //     reject(error)
+      //   })
+      // })
+    // })
+    // return promise;
   }
 }
