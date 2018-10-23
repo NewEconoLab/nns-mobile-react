@@ -27,6 +27,7 @@ export interface IAuctionProps extends RouteComponentProps{
 export interface IAuctionAddbidProps extends RouteComponentProps{
   common:ICommonStore,
   myauction:IMyAuctionStore
+  intl:any
 }
 
 export interface IMyAuctionStore {

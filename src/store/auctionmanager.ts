@@ -18,10 +18,14 @@ class AuctionManager implements IAuctionListStore {
    for (const auction of list) {
     if (auction.addwholist)
     {
-      for (const who of auction.addwholist) 
+      let who:any;
+      for (const addinfo of auction.addwholist) 
       {
-        auction.addWho = who.address === common.address?who:{address:common.address,totalValue:0} as IAuctionAddress;
+        who = addinfo.address === common.address?addinfo:undefined;
       }
+      auction.addWho = who?who:{address:common.address,totalValue:0}
+      console.log("who: "+auction.addWho);
+      
     }else
     {
       auction.addWho = {address:common.address,totalValue:0} as IAuctionAddress
@@ -66,7 +70,7 @@ class AuctionManager implements IAuctionListStore {
      }
    }
    
-   const result = await Api.getAuctionInfoByAucitonid(common.address, ids, ".neo");
+   const result = await Api.getAuctionInfoByAucitonid(common.address, ids, ".test");
    
    if (result)
    {

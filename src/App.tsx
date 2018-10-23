@@ -26,18 +26,18 @@ addLocaleData([...en, ...zh]);
 // 初始化请求
 o3tools.init(res => {
   if (res) {
-    commonStore.getregisteraddressbalance()
-    commonStore.getnep5balanceofaddress();
     commonStore.getregisteraddressbalance();
+    commonStore.getnep5balanceofaddress();
+    DomainSelling.initRoot();
+    TaskTool.start();
+    console.log("Address:   "+commonStore.address );
+    
     return true
   } else {
     return false
   }
 });
 
-DomainSelling.initRoot();
-TaskTool.start();
-// coin.initUtxos();
 
 // 初始化鼠标随机方法
 Neo.Cryptography.RandomNumberGenerator.startCollectors();

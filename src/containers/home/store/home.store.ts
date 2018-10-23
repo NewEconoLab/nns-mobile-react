@@ -1,7 +1,8 @@
 import { observable, autorun, action } from 'mobx';
 import { IHomeStore, InputModule, IMessages } from '../interface/home.interface';
 import * as Api from '../api/home.api';
-import { IAuction } from '@/store/interface/auction.interface';
+import { IAuction, IAuctionAddress } from '@/store/interface/auction.interface';
+import common from '@/store/common';
 class Home implements IHomeStore {
   @observable public inputModule: InputModule = {
     inputValue: "",
@@ -43,7 +44,7 @@ class Home implements IHomeStore {
   @action public async getAuctionState() {
     let result: any = null;
     try {
-      result = await Api.getdomainauctioninfo(this.inputModule.inputValue?this.inputModule.inputValue+".neo":"");
+      result = await Api.getdomainauctioninfo(this.inputModule.inputValue?this.inputModule.inputValue+".test":"");
       if(!result)
       {
         this.inputModule.message = this.messages.successmsg;
@@ -70,6 +71,7 @@ class Home implements IHomeStore {
       this.inputModule.color = '';
       this.inputModule.status = 'success';
       this.isStatus = 2;
+      this.auctionInfo.addWho = this.auctionInfo.addWho?this.auctionInfo.addWho:{address:common.address,totalValue:0} as IAuctionAddress
     }
     else if(this.auctionInfo.auctionState==='0401')
     {
