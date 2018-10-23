@@ -5,7 +5,7 @@ import { TABLE_CONFIG } from "@/config";
 class TaskManager implements ITaskmanager
 {
     // 任务列表
-    @observable public taskList: { [type: number]: Task };    
+    @observable public taskList: { [type: number]: Task }={};    
 
     constructor()
     {
@@ -15,7 +15,8 @@ class TaskManager implements ITaskmanager
 
     @action public addTask (task: Task, type: TaskType)
     {
-        this.taskList[type]=task;
+        this.taskList[type]=this.taskList[type]?this.taskList[type]:{} as Task;
+        this.taskList[type][task.txid] = task;
         sessionStorage.setItem(TABLE_CONFIG.taskList,JSON.stringify(this.taskList));
     }
    
