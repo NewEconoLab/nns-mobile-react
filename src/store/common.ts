@@ -48,9 +48,7 @@ class Common{
       this.accountBalance = '0';
       return false;
     }
-    console.log(result);
     this.accountBalance = Neo.Fixed8.parse(result[0].balance).toString();
-    console.log(this.accountBalance)
     return true;
   }
 

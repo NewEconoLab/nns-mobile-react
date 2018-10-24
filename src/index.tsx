@@ -9,12 +9,12 @@ import zh_CN from 'antd/lib/locale-provider/zh_CN';
 import en_US from 'antd/lib/locale-provider/en_US';
 import { LocaleProvider } from 'antd';
 import storeCommon from '@/store/common';
-import VConsole from 'vconsole';
+// import VConsole from 'vconsole';
 
 if (process.env.NODE_ENV === "development") {
 
-  const Vconsole = new VConsole();
-  console.log(Vconsole);
+  // const Vconsole = new VConsole();
+  // console.log(Vconsole);
 
   ReactDOM.render(
     <AppContainer>

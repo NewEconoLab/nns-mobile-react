@@ -25,6 +25,7 @@ export class MarkUtxo
                 session[utxo.txid].push(utxo.n);
             }
         }
+        sessionStorage.setItem(TABLE_CONFIG.utxoMark,JSON.stringify(session));
     }
 
     /**

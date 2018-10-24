@@ -5,7 +5,7 @@ export const getdomainbyaddress = (address:string)=>{
     method:"getdomainbyaddress",
     params:[
       address,
-      ".neo"
+      ".test"
     ]
   }
   return request(opts);

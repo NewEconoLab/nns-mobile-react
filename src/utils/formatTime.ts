@@ -14,7 +14,6 @@ export const format = function (fmt: string, dateNumber:string, locale:string) {
 
   const dateTimer = formatUnixTime(dateNumber.toString());
   const dateObj = new Date(dateTimer);
-  console.log(dateTimer)
   // 如果是英文
   if(locale === 'en') {
     return new Date(dateTimer).toUTCString();

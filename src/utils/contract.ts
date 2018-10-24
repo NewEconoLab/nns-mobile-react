@@ -30,7 +30,7 @@ export class Contract
      * @param method 方法名
      * @param param 参数
      */
-    public static buildScript_random(appCall: Neo.Uint160, method: string, param: string[]): ThinNeo.ScriptBuilder
+    public static buildScript_random(appCall: Neo.Uint160|Uint8Array, method: string, param: string[]): ThinNeo.ScriptBuilder
     {
         const sb = new ThinNeo.ScriptBuilder();
         // 生成随机数
@@ -51,7 +51,7 @@ export class Contract
    */
   public static async buildInvokeTrans_attributes(script: Uint8Array) {
     const utxos = await CoinTool.getAssets()
-    const gass = utxos[HASH_CONFIG.id_GAS];
+    const gass = utxos[HASH_CONFIG.ID_GAS];
     const tran: Transaction = new Transaction()
     tran.setScript(script)
     if (gass) {
@@ -87,7 +87,7 @@ export class Contract
    */
   public static async contractInvokeTrans_attributes(script: Uint8Array) {
     const utxos = await CoinTool.getAssets()
-    const gass = utxos[HASH_CONFIG.id_GAS];
+    const gass = utxos[HASH_CONFIG.ID_GAS];
     const tran: Transaction = new Transaction()
     tran.setScript(script)
     if (gass) {

@@ -7,7 +7,7 @@ export const getnep5balanceofaddress =  (address:string) => {
   const opts = {
    method:'getnep5balanceofaddress',
    params:[
-    HASH_CONFIG.id_CGAS.toString(),
+    HASH_CONFIG.ID_CGAS.toString(),
     address
    ],
    baseUrl:'common'

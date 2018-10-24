@@ -138,7 +138,7 @@ export default class MyAuction extends React.Component<IAuctionProps, IAuctionSt
     return (
       <div>
         {
-          !!!this.props.auctionmanager.auctionList &&
+          !!!Object.keys(this.props.auctionmanager.auctionList) &&
           <div className="nodata-page">
             <div className="nodata-wrap">
               <ActivityIndicator animating={true} />

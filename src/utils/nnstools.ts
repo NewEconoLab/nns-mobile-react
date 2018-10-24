@@ -67,7 +67,7 @@ export class nnstools{
         const address = common.address;
         const count = Neo.Fixed8.parse(amount).getData().toNumber();
         const sb = Contract.buildScript_random(
-            HASH_CONFIG.id_CGAS,
+            HASH_CONFIG.ID_CGAS,
             "transfer",
             [
                 "(addr)" + address,// from
@@ -182,6 +182,63 @@ export class nnstools{
         return res;
     }
 
+    /**
+     * 生成解析器
+     * @param protocol 
+     * @param nnshash 
+     * @param scriptaddress 
+     */
+    public static async setResolve(domain: string, resolver: string)
+    {
+        const hash = ThinNeo.Helper.GetPublicKeyScriptHash_FromAddress(common.address);
+        const hashstr = hash.reverse().toHexString();
+        const arr = domain.split(".");
+        const nnshash: Neo.Uint256 = this.nameHashArray(arr);
+        /**
+         * 构造 owner_SetResolver script
+         * 
+         */
+        const sb = Contract.buildScript_random(
+            HASH_CONFIG.baseContract,
+            "owner_SetResolver",
+            [
+                "(hex160)" + hashstr,
+                "(hex256)" + nnshash.toString(),
+                "(hex160)" + resolver
+            ]
+        );
+        const res = await Contract.contractInvokeTrans_attributes(sb.ToArray());
+        return res;
+    }
+
+    /**
+     * 设置解析器映射地址
+     * @param domain 域名
+     * @param str 映射内容
+     * @param resolve 解析器
+     */
+    public static async setResolveData(domain: string, str: string, resolve: string)
+    {
+        const hash = ThinNeo.Helper.GetPublicKeyScriptHash_FromAddress(common.address)
+        const hashstr = hash.reverse().toHexString();
+        const arr = domain.split(".");
+        const nnshash: Neo.Uint256 = this.nameHashArray(arr);
+        const scriptaddress = resolve.hexToBytes();
+
+        const sb = Contract.buildScript_random(
+            scriptaddress.reverse(),
+            "setResolverData",
+            [
+                "(hex160)" + hashstr,
+                "(hex256)" + nnshash.toString(),
+                "(str)",
+                "(str)addr",
+                "(str)" + str
+            ]
+        );
+        const res = await Contract.contractInvokeTrans_attributes(sb.ToArray());
+        return res;
+    }
     
     /**
      * Gas兑换CGas
@@ -190,14 +247,14 @@ export class nnstools{
     public async exchangeCGas(count: number)
     {
         // 获得登陆信息
-        const script = Contract.buildScript(HASH_CONFIG.id_CGAS, "mintTokens", []);
+        const script = Contract.buildScript(HASH_CONFIG.ID_CGAS, "mintTokens", []);
         // 获得sgas的合约地址
-        const cgasaddr = ThinNeo.Helper.GetAddressFromScriptHash(HASH_CONFIG.id_CGAS);
+        const cgasaddr = ThinNeo.Helper.GetAddressFromScriptHash(HASH_CONFIG.ID_CGAS);
         try
         {
             const utxos = await CoinTool.getAssets();
             const tran = new Transaction(); // 创建交易体
-            tran.creatInuptAndOutup(utxos[HASH_CONFIG.id_GAS],Neo.Fixed8.fromNumber(count),cgasaddr); // 给交易体塞入输入输出 (这个我没给你弄手续费)
+            tran.creatInuptAndOutup(utxos[HASH_CONFIG.ID_GAS],Neo.Fixed8.fromNumber(count),cgasaddr); // 给交易体塞入输入输出 (这个我没给你弄手续费)
             if (tran.inputs.length + tran.outputs.length > 60)
             {
                 throw new Error("Don't have enough change")

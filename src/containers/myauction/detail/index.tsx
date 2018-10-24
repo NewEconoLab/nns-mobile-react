@@ -121,9 +121,6 @@ class DomainDetail extends React.Component<IAuctionDetailProps>
     public render()
     {
         const detail =(this.props.myauction.detail as IAuction);
-        console.log("detail-----------");
-        
-        console.log(detail);
         
         // todo 时间轴还没写，出价还没写
         let btn;
