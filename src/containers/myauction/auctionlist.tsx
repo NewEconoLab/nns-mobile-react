@@ -60,9 +60,6 @@ class MyAuctionList extends React.Component<IAuctionListProps>
 	}
 	public render() {
 		const item = this.props.item;
-		console.log("列表页");
-
-		console.log(item);
 		return (
 			<div className="myauction-wrap box-wrap">
 				<TitleText text="竞拍域名">

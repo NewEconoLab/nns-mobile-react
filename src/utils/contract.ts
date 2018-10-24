@@ -3,6 +3,7 @@ import { HASH_CONFIG, WALLET_CONFIG } from "@/config";
 import { Transaction } from "./transaction";
 // import o3tools from './o3tools'
 import common from '@/store/common'
+import { MarkUtxo } from "@/session/oldutxo";
 // import alert from "@/components/alert";
 
 export class Contract
@@ -64,6 +65,7 @@ export class Contract
     const signdata = ThinNeo.Helper.Sign(msg, prekey);
     tran.AddWitness(signdata, pubkey, addr);
     const data: Uint8Array = tran.GetRawData();
+    MarkUtxo.setMark(tran.marks);
     return data;
     // const promise:Promise<Uint8Array> = new Promise((resolve, reject) =>{
     //   o3tools.sign(msg.toHexString(),res =>{        
@@ -91,7 +93,6 @@ export class Contract
     if (gass) {
       tran.creatInuptAndOutup(gass, WALLET_CONFIG.netfee)
     }
-    
     const WIF = "KyKtTeuYN41h3z6T3rzrqGYZXturhsDAazjvUFzntjuXpCTzrhNc";
     const prekey = ThinNeo.Helper.GetPrivateKeyFromWIF(WIF);
     const pubkey = ThinNeo.Helper.GetPublicKeyFromPrivateKey(prekey)
@@ -100,6 +101,7 @@ export class Contract
     tran.AddWitness(signdata, pubkey, addr);
     const data: Uint8Array = tran.GetRawData();
     const res = await common.sendrawtransaction(data.toHexString())
+    MarkUtxo.setMark(tran.marks);
     return res;
     // const msg = tran.GetMessage().clone();
     // const promise = new Promise((resolve, reject) =>{      

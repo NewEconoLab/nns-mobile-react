@@ -6,8 +6,9 @@ import TitleText from '@/components/titletext';
 import Hint from '@/components/hint';
 import { IAuctionDetailProps } from '../interface/index.interface';
 import * as formatTime from 'utils/formatTime';
-import { AuctionState } from '@/store/interface/auction.interface';
+import { AuctionState, IAuctionAddress } from '@/store/interface/auction.interface';
 import '../index.less'
+import common from '@/store/common';
 export default class Detail extends React.Component<IAuctionDetailProps>
 {
 	public bidder = () => {
@@ -24,6 +25,14 @@ export default class Detail extends React.Component<IAuctionDetailProps>
 		const detail = this.props.myauction.detail;
 		if (!detail) {
 			return null;
+		}
+		if(!detail.addWho)
+		{
+			detail.addWho={} as IAuctionAddress;
+			detail.addWho["address"]=common.address;
+			detail.addWho["totalValue"]=0;
+		}else{
+			detail.addWho.totalValue=detail.addWho.totalValue?detail.addWho.totalValue:0;
 		}
 		return (
 			<React.Fragment>
