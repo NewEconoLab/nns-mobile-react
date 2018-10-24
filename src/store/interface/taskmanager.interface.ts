@@ -71,9 +71,14 @@ export enum TaskType
     tranfer,// 交易确认 需要签名的任务，涉及资产变动
 }
 
-export interface ITaskmanager 
+export interface ITaskmanagerStore 
 {
-    taskList:{[type:string]:Task};
+    taskList:{[type:string]:{[txid:string]:Task}};
     update:()=>void;
     addTask:(task: Task, type: TaskType)=>void;
 }   
+
+
+export interface ITaskmanagerTypeList {
+    [txid:string]:Task
+}

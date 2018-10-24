@@ -1,11 +1,11 @@
-import { ITaskmanager, Task, TaskType } from "@/store/interface/taskmanager.interface";
+import { ITaskmanagerStore, Task, TaskType } from "@/store/interface/taskmanager.interface";
 import { observable, action } from 'mobx';
 import { TABLE_CONFIG } from "@/config";
 
-class TaskManager implements ITaskmanager
+class TaskManager implements ITaskmanagerStore
 {
     // 任务列表
-    @observable public taskList: { [type: number]: Task }={};    
+    @observable public taskList: { [type: number]: {[txid:string]:Task} }={};    
 
     constructor()
     {
@@ -15,7 +15,7 @@ class TaskManager implements ITaskmanager
 
     @action public addTask (task: Task, type: TaskType)
     {
-        this.taskList[type]=this.taskList[type]?this.taskList[type]:{} as Task;
+        this.taskList[type]=this.taskList[type]?this.taskList[type]:{};
         this.taskList[type][task.txid] = task;
         sessionStorage.setItem(TABLE_CONFIG.taskList,JSON.stringify(this.taskList));
     }
