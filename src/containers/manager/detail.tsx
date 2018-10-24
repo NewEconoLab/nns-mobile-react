@@ -38,13 +38,12 @@ class DomainMap extends React.Component<IProps, IState>
 		}
 	}
 	public dateComputed = (time: string) => {
-		if (new Date().getTime() > formatTime.formatUnixTime(time)) {
-			this.setState({ timelater: 1 })
-			return <span className="text-red">（已过期）</span>;
-		}
-
 		if (formatTime.formatUnixTime(time) - new Date().getTime() <= (86400000 * 60)) {
 			return <span className="text-orange">（即将过期）</span>;
+		}
+
+		if (new Date().getTime() > formatTime.formatUnixTime(time)) {
+			return <span className="text-red">（已过期）</span>;
 		}
 
 		return <span />;
