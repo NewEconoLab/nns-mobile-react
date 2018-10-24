@@ -69,7 +69,7 @@ class Auction extends React.Component<IHomeProps>
         <div className="auction-name">
           <Input
             placeholder=""
-            style={{ width: 300 }}
+            style={{ width: "3rem" }}
             status={this.props.home.inputModule.status}
             message={this.props.home.inputModule.message}
             value={this.props.home.inputModule.inputValue}

@@ -14,7 +14,7 @@ class manager implements IManagerStore {
     } catch (error) {
       return false;
     }
-    this.domainList = result;
+    this.domainList = result?result:[];
     return true;
   }
 }
