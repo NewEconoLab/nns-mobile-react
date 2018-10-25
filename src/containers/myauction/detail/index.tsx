@@ -47,8 +47,7 @@ class DomainDetail extends React.Component<IAuctionDetailProps>
             {
                 const txid = res[ "txid" ];
                 taskmanager.addTask(
-                    new Task(ConfirmType.tranfer, txid, { domain: this.detail.fulldomain, amount: this.detail.addWho.totalValue }),
-                    TaskType.recoverSgas
+                    new Task(TaskType.recoverCgas,ConfirmType.tranfer, txid, { domain: this.detail.fulldomain, amount: this.detail.addWho.totalValue })
                 );
                 Alert(this.prop.message.successmsg, this.prop.message.waitmsg, this.prop.btn.confirm, ()=>{ 
                     return;
@@ -60,10 +59,8 @@ class DomainDetail extends React.Component<IAuctionDetailProps>
     }
 
     public getDomain = async () =>
-    {
-        console.log(this.detail.addWho.accountTime);
-        
-        if(this.detail.addWho.accountTime && this.detail.addWho.accountTime.blockindex > 0)
+    {        
+        if(this.detail.endTime && this.detail.endTime.blockindex > 0)
         {
             try {
                 const data:Uint8Array = await nnstools.collectDomain(this.detail.auctionId,DomainSelling.RootNeo.register);
@@ -72,8 +69,7 @@ class DomainDetail extends React.Component<IAuctionDetailProps>
                 {
                     const txid = res[ "txid" ];
                     taskmanager.addTask(
-                        new Task(ConfirmType.contract, txid, { domain: this.detail.fulldomain, amount: this.detail.addWho.totalValue }),
-                        TaskType.getDomain
+                        new Task(TaskType.collectDomain,ConfirmType.contract, txid, { domain: this.detail.fulldomain, amount: this.detail.addWho.totalValue })
                     );
                     
                     Alert(this.prop.message.successmsg, this.prop.message.waitmsg, this.prop.btn.confirm, ()=>{ 
@@ -100,8 +96,7 @@ class DomainDetail extends React.Component<IAuctionDetailProps>
                     console.log("            txid:"+txid);
                     
                     taskmanager.addTask(
-                        new Task(ConfirmType.contract, txid, { domain: this.detail.fulldomain, amount: this.detail.addWho.totalValue }),
-                        TaskType.getDomain
+                        new Task(TaskType.collectDomain,ConfirmType.recharge, txid, { domain: this.detail.fulldomain, amount: this.detail.addWho.totalValue })
                     );
                     Alert(this.prop.message.successmsg, this.prop.message.waitmsg, this.prop.btn.confirm, ()=>{ 
                         return;

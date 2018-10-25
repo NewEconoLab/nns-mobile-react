@@ -52,7 +52,7 @@ class Auction extends React.Component<IHomeProps>
       who["totalValue"]=0;
       auction["addWho"] = who
       auctionmanager.addAuction(auction);
-      taskmanager.addTask(new Task(ConfirmType.contract,res['txid'],{ domain:auction["fulldomain"] }),TaskType.openAuction)
+      taskmanager.addTask(new Task(TaskType.startAuction,ConfirmType.contract,res['txid'],{ domain:auction["fulldomain"] }))
       Alert(this.prop.message.successmsg, this.prop.message.waitmsg, this.prop.btn.confirm, function () {
         return;
       });

@@ -239,6 +239,32 @@ export class nnstools{
         const res = await Contract.contractInvokeTrans_attributes(sb.ToArray());
         return res;
     }
+
+    
+    public static async renewDomain(domain: string, register: Neo.Uint160)
+    {
+        const who = new Neo.Uint160(ThinNeo.Helper.GetPublicKeyScriptHash_FromAddress(common.address).buffer as ArrayBuffer);
+        const domainarr = domain.split(".").reverse();
+        const str = domainarr[ 1 ];
+        const roothash = this.nameHash(domainarr[ 0 ]);
+        const sb = Contract.buildScript(
+            register,
+            "renewDomain", [
+                "(hex160)" + who.toString(),
+                "(hex256)" + roothash.toString(),
+                "(str)" + str
+            ]);
+        try
+        {
+            const res = await Contract.contractInvokeTrans_attributes(sb.ToArray());
+            return res;
+        } catch (error)
+        {
+            throw error;
+            
+        }
+
+    }
     
     /**
      * Gas兑换CGas

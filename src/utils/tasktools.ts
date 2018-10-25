@@ -33,33 +33,37 @@ export class TaskTool
      * 循环得到任务返回的结果
      * @param tasks 任务类
      */
-    public static async getResult(tasks: Task[]):Promise<{[txid:string]:any}>
+    public static getResult = async (tasks: Task[]):Promise<{[txid:string]:any}>=>
     {
-        const ress = {};
-
-        for (const task of tasks) {            
-            if (task.state === TaskState.watting) // 判断如果状态是 watting 则查找对应的返回值
+        const ress:{[txid:string]:any} = {};   
+        
+        console.time('showColumnInfo')
+        let n = 0;
+        while (n<tasks.length) {
+            const task = tasks[n];            
+            if (task.state === TaskState.watting) // 判断如果状态是 watting 则查找对应的返回值 
             {
-                switch (task.type)
+                if(task.confirmType===ConfirmType.tranfer)
                 {
-                    case ConfirmType.tranfer:
-                        ress[ task.txid ] = await Api.hasTx(task.txid)[0];
-                        break;
-                    case ConfirmType.contract:
-                        ress[ task.txid ] = await Api.hasContract(task.txid)[0];
-                        break;
-                    case ConfirmType.recharge:
-                        ress[ task.txid ] = await Api.getRehargeAndTransfer(task.txid)[0];
-                        break;
-                    default:
-                        ress[ task.txid ] = await Api.hasTx(task.txid)[0];
-                        break;
+                    ress[task.txid] = await Api.hasTx(task.txid)[0];
+                }
+                
+                if(task.confirmType===ConfirmType.contract)
+                {
+                    ress[task.txid] = await Api.hasContract(task.txid)[0];  
+                }
+                
+                if(task.confirmType===ConfirmType.recharge)
+                {
+                    ress[task.txid] = await Api.getRehargeAndTransfer(task.txid)[0];
                 }
             } else  // 如果状态是 成功或者失败就没必要调用api查询返回结果了
             {
                 ress[ task.txid ] = undefined;
-            }
+            }   
+            n++;
         }
+        console.timeEnd('showColumnInfo') // 4757.181ms
         return ress;
     }
 

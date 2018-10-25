@@ -6,7 +6,7 @@ import { observer, inject } from 'mobx-react';
 import RecordList from './recordlist'
 import './index.less'
 import { IRecordProps, IRecordState } from './interface/record.interface';
-import { ITaskmanagerTypeList, Task } from '@/store/interface/taskmanager.interface';
+import { Task } from '@/store/interface/taskmanager.interface';
 import { ActivityIndicator } from 'antd-mobile';
 
 @inject('taskmanager')
@@ -18,25 +18,13 @@ export default class Record extends React.Component<IRecordProps, IRecordState>
   }
   public componentDidMount()
   {
-    const keys = Object.keys(this.props.taskmanager.taskList);
-    const array: Task[] = [];
-    keys.forEach((key: string) =>
-    {
-      const listItem: ITaskmanagerTypeList = this.props.taskmanager.taskList[key];
-      const listKeys = Object.keys(listItem);
-      listKeys.forEach((k: string) =>
-      {
-        listItem[k]['categoryType'] = parseInt(key, 10);
-        array.push(listItem[k]);
-      })
-    });
-    array.sort((n1, n2) =>
+    const tasks:Task[] =this.props.taskmanager.taskList;
+    tasks.sort((n1, n2) =>
     {
       return n1.startTime < n2.startTime ? 1 : -1;
     })
-
     this.setState({
-      list: array
+      list: tasks
     })
   }
   public render()

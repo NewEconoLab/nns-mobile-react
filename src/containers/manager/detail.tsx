@@ -15,6 +15,7 @@ import { nnstools } from '@/utils/nnstools';
 import taskmanager from '@/store/taskmanager';
 import { Task, ConfirmType, TaskType } from '@/store/interface/taskmanager.interface';
 import Alert from '@/components/alert';
+import DomainSelling from '@/store/DomainSelling';
 
 @inject('manager')
 @observer
@@ -38,15 +39,27 @@ class DomainMap extends React.Component<IProps, IState>
 		}
 	}
 	public dateComputed = (time: string) => {
-		if (formatTime.formatUnixTime(time) - new Date().getTime() <= (86400000 * 60)) {
-			return <span className="text-orange">（即将过期）</span>;
-		}
 
 		if (new Date().getTime() > formatTime.formatUnixTime(time)) {
 			return <span className="text-red">（已过期）</span>;
 		}
+		if (formatTime.formatUnixTime(time) - new Date().getTime() <= (86400000 * 60)) {
+			return <span className="text-orange">（即将过期）</span>;
+		}
 
 		return <span />;
+	}
+
+	public renewdiv = (time: string) =>
+	{
+		if (new Date().getTime() > formatTime.formatUnixTime(time)) {
+			return;
+		}else if (formatTime.formatUnixTime(time) - new Date().getTime() <= (86400000 * 60)) {
+			return <Button type="primary" inline={true} size="small" onClick={this.onReNew}>续约</Button>
+		}else{
+			return ;
+		}
+		
 	}
 	public changeReaolverAddress = (value:string)=>{
 		// this.state.detail.resolverAddr = value;	
@@ -66,9 +79,20 @@ class DomainMap extends React.Component<IProps, IState>
 			showResolverAddr: true
 		})
 	}
-	public onReNew = () => {
-		alert('todo')
-		// todo
+	public onReNew = async () => {
+		const res = await nnstools.renewDomain(this.state.detail.domain,DomainSelling.RootNeo.register);
+		if(res && res["txid"])
+		{
+			const txid = res[ "txid" ];
+			taskmanager.addTask(
+				new Task(TaskType.domainRenewal,ConfirmType.contract, txid, { domain: this.state.detail.domain})
+			);
+			
+			Alert(this.prop.message.successmsg, this.prop.message.waitmsg, this.prop.btn.confirm, ()=>{ 
+				console.log("成功了");                        
+			});
+			this.onCloseMessageResolver();
+		}
 	}
 	public onCloseMessageResolver = () => {
 		this.setState({
@@ -81,8 +105,7 @@ class DomainMap extends React.Component<IProps, IState>
 		{
 			const txid = res[ "txid" ];
 			taskmanager.addTask(
-				new Task(ConfirmType.contract, txid, { domain: this.state.detail.domain, contract: this.state.detail.resolver }),
-				TaskType.domainResovle
+				new Task(TaskType.domainResovle,ConfirmType.contract, txid, { domain: this.state.detail.domain, contract: this.state.detail.resolver })
 			);
 			
 			Alert(this.prop.message.successmsg, this.prop.message.waitmsg, this.prop.btn.confirm, ()=>{ 
@@ -102,8 +125,7 @@ class DomainMap extends React.Component<IProps, IState>
 		{
 			const txid = res[ "txid" ];
 			taskmanager.addTask(
-				new Task(ConfirmType.contract, txid, { domain: this.state.detail.domain, address: this.state.detail.resolverAddr }),
-				TaskType.domainMapping
+				new Task(TaskType.domainMapping,ConfirmType.contract, txid, { domain: this.state.detail.domain, address: this.state.detail.resolverAddr })
 			);
 			
 			Alert(this.prop.message.successmsg, this.prop.message.waitmsg, this.prop.btn.confirm, ()=>{ 
@@ -117,6 +139,7 @@ class DomainMap extends React.Component<IProps, IState>
 		if (!this.props.manager.detail) {
 			return null;
 		}
+		
 		this.state.detail.domain = this.props.manager.detail.domain;
 		this.state.detail.resolver = 
 			this.props.manager.detail.resolver?
@@ -153,7 +176,7 @@ class DomainMap extends React.Component<IProps, IState>
 				<div className="mapping-block">
 					<TitleText text="到期时间">
 						{
-							this.state.timelater === 1 && <Button type="primary" inline={true} size="small" onClick={this.onReNew}>续约</Button>
+							this.renewdiv(this.props.manager.detail.ttl)
 						}
 					</TitleText>
 					<div className="text-normal">{formatTime.format('yyyy/MM/dd hh:mm:ss', this.props.manager.detail.ttl, this.props.intl.locale)} {this.dateComputed(this.props.manager.detail.ttl)}</div>

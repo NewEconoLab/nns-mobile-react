@@ -31,7 +31,7 @@ class Addbid extends React.Component<IAuctionAddbidProps>{
             const res = await nnstools.raise(auction.auctionId,this.props.myauction.myBid,DomainSelling.RootNeo.register);
             if(res)
             {
-                taskmanager.addTask(new Task(ConfirmType.contract,res['txid'],{ domain:auction["fulldomain"], amount: this.props.myauction.myBid }),TaskType.addPrice)
+                taskmanager.addTask(new Task(TaskType.raise,ConfirmType.contract,res['txid'],{ domain:auction["fulldomain"], amount: this.props.myauction.myBid }))
                 Alert(this.prop.message.successmsg, this.prop.message.waitmsg, this.prop.btn.confirm,  ()=>{
                     return;
                 });

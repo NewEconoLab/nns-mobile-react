@@ -14,8 +14,8 @@ export default class RecordList extends React.Component<IRecordListProps, IRecor
         noSetTime: false,
     }
     public text = {
-        [TaskType.openAuction]: '开标',
-        [TaskType.addPrice]: '加价',
+        [TaskType.startAuction]: '开标',
+        [TaskType.raise]: '加价',
         [TaskType.topup]: '充值',
         [TaskType.withdraw]: '提取',
         [TaskType.domainRenewal]: '域名编辑',
@@ -23,9 +23,8 @@ export default class RecordList extends React.Component<IRecordListProps, IRecor
         [TaskType.domainResovle]: '域名编辑',
         [TaskType.gasToSgas]: '兑换CGAS',
         [TaskType.sgasToGas]: '兑换GAS',
-        [TaskType.getGasTest]: '领取GAS',
-        [TaskType.getDomain]: '领取域名',
-        [TaskType.recoverSgas]: '退回CGAS',
+        [TaskType.collectDomain]: '领取域名',
+        [TaskType.recoverCgas]: '退回CGAS',
         [TaskType.ClaimGas]: '领取GAS',
         [TaskType.tranfer]: '交易确认',
     }
@@ -61,16 +60,16 @@ export default class RecordList extends React.Component<IRecordListProps, IRecor
             <React.Fragment>
                 {/* 兑换CGAS */}
                 {
-                    (item['categoryType'] === TaskType.gasToSgas || item['categoryType'] === TaskType.sgasToGas) &&
+                    (item.taskType === TaskType.gasToSgas || item.taskType === TaskType.sgasToGas) &&
                     <div className="list-wrapper">
                         <div className="list-up">
                             <div className="up-left">
-                                <div className="btn-wrapper">{this.text[item['categoryType']]}</div>
+                                <div className="btn-wrapper">{this.text[item.taskType]}</div>
                             </div>
                             <div className="up-right">
                                 <div className="upright-down">
                                     {
-                                        item['categoryType'] === TaskType.gasToSgas &&
+                                        item.taskType === TaskType.gasToSgas &&
                                         <>
                                             <span>{item.message.amount} GAS</span>
                                             <img src={direction} alt="" />
@@ -78,7 +77,7 @@ export default class RecordList extends React.Component<IRecordListProps, IRecor
                                         </>
                                     }
                                     {
-                                        item['categoryType'] === TaskType.sgasToGas &&
+                                        item.taskType === TaskType.sgasToGas &&
                                         <>
                                             <span>{item.message.amount} CGAS</span>
                                             <img src={direction} alt="" />
@@ -101,11 +100,11 @@ export default class RecordList extends React.Component<IRecordListProps, IRecor
                 }
                 {/* 开标 或 领取域名*/}
                 {
-                    (item['categoryType'] === TaskType.openAuction || item['categoryType'] === TaskType.getDomain) &&
+                    (item.taskType === TaskType.startAuction || item.taskType === TaskType.collectDomain) &&
                     <div className="list-wrapper">
                         <div className="list-up">
                             <div className="up-left">
-                                <div className="btn-wrapper">{this.text[item['categoryType']]}</div>
+                                <div className="btn-wrapper">{this.text[item.taskType]}</div>
                             </div>
                             <div className="up-right">
                                 <div className="upright-down">
@@ -127,30 +126,30 @@ export default class RecordList extends React.Component<IRecordListProps, IRecor
 
                 {/* 加价 或 领回CGAS 域名编辑*/}
                 {
-                    (item['categoryType'] === TaskType.addPrice || item['categoryType'] === TaskType.recoverSgas
-                        || item['categoryType'] === TaskType.domainRenewal || item['categoryType'] === TaskType.domainMapping
-                        || item['categoryType'] === TaskType.domainResovle) &&
+                    (item.taskType === TaskType.raise || item.taskType === TaskType.recoverCgas
+                        || item.taskType === TaskType.domainRenewal || item.taskType === TaskType.domainMapping
+                        || item.taskType === TaskType.domainResovle) &&
                     <div className="list-wrapper">
                         <div className="list-up">
                             <div className="up-left">
-                                <div className="btn-wrapper">{this.text[item['categoryType']]}</div>
+                                <div className="btn-wrapper">{this.text[item.taskType]}</div>
                             </div>
                             <div className="up-right">
                                 <div className="upright-up"><a href="#" className="text-green">{item.message.domain}</a> </div>
                                 {
-                                    (item['categoryType'] === TaskType.addPrice || item['categoryType'] === TaskType.recoverSgas) &&
+                                    (item.taskType === TaskType.raise || item.taskType === TaskType.recoverCgas) &&
                                     <div className="upright-down">{item.message.amount} CGAS</div>
                                 }
                                 {
-                                    item['categoryType'] === TaskType.domainRenewal &&
+                                    item.taskType === TaskType.domainRenewal &&
                                     <div className="upright-down">续约至：2019/08/14 10:20:20</div>
                                 }
                                 {
-                                    item['categoryType'] === TaskType.domainMapping &&
+                                    item.taskType === TaskType.domainMapping &&
                                     <div className="upright-down">地址映射：{item.message.address.replace(/^(\w{6})(.*)(\w{6})$/, '$1...$3')}</div>
                                 }
                                 {
-                                    item['categoryType'] === TaskType.domainResovle &&
+                                    item.taskType === TaskType.domainResovle &&
                                     <div className="upright-down">地址解析器：{item.message.contract.replace(/^(\w{6})(.*)(\w{6})$/, '$1...$3')}</div>
                                 }
                             </div>
@@ -169,11 +168,11 @@ export default class RecordList extends React.Component<IRecordListProps, IRecor
 
                 {/* 充值 或 提取 */}
                 {
-                    (item['categoryType'] === TaskType.topup || item['categoryType'] === TaskType.withdraw) &&
+                    (item.taskType === TaskType.topup || item.taskType === TaskType.withdraw) &&
                     <div className="list-wrapper">
                         <div className="list-up">
                             <div className="up-left">
-                                <div className="btn-wrapper">{this.text[item['categoryType']]}</div>
+                                <div className="btn-wrapper">{this.text[item.taskType]}</div>
                             </div>
                             <div className="up-right">
                                 <div className="upright-down">

@@ -1,27 +1,32 @@
+import { TABLE_CONFIG } from "@/config";
 
 export class Task
 {
     public height: number;
     public confirm: number;
-    public type: ConfirmType;
+    public taskType:TaskType;
+    public confirmType: ConfirmType;
     public txid: string;
     public message: any;
     public state: TaskState;
     public startTime: number;
     constructor(
-        type: ConfirmType,
+        taskType:TaskType,
+        confirmType: ConfirmType,
         txid: string,
         messgae?
     )
     {
-        const count = sessionStorage.getItem("block");
+        const count = sessionStorage.getItem(TABLE_CONFIG.blockCount);
         // tslint:disable-next-line:radix
         this.height = count? parseInt(count): 0;
-        this.type = type;
         this.confirm = 0;
         this.txid = txid;
-        this.state = TaskState.watting;
         this.message = messgae;
+        this.taskType = taskType;
+        this.confirmType = confirmType;
+        this.state = TaskState.watting;
+        this.confirmType = this.confirmType;
         this.startTime = new Date().getTime();
     }
     public toString()
@@ -55,8 +60,8 @@ export enum TaskState
  */
 export enum TaskType
 {
-    openAuction,// 开标
-    addPrice,// 资产更新 在tx交易成功后添加资产更新任务，资产更新立即执行
+    startAuction,// 开标
+    raise,// 资产更新 在tx交易成功后添加资产更新任务，资产更新立即执行
     topup,// 充值
     withdraw,// 退款
     domainRenewal,// 域名续约
@@ -64,21 +69,21 @@ export enum TaskType
     domainResovle,// 域名合约地址
     gasToSgas,// gas转sgas
     sgasToGas,// sgas转gas
-    getGasTest,// 测试网领取gas
-    getDomain,// 领取域名
-    recoverSgas,// 退回sgas
+    collectDomain,// 领取域名
+    recoverCgas,// 退回sgas
     ClaimGas,// 领取Gas
     tranfer,// 交易确认 需要签名的任务，涉及资产变动
 }
 
 export interface ITaskmanagerStore 
 {
-    taskList:{[type:string]:{[txid:string]:Task}};
+    taskList:Task[];
     update:()=>void;
-    addTask:(task: Task, type: TaskType)=>void;
+    addTask:(task: Task)=>void;
 }   
 
 
 export interface ITaskmanagerTypeList {
     [txid:string]:Task
 }
+
