@@ -22,17 +22,18 @@ export default class DomainDetail extends React.Component
                 <TitleText text="时间轴"/>
                 <p className="time-tip">注意：确定期为竞拍第一阶段，时长为3天，此期间所有的出价都有效。当确定期最后一天有人出价时将触发最大时长为2天的随机期。否则竞拍即在确定期结束。</p>
                 <div className="timeline-wrapper">
+                    <div className="time-line" style={{width:'20%'}}/>
                     <div className="node-box">
-                        <div className="cricle">
+                        <div className="cricle active">
                             <div className="title">开标时间</div>
                             <div className="time">
                                 <p>2018/08/14</p>
                                 <p>10:20:20</p>
                             </div>
                         </div>
-                    </div>
+                    </div>                                        
                     <div className="node-box">
-                        <div className="cricle" />
+                        <div className="cricle active" />
                     </div>
                     {/* <div className="node-box">
                         <div className="cricle">
