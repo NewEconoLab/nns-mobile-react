@@ -68,7 +68,10 @@ export default class MyAuction extends React.Component<IAuctionProps, IAuctionSt
 
       keysArr.forEach((keys) =>
       {
-        newList[keys] = list[keys];
+        if(list[keys].auctionState!==AuctionState.open)
+        {
+          newList[keys] = list[keys];
+        }
       })
       this.props.auctionmanager.filterAuctionList = newList;
     }
@@ -119,7 +122,10 @@ export default class MyAuction extends React.Component<IAuctionProps, IAuctionSt
     {
       if (list[key].domain.indexOf(value) !== -1)
       {
-        newList[key] = list[key];
+        if(list[key].auctionState!==AuctionState.open)
+        {
+          newList[key] = list[key];
+        }
       }
     })
 
@@ -171,9 +177,12 @@ export default class MyAuction extends React.Component<IAuctionProps, IAuctionSt
             {
               Object.keys(this.props.auctionmanager.filterAuctionList).map((item: string, index: number) =>
               {
-                return (
-                  <MyAuctionList item={this.props.auctionmanager.filterAuctionList[item]} key={index} {...this.props} />
-                )
+                if(this.props.auctionmanager.filterAuctionList[item].auctionState!==AuctionState.open)
+                {
+                  return (
+                    <MyAuctionList item={this.props.auctionmanager.filterAuctionList[item]} key={index} {...this.props} />
+                  )
+                }return
               })
             }
             <Modal

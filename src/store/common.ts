@@ -66,19 +66,54 @@ class Common{
     return result[0];
   }
 
-  @action public rechargeAndTransfer = async (data1:Uint8Array,data2:Uint8Array)=>{
+  @action public rechargeAndTransfer = async (data1:Uint8Array,data2:Uint8Array)=>
+  {
     let result:any = null;
-    try {
+    try 
+    {
       result =  await Api.rechargeAndTransfer(data1.toHexString(),data2.toHexString());
-    }catch(e) {
+    }
+    catch(e) 
+    {
       return false;
     }
-    if(!result[0]) {
+    if(!result[0]) 
+    {
       return false;
-    }
-    
+    }    
     return result[0];
   }
+
+  /**
+   * @method hasTx 查询交易结果
+   * @param txid 交易id
+   */
+  public hasTx = async(txid:string)=>
+  {
+    const result = await Api.hasTx(txid);
+    return result[0];
+  }
+
+  /**
+   * @method hasConact 查询合约结果
+   * @param txid 交易id
+   */
+  public hasContract= async(txid:string) =>
+  {
+    const result = await Api.hasContract(txid);
+    return result[0]
+  }
+  
+  /**
+   * @method getRehargeAndTransfer 查询合并交易结果
+   * @param txid 交易id 
+   */
+  public getRehargeAndTransfer= async(txid:string) =>
+  {
+    const result = await Api.getRehargeAndTransfer(txid);
+    return result[0]
+  }
+
 }
 
 // 外部使用require

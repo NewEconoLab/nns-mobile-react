@@ -34,9 +34,6 @@ export default class DomainDetail extends React.Component
                     <div className="node-box">
                         <div className="cricle" />
                     </div>
-                    <div className="node-box">
-                        <div className="cricle" />
-                    </div>
                     {/* <div className="node-box">
                         <div className="cricle">
                             <div className="title">开标时间</div>
@@ -50,7 +47,7 @@ export default class DomainDetail extends React.Component
                         <div className="cricle" />
                     </div> */}
                     <div className="dian">
-                        <div className="title">开标时间</div>
+                        <div className="title">结束时间</div>
                             <div className="time">
                                 <p>2018/08/14</p>
                                 <p>10:20:20</p>

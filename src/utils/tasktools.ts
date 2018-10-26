@@ -38,30 +38,24 @@ export class TaskTool
         const ress:{[txid:string]:any} = {};   
         
         console.time('showColumnInfo')
-        let n = 0;
-        while (n<tasks.length) {
-            const task = tasks[n];            
+        for (const task of tasks) {            
             if (task.state === TaskState.watting) // 判断如果状态是 watting 则查找对应的返回值 
             {
-                if(task.confirmType===ConfirmType.tranfer)
-                {
-                    ress[task.txid] = await Api.hasTx(task.txid)[0];
-                }
-                
-                if(task.confirmType===ConfirmType.contract)
-                {
-                    ress[task.txid] = await Api.hasContract(task.txid)[0];  
-                }
-                
-                if(task.confirmType===ConfirmType.recharge)
-                {
-                    ress[task.txid] = await Api.getRehargeAndTransfer(task.txid)[0];
+                switch (task.confirmType) {
+                    case ConfirmType.tranfer:
+                        ress[task.txid] = await common.hasTx(task.txid);
+                        break;                
+                    case ConfirmType.contract:
+                        ress[task.txid] = await common.hasContract(task.txid);
+                        break;
+                    default:
+                        ress[task.txid] = await common.getRehargeAndTransfer(task.txid);
+                        break;
                 }
             } else  // 如果状态是 成功或者失败就没必要调用api查询返回结果了
             {
                 ress[ task.txid ] = undefined;
-            }   
-            n++;
+            } 
         }
         console.timeEnd('showColumnInfo') // 4757.181ms
         return ress;

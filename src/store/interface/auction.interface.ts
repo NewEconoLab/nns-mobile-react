@@ -19,6 +19,7 @@ export interface IAuction {
 export interface IAuctionListStore {
     auctionList:{[auctionId:string]:IAuction},
     filterAuctionList:{[auctionId:string]:IAuction},
+    viewAuctionList:IAuction[],
     getAuctionInfoByAddress:(address:string)=>void,
     updateAuctionList:()=>void,
 }
@@ -58,8 +59,47 @@ export interface IAuctionAddress
 {
     address: string;            // 出价地址
     totalValue: number;         // 累计出价金额
-    lastTime: IBlockTime;        // 最后交易的时间
-    accountTime: IBlockTime;     // 退币的时间
-    getdomainTime: IBlockTime;   // 获得域名的时间
-    addpricelist: IBlockTime;    // 加价类列表
+    lastTime: IBlockTime;       // 最后交易的时间
+    accountTime: IBlockTime;    // 退币的时间
+    getdomainTime: IBlockTime;  // 获得域名的时间
+    addpricelist: IBlockTime;   // 加价类列表
+}
+
+/**
+ * 时间轴类
+ */
+export class Process
+{
+    public timearr: Array<{
+        msg: string;
+        date: string;
+        time: string;
+    }>;
+    public state: AuctionState;
+    public startTime: number;
+    public width: number;
+    public date: string;
+    public time: string;
+
+    constructor(start: number | string, day: number)
+    {
+        this.timearr = [];
+        this.startTime = typeof start === "string" ? timetool.currentTime(start) : start as number;
+        const startdate = time.getDate(this.startTime);
+        this.date = tools.timetool.dateFtt("yyyy/MM/dd", startdate);
+        this.time = tools.timetool.dateFtt("hh:mm:ss", startdate);
+        this.width = 0;
+        for (let i = 1; i <= 5; i++)
+        {
+            const element = { msg: i.toString(), date: "", time: "" };
+
+            const time = this.startTime + day * i;
+
+            const date = tools.timetool.dateFtt("yyyy/MM/dd", tools.timetool.getDate(time));
+            const times = tools.timetool.dateFtt("hh:mm:ss", tools.timetool.getDate(time));
+            element.date = date;
+            element.time = times;
+            this.timearr.push(element);
+        }
+    }
 }

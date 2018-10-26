@@ -30,12 +30,12 @@ export default class RecordList extends React.Component<IRecordListProps, IRecor
     }
 
     public componentDidMount() {
-        // this.setTime();
-        // if (!this.state.noSetTime) {
-        //     const timer = setInterval(() => {
-        //         this.setTime(timer);
-        //     }, 1000)
-        // }
+        this.setTime();
+        if (!this.state.noSetTime) {
+            const timer = setInterval(() => {
+                this.setTime(timer);
+            }, 1000)
+        }
     }
 
     public setTime = (timer?: any) => {

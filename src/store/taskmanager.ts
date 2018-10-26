@@ -37,7 +37,8 @@ class TaskManager implements ITaskmanagerStore
             return;
         }
         const reslist = await TaskTool.getResult(this.taskList)
-        this.taskList = TaskTool.forConfirm(this.taskList,(task:Task)=>{
+        this.taskList = TaskTool.forConfirm(this.taskList,(task:Task)=>
+        {
             const res = reslist[task.txid];
             task.confirm++;
             if(!res)
@@ -88,10 +89,6 @@ class TaskManager implements ITaskmanagerStore
 
         sessionStorage.setItem(TABLE_CONFIG.taskList,JSON.stringify(this.taskList));        
     }
-
-
-    
-    
 }
 
 // 外部使用require
