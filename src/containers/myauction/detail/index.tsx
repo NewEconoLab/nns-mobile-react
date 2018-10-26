@@ -60,7 +60,7 @@ class DomainDetail extends React.Component<IAuctionDetailProps>
 
     public getDomain = async () =>
     {        
-        if(this.detail.endTime && this.detail.endTime.blockindex > 0)
+        if(this.detail.addWho.accountTime && this.detail.addWho.accountTime.blockindex > 0)
         {
             try {
                 const data:Uint8Array = await nnstools.collectDomain(this.detail.auctionId,DomainSelling.RootNeo.register);
@@ -148,7 +148,7 @@ class DomainDetail extends React.Component<IAuctionDetailProps>
         return (
             <div className="domain-detail-wrapper">
                 <Detail {...this.props}/>
-                <TimeList/>   
+                <TimeList {...this.props}/>   
                 <div className="detail-footer">
                     {
                         this.props.myauction.showDialog && <Addbid {...this.props} />

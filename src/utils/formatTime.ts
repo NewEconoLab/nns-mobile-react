@@ -31,6 +31,6 @@ export const format = function (fmt: string, dateNumber:string, locale:string) {
   return fmt;
 }
 
-export const formatUnixTime = (dateNumber:string) => {
-  return dateNumber.length === 10 ? parseInt(dateNumber, 10) * 1000 : parseInt(dateNumber, 10);
+export const formatUnixTime = (dateNumber:string|number) => {
+  return dateNumber.toString().length === 10 ? parseInt(dateNumber.toString(), 10) * 1000 : parseInt(dateNumber.toString(), 10);
 }
