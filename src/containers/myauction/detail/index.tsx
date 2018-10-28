@@ -16,12 +16,17 @@ import { nnstools } from '@/utils/nnstools';
 import DomainSelling from '@/store/DomainSelling';
 import taskmanager from '@/store/taskmanager';
 import { Task, ConfirmType, TaskType } from '@/store/interface/taskmanager.interface';
+import {IDetailState} from '../interface/detail.interface';
 import Alert from '@/components/alert';
 
 @inject('myauction', 'common')
 @observer
-class DomainDetail extends React.Component<IAuctionDetailProps>
-{
+class DomainDetail extends React.Component<IAuctionDetailProps, IDetailState>
+{   
+    public state = {
+        loadingGetDomain: false,
+        loadingGetBackCgas: false
+    }
     public prop = this.props.intl.messages;
     public detail = this.props.myauction.detail as IAuction;
 
@@ -40,6 +45,9 @@ class DomainDetail extends React.Component<IAuctionDetailProps>
      */
     public bidSettlement = async ()=>
     {
+        this.setState({
+            loadingGetBackCgas:true
+        })
         try {
             const data = await nnstools.bidSettlement(this.detail.auctionId,DomainSelling.RootNeo.register);
             const res = await common.sendrawtransaction(data.toHexString());
@@ -56,10 +64,16 @@ class DomainDetail extends React.Component<IAuctionDetailProps>
         } catch (error) {
             console.error(error);            
         }
+        this.setState({
+            loadingGetBackCgas:false
+        })
     }
 
     public getDomain = async () =>
     {        
+        this.setState({
+            loadingGetDomain: true
+        })
         if(this.detail.addWho.accountTime && this.detail.addWho.accountTime.blockindex > 0)
         {
             try {
@@ -111,6 +125,9 @@ class DomainDetail extends React.Component<IAuctionDetailProps>
             }
         }
 
+        this.setState({
+            loadingGetDomain: false
+        })
     }
 
     public render()
@@ -133,7 +150,7 @@ class DomainDetail extends React.Component<IAuctionDetailProps>
                 }
                 else
                 {                    
-                    btn = <Button type="primary" onClick={this.getDomain} style={{borderRadius:'0'}} className="detail-btn">领取域名</Button>
+                    btn = <Button type="primary" loading={this.state.loadingGetDomain} onClick={this.getDomain} style={{borderRadius:'0'}} className="detail-btn">{this.state.loadingGetDomain?'领取域名中':'领取域名'}</Button>
                 }
             }
             else if(detail.addWho.accountTime)
@@ -142,7 +159,7 @@ class DomainDetail extends React.Component<IAuctionDetailProps>
             }
             else
             {
-                btn = <Button type="primary"  onClick={this.bidSettlement} style={{borderRadius:'0'}} className="detail-btn">领回竞拍金</Button>
+                btn = <Button type="primary"  loading={this.state.loadingGetBackCgas} onClick={this.bidSettlement} style={{borderRadius:'0'}} className="detail-btn">{this.state.loadingGetBackCgas?'领回竞拍金中':'领回竞拍金'}</Button>
             }
         }
         return (

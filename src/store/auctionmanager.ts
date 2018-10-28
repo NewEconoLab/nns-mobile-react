@@ -18,6 +18,8 @@ class AuctionManager implements IAuctionListStore {
       const auctionList = JSON.parse(sessionAutionList);
       this.auctionList = auctionList;
       this.filterAuctionList = auctionList;
+      // 手动排个序
+      this.sortFilterAuctionList();
     }
     else
     {
@@ -54,6 +56,8 @@ class AuctionManager implements IAuctionListStore {
       }
       this.auctionList[auction.auctionId] = auction;
       this.filterAuctionList[auction.auctionId] = auction;
+      // 手动排个序
+      this.sortFilterAuctionList();
     }    
     sessionStorage.setItem(TABLE_CONFIG.auctionList,JSON.stringify(this.auctionList));
     return true;
@@ -61,8 +65,21 @@ class AuctionManager implements IAuctionListStore {
 
   @action public addAuction(auction:IAuction)
   {
+    // 因为 用 filterAuctionList 存储 帅选后的状态，这里判断下，更新actionList 的时候，同步更新filterAuctionList
+    let isFilter = true;
+    if(Object.keys(this.auctionList).length === Object.keys(this.filterAuctionList).length) 
+    {
+      isFilter = false;
+    }
     this.auctionList[auction.auctionId] = auction;
     sessionStorage.setItem(TABLE_CONFIG.auctionList,JSON.stringify(this.auctionList));
+    // 同步更新filterAuctionList
+    if(!isFilter) 
+    {
+      this.filterAuctionList = this.auctionList;
+      // 手动排个序
+      this.sortFilterAuctionList();
+    }
   }
 
   /**
@@ -140,7 +157,31 @@ class AuctionManager implements IAuctionListStore {
     if(!isFilter) 
     {
       this.filterAuctionList = this.auctionList;
+      // 手动排个序
+      this.sortFilterAuctionList();
     }
+  }
+
+  @action public sortFilterAuctionList = () => {
+    let keys = Object.keys(this.filterAuctionList);
+
+    keys = keys.sort((n1, n2) => {
+      if(!this.filterAuctionList[n1].startTime || !this.filterAuctionList[n1].startTime.blocktime ) {
+        return 1;
+      }
+
+      if(!this.filterAuctionList[n2].startTime || !this.filterAuctionList[n2].startTime.blocktime) {
+        return 1;
+      }
+      return this.filterAuctionList[n1].startTime.blocktime < this.filterAuctionList[n2].startTime.blocktime ? 1 : -1;
+    });
+
+    const oldList = {...this.filterAuctionList }
+    this.filterAuctionList = {};
+
+    keys.forEach((item) => {
+      this.filterAuctionList[item] = oldList[item];
+    })
   }
 }
 

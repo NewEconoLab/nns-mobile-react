@@ -78,6 +78,9 @@ export enum TaskType
 export interface ITaskmanagerStore 
 {
     taskList:Task[];
+    pendingList:string[];
+    selfTask:Task | null;
+    timer:NodeJS.Timer | null;
     update:()=>void;
     addTask:(task: Task)=>void;
 }   

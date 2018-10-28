@@ -13,6 +13,9 @@ import { observer, inject } from 'mobx-react';
 @inject('home', 'common')
 @observer
 class NNS extends React.Component<IHomeProps, any> {
+  // public componentDidMount() {
+  //   Alert('操作失败', '操作失败，请稍后再试', '确定', () => {alert(1)}, 'error')
+  // }
   public render() {
     return (
       <div className="nns-page">

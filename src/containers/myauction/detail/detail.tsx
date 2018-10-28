@@ -51,7 +51,7 @@ export default class Detail extends React.Component<IAuctionDetailProps>
 								<div>
 									<span>状态：</span>
 									<span className="status-random">随机期</span>
-									<Hint />
+									<Hint type='2' />
 								</div>
 							}
 							{
@@ -59,7 +59,7 @@ export default class Detail extends React.Component<IAuctionDetailProps>
 								<div>
 									<span>状态：</span>
 									<span className="status-being">确定期</span>
-									<Hint />
+									<Hint type='1'/>
 								</div>
 							}
 						</div>

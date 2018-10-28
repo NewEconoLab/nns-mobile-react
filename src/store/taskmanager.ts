@@ -6,7 +6,10 @@ import { TaskTool } from "@/utils/tasktools";
 class TaskManager implements ITaskmanagerStore
 {
     // 任务列表
-    @observable public taskList: Task[]=[];    
+    @observable public taskList: Task[]=[];
+    @observable public pendingList:string[] = [];   
+    @observable public timer:NodeJS.Timer | null = null; 
+    @observable public selfTask:Task | null = null;
     public confrimConact = 
     {
         [TaskType.raise]:`assetManagement`,
@@ -21,13 +24,32 @@ class TaskManager implements ITaskmanagerStore
     {
         const taskSession = sessionStorage.getItem(TABLE_CONFIG.taskList);
         this.taskList = taskSession?JSON.parse(taskSession):[];
+        this.pendingList = this.taskList.filter((v:Task )=> v.state === 0).map((v:Task) => v.txid)
     }
+    @action public renderNotice = () => {
+        this.taskList.forEach((item:Task) => {
+            if(this.pendingList.includes(item.txid)) {
+              // 这里的判断是为了让 notice 组件 维持单例模式
+              if(this.timer) {
+                clearTimeout(this.timer);
+              }
+      
+              this.timer = setTimeout(() => {
+                 this.selfTask = null;
+              }, 3000)
 
+              this.selfTask = item;
+            }
+          })
+          this.pendingList = this.taskList.filter((v:Task )=> v.state === 0).map((v:Task) => v.txid)
+    }
     @action public addTask (task: Task)
     {
         this.taskList = this.taskList?this.taskList:[];
         this.taskList.push(task);
         sessionStorage.setItem(TABLE_CONFIG.taskList,JSON.stringify(this.taskList));
+        // 操作 tasklist 执行下 renderNotice  用来触发 顶部提示
+        this.renderNotice();
     }
    
     @action public async update()
@@ -88,6 +110,8 @@ class TaskManager implements ITaskmanagerStore
         });
 
         sessionStorage.setItem(TABLE_CONFIG.taskList,JSON.stringify(this.taskList));        
+        // 操作 tasklist 执行下 renderNotice  用来触发 顶部提示
+        this.renderNotice();
     }
 }
 

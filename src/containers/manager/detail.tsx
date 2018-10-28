@@ -62,7 +62,6 @@ class DomainMap extends React.Component<IProps, IState>
 		
 	}
 	public changeReaolverAddress = (value:string)=>{
-		// this.state.detail.resolverAddr = value;	
 		this.setState({
 			resolverAddr:value
 		})	
@@ -168,7 +167,7 @@ class DomainMap extends React.Component<IProps, IState>
 						{
 							this.props.manager.detail.resolverAddr ?
 								<Button type="warning" inline={true} size="small" onClick={this.onChangeResolverAddr}>重置</Button> :
-								<Button type="ghost" inline={true} size="small" disabled={!this.state.detail.resolver} style={{ background: '#ddd', color: '#bbb' }} onClick={this.onChangeResolverAddr}>设置</Button>
+								<Button type={!!!this.props.manager.detail.resolver?"ghost":"primary"} inline={true} size="small" disabled={!!!this.props.manager.detail.resolver}  onClick={this.onChangeResolverAddr}>设置</Button>
 						}
 					</TitleText>
 					<div className="text-normal">{this.props.manager.detail.resolverAddr || '未设置'}</div>

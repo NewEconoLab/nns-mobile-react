@@ -62,6 +62,12 @@ class Auction extends React.Component<IHomeProps>
   {
     this.props.myauction.detail = this.props.home.auctionInfo;
   }
+  public componentWillUnmount() {
+    this.props.home.inputModule.inputValue = '';
+    this.props.home.inputModule.status = '';
+    this.props.home.inputModule.message = '';
+    this.props.home.inputModule.color = '';
+  }
   public render() {
     return (
       <div className="auction-wrap box-wrap">

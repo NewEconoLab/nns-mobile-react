@@ -18,10 +18,10 @@ export default class Record extends React.Component<IRecordProps, IRecordState>
   }
   public componentDidMount()
   {
-    const tasks:Task[] =this.props.taskmanager.taskList;
-    tasks.sort((n1, n2) =>
+    let tasks:Task[] =this.props.taskmanager.taskList;
+    tasks = tasks.sort((n1, n2) =>
     {
-      return n1.startTime < n2.startTime ? 1 : -1;
+      return n1.startTime > n2.startTime ? -1 : 1;
     })
     this.setState({
       list: tasks

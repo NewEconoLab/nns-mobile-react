@@ -2,11 +2,13 @@
  * 操作记录列表
  */
 import * as React from 'react';
+import {observer} from 'mobx-react';
 import direction from '@/img/direction2.png'
 import './index.less'
 import { IRecordListProps, IRecordListState } from './interface/record.interface';
 import { TaskType } from '@/store/interface/taskmanager.interface';
 
+@observer
 export default class RecordList extends React.Component<IRecordListProps, IRecordListState>
 {
     public state = {
@@ -42,6 +44,9 @@ export default class RecordList extends React.Component<IRecordListProps, IRecor
         if (this.props.item.state !== 0) {
             if (timer) {
                 clearInterval(timer);
+                this.setState({
+                    clodTime:0,
+                })
             }
             return false;
         }
@@ -56,6 +61,7 @@ export default class RecordList extends React.Component<IRecordListProps, IRecor
     public render() {
         const item = this.props.item;
         const txidtext = item.txid.replace(/^(\w{4})(.*)(\w{4})$/, '$1...$3');
+        console.log(item);
         return (
             <React.Fragment>
                 {/* 兑换CGAS */}
@@ -67,7 +73,7 @@ export default class RecordList extends React.Component<IRecordListProps, IRecor
                                 <div className="btn-wrapper">{this.text[item.taskType]}</div>
                             </div>
                             <div className="up-right">
-                                <div className="upright-down">
+                                <div className="upright-up">
                                     {
                                         item.taskType === TaskType.gasToSgas &&
                                         <>
@@ -90,10 +96,10 @@ export default class RecordList extends React.Component<IRecordListProps, IRecor
                         <div className="list-down">
                             <span>TXID:&nbsp;&nbsp;<a href="#" className="text-green">{txidtext}</a></span>
                             {
-                                this.props.item.state === 0 && <span>Status:&nbsp;&nbsp;<span className="text-red">等待确认...( {this.state.clodTime}s )</span></span>
+                                this.state.clodTime > 0 && <span>Status:&nbsp;&nbsp;<span className="text-red">等待确认...( {this.state.clodTime}s )</span></span>
                             }
                             {
-                                this.props.item.state === 2 && <span>Status:&nbsp;&nbsp;<span className="text-red">操作失败</span></span>
+                                this.state.clodTime === 0 && this.props.item.state === 2 && <span>Status:&nbsp;&nbsp;<span className="text-red">操作失败</span></span>
                             }
                         </div>
                     </div>
@@ -107,7 +113,7 @@ export default class RecordList extends React.Component<IRecordListProps, IRecor
                                 <div className="btn-wrapper">{this.text[item.taskType]}</div>
                             </div>
                             <div className="up-right">
-                                <div className="upright-down">
+                                <div className="upright-up">
                                     <a href="#" className="text-green">{item.message.domain}</a>
                                 </div>
                             </div>
@@ -115,10 +121,10 @@ export default class RecordList extends React.Component<IRecordListProps, IRecor
                         <div className="list-down">
                             <span>TXID:&nbsp;&nbsp;<a href="#" className="text-green">{txidtext}</a></span>
                             {
-                                this.props.item.state === 0 && <span>Status:&nbsp;&nbsp;<span className="text-red">等待确认...( {this.state.clodTime}s )</span></span>
+                                this.state.clodTime > 0 && <span>Status:&nbsp;&nbsp;<span className="text-red">等待确认...( {this.state.clodTime}s )</span></span>
                             }
                             {
-                                this.props.item.state === 2 && <span>Status:&nbsp;&nbsp;<span className="text-red">操作失败</span></span>
+                                this.state.clodTime === 0  && this.props.item.state === 2 && <span>Status:&nbsp;&nbsp;<span className="text-red">操作失败</span></span>
                             }
                         </div>
                     </div>
@@ -157,10 +163,10 @@ export default class RecordList extends React.Component<IRecordListProps, IRecor
                         <div className="list-down">
                             <span>TXID:&nbsp;&nbsp;<a href="#" className="text-green">{txidtext}</a></span>
                             {
-                                this.props.item.state === 0 && <span>Status:&nbsp;&nbsp;<span className="text-red">等待确认...( {this.state.clodTime}s )</span></span>
+                                this.state.clodTime > 0 && <span>Status:&nbsp;&nbsp;<span className="text-red">等待确认...( {this.state.clodTime}s )</span></span>
                             }
                             {
-                                this.props.item.state === 2 && <span>Status:&nbsp;&nbsp;<span className="text-red">操作失败</span></span>
+                                this.state.clodTime === 0 && this.props.item.state === 2 && <span>Status:&nbsp;&nbsp;<span className="text-red">操作失败</span></span>
                             }
                         </div>
                     </div>
@@ -175,7 +181,7 @@ export default class RecordList extends React.Component<IRecordListProps, IRecor
                                 <div className="btn-wrapper">{this.text[item.taskType]}</div>
                             </div>
                             <div className="up-right">
-                                <div className="upright-down">
+                                <div className="upright-up">
                                     <span>{item.message.amount} CGAS</span>
                                 </div>
                             </div>
@@ -183,10 +189,10 @@ export default class RecordList extends React.Component<IRecordListProps, IRecor
                         <div className="list-down">
                             <span>TXID:&nbsp;&nbsp;<a href="#" className="text-green">{txidtext}</a></span>
                             {
-                                this.props.item.state === 0 && <span>Status:&nbsp;&nbsp;<span className="text-red">等待确认...( {this.state.clodTime}s )</span></span>
+                                this.state.clodTime > 0 && <span>Status:&nbsp;&nbsp;<span className="text-red">等待确认...( {this.state.clodTime}s )</span></span>
                             }
                             {
-                                this.props.item.state === 2 && <span>Status:&nbsp;&nbsp;<span className="text-red">操作失败</span></span>
+                                this.state.clodTime === 0 && this.props.item.state === 2 && <span>Status:&nbsp;&nbsp;<span className="text-red">操作失败</span></span>
                             }
                         </div>
                     </div>

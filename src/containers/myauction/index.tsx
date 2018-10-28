@@ -107,6 +107,7 @@ export default class MyAuction extends React.Component<IAuctionProps, IAuctionSt
         searchValue: ''
       })
       this.props.auctionmanager.filterAuctionList = newList;
+      this.props.auctionmanager.sortFilterAuctionList();
     }
 
   }
@@ -137,6 +138,10 @@ export default class MyAuction extends React.Component<IAuctionProps, IAuctionSt
       this.props.myauction.clickPeople = "0";
     }
     this.props.auctionmanager.filterAuctionList = newList;
+    this.props.auctionmanager.sortFilterAuctionList();
+  }
+  public componentWillUnmount() {
+    this.props.auctionmanager.filterAuctionList = this.props.auctionmanager.auctionList;
   }
   public render()
   {

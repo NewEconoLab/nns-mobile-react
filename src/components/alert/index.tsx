@@ -8,11 +8,12 @@ interface Iprops {
     onConfirm: () => void,
     btnText: string,
     message: string,
-    title: string
+    title: string,
+    type?: string,
 }
 
-export default (title: string, message: string, btnText: string, onConfirm: () => void) => {
-
+export default (title: string, message: string, btnText: string, onConfirm: () => void, type?:string) => {
+    type = type ? type : 'success';
     // 释放组件
     const disposeNode = () => {
         ReactDOM.unmountComponentAtNode(div);
@@ -42,8 +43,12 @@ export default (title: string, message: string, btnText: string, onConfirm: () =
                 <div className="comp-alert-container">
                     <div className="mask" onClick={this.onClose} />
                     <div className="alert-wrapper">
-                        <img src={require('@/img/right2.png')} className="alert-success-icon" />
-                        {/* <img src={require('@/img/wrong2.png')} className="alert-success-icon" /> */}
+                        {
+                            type === 'success' && <img src={require('@/img/right2.png')} className="alert-success-icon" />
+                        }
+                        {
+                            type === 'error' &&  <img src={require('@/img/wrong2.png')} className="alert-success-icon" />
+                        }
                         <div className="alert-title" dangerouslySetInnerHTML={{ '__html': this.props.title }} />
                         <div className="alert-content" dangerouslySetInnerHTML={{ '__html': this.props.message }} />
                         <div className="alert-button-group">
