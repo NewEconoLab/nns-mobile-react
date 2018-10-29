@@ -31,7 +31,8 @@ class DomainDetail extends React.Component<IAuctionDetailProps>
                 <div className={wrapperClassNames}>
                     <div className="time-line" style={{width:process.width+'%'}}/>
                     {
-                        process.timearr.map((value,key)=>{                       
+                        process.timearr.map((value,key)=>
+                        {
                             return <TimeDetail key={key} dian={key===process.timearr.length-1} index={key} time={value.time} active={value.active} />
                         })
                     }

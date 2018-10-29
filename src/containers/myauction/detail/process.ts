@@ -28,7 +28,7 @@ export default class Process
         else
         {
             process.state = AuctionState.end;
-            const subtime = accSub(formatUnixTime(auction.addWho.lastTime.blocktime.toString()), auction.startTime.blocktime);
+            const subtime = accSub(formatUnixTime(auction.addWho.lastTime.blocktime.toString()), formatUnixTime(auction.startTime.blocktime.toString()));
             if (subtime < 2 * day)  // 判断第三天有无出价
             {
                 a = accDiv(oldtime, 3 * day);
