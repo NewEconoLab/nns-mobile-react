@@ -83,7 +83,7 @@ class Auction extends React.Component<IHomeProps>
             onChange={this.change}
             type="text"
           />
-          <span className="auction-neo">.neo</span>
+          <span className="auction-neo">.test</span>
         </div>
         {
           this.props.home.inputModule.status !== 'error' &&

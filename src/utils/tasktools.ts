@@ -20,7 +20,8 @@ export class TaskTool
             if (task.state === TaskState.watting)
             {
                 tasknew = call(task);
-            } else
+            } 
+            else
             {
                 tasknew = task;
             }
@@ -52,7 +53,8 @@ export class TaskTool
                         ress[task.txid] = await common.getRehargeAndTransfer(task.txid);
                         break;
                 }
-            } else  // 如果状态是 成功或者失败就没必要调用api查询返回结果了
+            } 
+            else  // 如果状态是 成功或者失败就没必要调用api查询返回结果了
             {
                 ress[ task.txid ] = undefined;
             } 
