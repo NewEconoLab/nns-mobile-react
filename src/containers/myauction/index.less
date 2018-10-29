@@ -30,14 +30,17 @@
     padding-bottom: 10px;
     background: #F5F5F5;
     .select-wrap{
-        padding: 20px 15px;
+        padding: 20px 15px 10px 15px;
         background: #fff;
         text-align: left;
         label{
             box-sizing: border-box;
             display: inline-block;
-            width: 75px;
+            // width: 75px;
+            min-width: 69px;
             height: 30px;
+            padding: 0 10px;
+            margin-bottom: 10px;
             text-align: center;
             line-height: 30px;
             margin-right: 15px;
@@ -97,6 +100,11 @@
     }
     .auction-normal{
         margin-bottom: .15rem;
+        display: flex;
+        span{
+            flex: none;
+            line-height:12px;
+        }
     }
     .auction-me{
         color: #22A4FF;

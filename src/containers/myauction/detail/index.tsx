@@ -133,12 +133,10 @@ class DomainDetail extends React.Component<IAuctionDetailProps, IDetailState>
     public render()
     {
         const detail =(this.props.myauction.detail as IAuction);
-        
-        // todo 时间轴还没写，出价还没写
         let btn;
         if(detail.auctionState===AuctionState.random||detail.auctionState===AuctionState.fixed)
         {
-            btn = <Button type="primary"  onClick={this.onShowDialog} style={{borderRadius:'0'}} className="detail-btn">出价</Button>
+            btn = <Button type="primary"  onClick={this.onShowDialog} style={{borderRadius:'0'}} className="detail-btn">{this.prop.btn.placebid}</Button>
         }
         else if(detail.auctionState === AuctionState.end)
         {
@@ -146,20 +144,20 @@ class DomainDetail extends React.Component<IAuctionDetailProps, IDetailState>
             {
                 if(detail.addWho.getdomainTime)
                 {
-                    btn = <Button type="primary" disabled={true} style={{borderRadius:'0'}} className="detail-btn">域名已领取</Button>
+                    btn = <Button type="primary" disabled={true} style={{borderRadius:'0'}} className="detail-btn">{this.prop.btn.claimed}</Button>
                 }
                 else
                 {                    
-                    btn = <Button type="primary" loading={this.state.loadingGetDomain} onClick={this.getDomain} style={{borderRadius:'0'}} className="detail-btn">{this.state.loadingGetDomain?'领取域名中':'领取域名'}</Button>
+                    btn = <Button type="primary" loading={this.state.loadingGetDomain} onClick={this.getDomain} style={{borderRadius:'0'}} className="detail-btn">{this.state.loadingGetDomain?this.prop.btn.claiming:this.prop.btn.claimdomain}</Button>
                 }
             }
             else if(detail.addWho.accountTime)
             {
-                btn = <Button type="primary" disabled={true} style={{borderRadius:'0'}} className="detail-btn">竞拍金已领回</Button>
+                btn = <Button type="primary" disabled={true} style={{borderRadius:'0'}} className="detail-btn">{this.prop.btn.reclaimed}</Button>
             }
             else
             {
-                btn = <Button type="primary"  loading={this.state.loadingGetBackCgas} onClick={this.bidSettlement} style={{borderRadius:'0'}} className="detail-btn">{this.state.loadingGetBackCgas?'领回竞拍金中':'领回竞拍金'}</Button>
+                btn = <Button type="primary"  loading={this.state.loadingGetBackCgas} onClick={this.bidSettlement} style={{borderRadius:'0'}} className="detail-btn">{this.state.loadingGetBackCgas?this.prop.btn.reclaiming:this.prop.btn.reclaimcgas}</Button>
             }
         }
         return (

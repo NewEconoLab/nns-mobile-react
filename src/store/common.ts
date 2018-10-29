@@ -4,7 +4,7 @@ import { observable, action } from 'mobx';
  import * as Api from '@/store/api/common.api';
 class Common{
   @observable public title:string = ''; // 标题
-  @observable public language:string = 'zh';  // 当前语言
+  @observable public language:string = 'en';  // 当前语言
   @observable public address:string = 'AeDbQBwD9sDMyLV7RgHBQEFTiHctgFHtF4'; // 当前地址
   @observable public publicKey:string='';
   @observable public network:string = 'testnet';  // 当前网络

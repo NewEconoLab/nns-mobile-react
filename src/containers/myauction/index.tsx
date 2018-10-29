@@ -8,13 +8,15 @@ import MyAuctionList from './auctionlist';
 import { IAuctionProps, IAuctionState } from './interface/index.interface';
 import { inject, observer } from 'mobx-react';
 import { AuctionState } from '@/store/interface/auction.interface';
+import { injectIntl } from 'react-intl';
 @inject('common', 'myauction', 'auctionmanager')
 @observer
-export default class MyAuction extends React.Component<IAuctionProps, IAuctionState>
+class MyAuction extends React.Component<IAuctionProps, IAuctionState>
 {
   public state = {
     searchValue: ''
   }
+  public prop = this.props.intl.messages;
   // 显示选项框
   public showModal = (e) =>
   {
@@ -161,7 +163,7 @@ export default class MyAuction extends React.Component<IAuctionProps, IAuctionSt
           <div className="nodata-page">
             <div className="nodata-wrap">
               <img src={require('@/img/nodata.png')} alt="" />
-              <p>这里是空的</p>
+              <p>{this.prop.message.empty}</p>
             </div>
           </div>
         }
@@ -170,7 +172,7 @@ export default class MyAuction extends React.Component<IAuctionProps, IAuctionSt
           <React.Fragment>
             <div className="search-box">
               <SearchBar
-                placeholder="按域名查找"
+                placeholder={this.prop.myauction.search}
                 style={{ "width": "3rem" }}
                 value={this.state.searchValue}
                 onChange={this.onSearchChange} />
@@ -197,23 +199,23 @@ export default class MyAuction extends React.Component<IAuctionProps, IAuctionSt
               animationType="slide-up"
             >
               <div className="select-box">
-                <TitleText text="选择筛选状态" />
+                <TitleText text={this.prop.myauction.selecttype} />
                 <div className="select-wrap">
-                  <label className={this.props.myauction.clickStatus === '0' ? 'checked-input' : ''}>全部<input type="radio" name='status' value="0" onChange={this.chooseStatus} /></label>
-                  <label className={this.props.myauction.clickStatus === AuctionState.fixed ? 'checked-input' : ''} >确定期<input type="radio" name='status' value={AuctionState.fixed} onChange={this.chooseStatus} /></label>
-                  <label className={this.props.myauction.clickStatus === AuctionState.random ? 'checked-input' : ''}>随机期<input type="radio" name='status' value={AuctionState.random} onChange={this.chooseStatus} /></label>
-                  <label className={this.props.myauction.clickStatus === AuctionState.end ? 'checked-input' : ''}>已结束<input type="radio" name='status' value={AuctionState.end} onChange={this.chooseStatus} /></label>
+                  <label className={this.props.myauction.clickStatus === '0' ? 'checked-input' : ''}>{this.prop.myauction.all}<input type="radio" name='status' value="0" onChange={this.chooseStatus} /></label>
+                  <label className={this.props.myauction.clickStatus === AuctionState.fixed ? 'checked-input' : ''} >{this.prop.myauction.period}<input type="radio" name='status' value={AuctionState.fixed} onChange={this.chooseStatus} /></label>
+                  <label className={this.props.myauction.clickStatus === AuctionState.random ? 'checked-input' : ''}>{this.prop.myauction.overtime}<input type="radio" name='status' value={AuctionState.random} onChange={this.chooseStatus} /></label>
+                  <label className={this.props.myauction.clickStatus === AuctionState.end ? 'checked-input' : ''}>{this.prop.myauction.ended}<input type="radio" name='status' value={AuctionState.end} onChange={this.chooseStatus} /></label>
                 </div>
               </div>
               <div className="select-box">
-                <TitleText text="选择筛选出价人" />
+                <TitleText text={this.prop.myauction.selecttype2} />
                 <div className="select-wrap">
-                  <label className={this.props.myauction.clickPeople === '0' ? 'checked-input' : ''}>全部<input type="radio" name='people' value="0" onChange={this.choosePeople} /></label>
-                  <label className={this.props.myauction.clickPeople === '1' ? 'checked-input' : ''} >我<input type="radio" name='people' value="1" onChange={this.choosePeople} /></label>
-                  <label className={this.props.myauction.clickPeople === '2' ? 'checked-input' : ''}>他人<input type="radio" name='people' value="2" onChange={this.choosePeople} /></label>
+                  <label className={this.props.myauction.clickPeople === '0' ? 'checked-input' : ''}>{this.prop.myauction.all}<input type="radio" name='people' value="0" onChange={this.choosePeople} /></label>
+                  <label className={this.props.myauction.clickPeople === '1' ? 'checked-input' : ''} >{this.prop.myauction.me}<input type="radio" name='people' value="1" onChange={this.choosePeople} /></label>
+                  <label className={this.props.myauction.clickPeople === '2' ? 'checked-input' : ''}>{this.prop.myauction.other}<input type="radio" name='people' value="2" onChange={this.choosePeople} /></label>
                 </div>
               </div>
-              <Button type="primary" onClick={this.applyChoose} style={{ borderRadius: '0' }}>筛选</Button>
+              <Button type="primary" onClick={this.applyChoose} style={{ borderRadius: '0' }}>{this.prop.btn.select}</Button>
             </Modal>
           </React.Fragment>
         }
@@ -222,3 +224,4 @@ export default class MyAuction extends React.Component<IAuctionProps, IAuctionSt
     );
   }
 }
+export default injectIntl(MyAuction);

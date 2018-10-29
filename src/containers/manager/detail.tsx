@@ -41,10 +41,10 @@ class DomainMap extends React.Component<IProps, IState>
 	public dateComputed = (time: string) => {
 
 		if (new Date().getTime() > formatTime.formatUnixTime(time)) {
-			return <span className="text-red">（已过期）</span>;
+			return <span className="text-red">{this.prop.manager.msg2}</span>;
 		}
 		if (formatTime.formatUnixTime(time) - new Date().getTime() <= (86400000 * 60)) {
-			return <span className="text-orange">（即将过期）</span>;
+			return <span className="text-orange">{this.prop.manager.msg}</span>;
 		}
 
 		return <span />;
@@ -55,7 +55,7 @@ class DomainMap extends React.Component<IProps, IState>
 		if (new Date().getTime() > formatTime.formatUnixTime(time)) {
 			return;
 		}else if (formatTime.formatUnixTime(time) - new Date().getTime() <= (86400000 * 60)) {
-			return <Button type="primary" inline={true} size="small" onClick={this.onReNew}>续约</Button>
+			return <Button type="primary" inline={true} size="small" onClick={this.onReNew}>{this.prop.btn.renew}</Button>
 		}else{
 			return ;
 		}
@@ -149,31 +149,31 @@ class DomainMap extends React.Component<IProps, IState>
 		return (
 			<div className="domainset-wrap">
 				<div className="mapping-block">
-					<TitleText text="域名" />
+					<TitleText text={this.prop.manager.title2} />
 					<div className="text-normal">{this.props.manager.detail.domain}</div>
 				</div>
 				<div className="mapping-block">
-					<TitleText text="地址解析器">
+					<TitleText text={this.prop.manager.resolver}>
 						{
 							this.props.manager.detail.resolver ?
-								<Button type="warning" inline={true} size="small" onClick={this.onChangeResolver}>重置</Button> :
-								<Button type="primary" inline={true} size="small" onClick={this.onChangeResolver}>设置</Button>
+								<Button type="warning" inline={true} size="small" onClick={this.onChangeResolver}>{this.prop.btn.reset}</Button> :
+								<Button type="primary" inline={true} size="small" onClick={this.onChangeResolver}>{this.prop.btn.set}</Button>
 						}
 					</TitleText>
-					<div className="text-normal">{this.props.manager.detail.resolver || '未设置'}</div>
+					<div className={this.props.manager.detail.resolver?'text-normal':'text-normal nodata'}>{this.props.manager.detail.resolver || this.prop.manager.noset}</div>
 				</div>
 				<div className="mapping-block">
-					<TitleText text="地址映射">
+					<TitleText text={this.prop.manager.mapping}>
 						{
 							this.props.manager.detail.resolverAddr ?
-								<Button type="warning" inline={true} size="small" onClick={this.onChangeResolverAddr}>重置</Button> :
-								<Button type={!!!this.props.manager.detail.resolver?"ghost":"primary"} inline={true} size="small" disabled={!!!this.props.manager.detail.resolver}  onClick={this.onChangeResolverAddr}>设置</Button>
+								<Button type="warning" inline={true} size="small" onClick={this.onChangeResolverAddr}>{this.prop.btnreset}</Button> :
+								<Button type={!!!this.props.manager.detail.resolver?"ghost":"primary"} inline={true} size="small" disabled={!!!this.props.manager.detail.resolver}  onClick={this.onChangeResolverAddr}>{this.prop.btn.set}</Button>
 						}
 					</TitleText>
-					<div className="text-normal">{this.props.manager.detail.resolverAddr || '未设置'}</div>
+					<div className={this.props.manager.detail.resolverAddr?'text-normal':'text-normal nodata'}>{this.props.manager.detail.resolverAddr || this.prop.manager.noset}</div>
 				</div>
 				<div className="mapping-block">
-					<TitleText text="到期时间">
+					<TitleText text={this.prop.manager.expirationtime}>
 						{
 							this.renewdiv(this.props.manager.detail.ttl)
 						}

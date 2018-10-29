@@ -3,11 +3,13 @@ import {observer} from 'mobx-react';
 import {ITaskmanagerStore, TaskType} from '@/store/interface/taskmanager.interface'
 import {NoticeBar} from 'antd-mobile';
 import './toptips.less';
+// import { injectIntl } from 'react-intl';
 
 interface IProps {
-  taskmanager:ITaskmanagerStore
+  taskmanager:ITaskmanagerStore,
+  // intl:any
 }
-
+// const prop = IProps.intl.messages;
 const textList = {
   startAuction: (domain) => `域名开标 ${domain} 已生效！`,
   raise: (msg) => `域名加价 ${msg.domain} （ ${msg.amount} CGAS ）已生效！`,// 资产更新 在tx交易成功后添加资产更新任务，资产更新立即执行
@@ -16,14 +18,28 @@ const textList = {
   domainRenewal: (domain) => `续约域名 ${domain} 已生效！`,// 域名续约
   domainMapping: (msg) => `地址映射 ${msg.domain} ( ${msg.address.replace(/^(\w{6})(.*)(\w{6})$/, '$1...$3')} )已生效！`,// 域名映射
   domainResovle: (domain) => `设置地址解析器  ${domain} 已生效！`,// 域名合约地址
-  gasToSgas: (amount) => `兑换CGAS ( ${amount} GAS ${amount} CGAS )已生效！`,// gas转sgas
-  sgasToGas: (amount) => `兑换GAS ( ${amount} CGAS ${amount} GAS ) 已生效！`,// sgas转gas
+  gasToSgas: (amount) => `兑换CGAS ( ${amount} GAS → ${amount} CGAS )已生效！`,// gas转sgas
+  sgasToGas: (amount) => `兑换GAS ( ${amount} CGAS → ${amount} GAS ) 已生效！`,// sgas转gas
   collectDomain: (domain) => `领域域名 ${domain} 已生效！`,// 领取域名
   recoverCgas: (amount) => `领回CGAS ${amount} 已生效！`,// 退回sgas
 }
 
 @observer
-export default class TopTips extends React.Component<IProps> {
+class TopTips extends React.Component<IProps> {
+  // public prop = this.props.intl.messages;
+  // public textList = {
+  //   startAuction: (domain) => `${this.prop.message.startauctionmsg}${domain}${this.prop.message.isok}`,
+  //   raise: (msg) => `${this.prop.message.raisebidmsg}域名加价 ${msg.domain} （ ${msg.amount} CGAS ）${this.prop.message.isok}`,// 资产更新 在tx交易成功后添加资产更新任务，资产更新立即执行
+  //   topup: (amount) => `${this.prop.message.topupmsg}充值 ${amount}${this.prop.message.isok}`,// 充值
+  //   withdraw: (amount) => `${this.prop.message.withdrawmsg}提取 ${amount}${this.prop.message.isok}`,// 退款
+  //   domainRenewal: (domain) => `${this.prop.message.editdomainmsg3}续约域名 ${domain}${this.prop.message.isok}`,// 域名续约
+  //   domainMapping: (msg) => `${this.prop.message.editdomainmsg2}地址映射 ${msg.domain} ( ${msg.address.replace(/^(\w{6})(.*)(\w{6})$/, '$1...$3')} )${this.prop.message.isok}`,// 域名映射
+  //   domainResovle: (domain) => `${this.prop.message.editdomainmsg}设置地址解析器  ${domain}${this.prop.message.isok}`,// 域名合约地址
+  //   gasToSgas: (amount) => `${this.prop.message.exchangemsg}兑换CGAS ( ${amount} GAS → ${amount} CGAS )${this.prop.message.isok}`,// gas转sgas
+  //   sgasToGas: (amount) => `${this.prop.message.exchangemsg}兑换GAS ( ${amount} CGAS → ${amount} GAS ) ${this.prop.message.isok}`,// sgas转gas
+  //   collectDomain: (domain) => `${this.prop.message.claimdomainmsg}领域域名 ${domain}${this.prop.message.isok}`,// 领取域名
+  //   recoverCgas: (amount) => `${this.prop.message.reclaimmsg}领回CGAS ${amount}${this.prop.message.isok}`,// 退回sgas
+  // }
   public renderNoticeText = () => {
     const item = this.props.taskmanager.selfTask;
     if(!item) {
@@ -79,3 +95,4 @@ export default class TopTips extends React.Component<IProps> {
     );
   }
 }
+export default TopTips;

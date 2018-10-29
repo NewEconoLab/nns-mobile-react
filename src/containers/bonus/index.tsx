@@ -6,6 +6,7 @@ import TitleText from '@/components/titletext';
 import BonusList from './bonuslist'
 import {  IBonusProps, IBonusList } from './interface/index.interface';
 import { observer, inject } from 'mobx-react';
+import { injectIntl } from 'react-intl';
 import './index.less'
 import { ActivityIndicator } from 'antd-mobile';
 
@@ -13,13 +14,13 @@ import { ActivityIndicator } from 'antd-mobile';
 
 @inject('bonus')
 @observer
-export default class Bonus extends React.Component<IBonusProps, any>
+class Bonus extends React.Component<IBonusProps, any>
 {
+  public prop = this.props.intl.messages;
   public async componentDidMount()
   {
     await this.props.bonus.getBonusListByAddress();
   }
-
   public render()
   {
     return (
@@ -37,14 +38,14 @@ export default class Bonus extends React.Component<IBonusProps, any>
           <div className="nodata-page">
             <div className="nodata-wrap">
               <img src={require('@/img/nodata.png')} alt=""/>
-              <p>这里是空的</p>
+              <p>{this.prop.message.empty}</p>
             </div>          
           </div>    
         }            
         {
           this.props.bonus.bonusList.length !== 0 && 
             <React.Fragment>
-              <TitleText text="我的域名" />
+              <TitleText text={this.prop.bonus.title} />
               <div className="bonus-list">
                 {
                   this.props.bonus.bonusList.map((item: IBonusList, index: number) =>
@@ -60,3 +61,4 @@ export default class Bonus extends React.Component<IBonusProps, any>
     );
   }
 }
+export default injectIntl(Bonus);

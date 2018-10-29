@@ -38,6 +38,7 @@ export default {
     starting: "开标中...",
     join: "参与竞拍",
     gotit: "我知道了",
+    select:"筛选"
   },
   home: {
     action: {
@@ -67,8 +68,8 @@ export default {
     account: "竞拍账户",
     balance: "余额：",
     max: "全部",
-    msg: "所需CGAS数量：99",
-    errmsg: "钱包余额不足",
+    msg: "所需CGAS数量：",
+    errmsg: "余额不足",
     title3: "提取CGAS",
     title4: "提取数量",
   },
@@ -96,6 +97,8 @@ export default {
     other: "他人",
     me: "我",
     all:"全部",
+    selecttype:"选择筛选状态",
+    selecttype2:"选择筛选出价人",
     tip1: "确定期为竞拍第一阶段，时长为3天，此期间所有的出价都有效。当确定期最后一天有人出价时将触发最大时长为2天的随机期。否则竞拍即在确定期结束。",
     tip2: " 随机期为竞拍第二阶段，最大时长为2天，此期间任意一个出价都有可能触发该域名竞拍的结束从而出价无效，越靠后的出价触发结束的可能性越大，因此请尽早出价以免错失该域名。",
     info: {
@@ -120,7 +123,8 @@ export default {
     expirationtime: "到期时间",
     msg: "（即将过期）",
     msg2: "（已过期）",
-    title2: "域名"
+    title2: "域名",
+    noset:"未设置"
   },
   bonus: {
     title: "分红记录",
@@ -154,6 +158,7 @@ export default {
     waitmsg: "操作生效需要区块被确认，请耐心等待...",
     errmsg: "操作失败",
     errmsgtip1: "请求错误，请稍好再次尝试哦...",
+    isok:" 已生效！",
     exchangemsg: '"兑换CGAS（ 1 GAS → 1 CGAS ） 已生效！',
     startauctionmsg: '域名开标 1234567.neo 已生效！',
     raisebidmsg: '域名加价 1234567.neo （ 0.1 CGAS ）已生效！',
@@ -164,6 +169,7 @@ export default {
     editdomainmsg: '设置地址解析器 1234567.neo 已生效！',
     editdomainmsg2: '地址映射 1234567.neo （ AYah...9876 ）已生效！',
     editdomainmsg3: '续约域名 1234567.neo 已生效！',
-    editdomainerrmsg: '续约域名 1234567.neo 未生效！请再次尝试！'
+    editdomainerrmsg: '续约域名 1234567.neo 未生效！请再次尝试！',
+    empty:"这里是空的"
   }
 }

@@ -7,10 +7,15 @@ export interface InputModule {
   message?: string,
   color?: string
 }
+export interface ITopupMessages{
+  msg:string,
+  errmsg:string
+}
 
 export interface ITopupStore {
   fee:number,
-  inputModule:InputModule
+  inputModule:InputModule,
+  messages:ITopupMessages
 }
 
 export interface ITopupProps extends RouteComponentProps {

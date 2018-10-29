@@ -9,17 +9,16 @@ import { IAuction, AuctionState } from '@/store/interface/auction.interface';
 import { IAuctionDetailProps } from '../interface/index.interface';
 import TimeDetail from './timenode';
 import Process from './process';
+import { injectIntl } from 'react-intl';
 
-export default class DomainDetail extends React.Component<IAuctionDetailProps>
+class DomainDetail extends React.Component<IAuctionDetailProps>
 {
+    public prop = this.props.intl.messages;
     public ilog = (name:any) => {
         return (value:any) => {
             console.log(`${name}: ${value}`);
         };
     };
-    // public state=[{
-    //     defaultValue:[0,0]
-    // }]
 
     public render()
     {
@@ -27,7 +26,7 @@ export default class DomainDetail extends React.Component<IAuctionDetailProps>
         const wrapperClassNames = classnames('timeline-wrapper', {'active-over': this.props.myauction.detail ? this.props.myauction.detail.auctionState === AuctionState.end : false});
         return (
             <div className="timelist-wrapper">
-                <TitleText text="时间轴"/>
+                <TitleText text={this.prop.myauction.info.title2}/>
                 <p className="time-tip">注意：确定期为竞拍第一阶段，时长为3天，此期间所有的出价都有效。当确定期最后一天有人出价时将触发最大时长为2天的随机期。否则竞拍即在确定期结束。</p>
                 <div className={wrapperClassNames}>
                     <div className="time-line" style={{width:process.width+'%'}}/>
@@ -41,3 +40,4 @@ export default class DomainDetail extends React.Component<IAuctionDetailProps>
         );
     }
 }
+export default injectIntl(DomainDetail);

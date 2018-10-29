@@ -38,6 +38,7 @@ export default {
     starting:"Starting auction...",
     join:"Join auction",
     gotit:"OK，got it",
+    select:"Filter"
   },
   home:{
     action:{
@@ -67,7 +68,7 @@ export default {
     account:"Auction account",
     balance:"Balance：",
     max:"Max",
-    msg:"The amount of CGAS required：99",
+    msg:"The amount of CGAS required：",
     errmsg:"Insufficient balance in Wallet",
     title3:"Withdraw",
     title4:"Amount you want to withdraw",
@@ -96,6 +97,8 @@ export default {
     other:"Other",
     me:"Me",
     all:"All",
+    selecttype:"Filter by auction status",
+    selecttype2:"Filter by highest bidder",
     tip1:"The auction period is the first stage of the auction and its duration is 3 days, during which all bids are valid. An overtime bidding of up to 2 days will be triggered when someone bids on the last day of the auction period. Otherwise the auction ends at the end of the fixed period.",
     tip2:"The overtime bidding is the second stage of the auction. Its maximum duration is 2 days. During this period, any bid may trigger the end of the bidding of this domain and the bid will be invalid. The latter one bids, the more likely it triggers the end of the bidding. So it's advised to place a bid as early as possible to avoid missing this domain.",
     info:{
@@ -120,7 +123,8 @@ export default {
     expirationtime:"Expiration time",
     msg:"（ Expiring soon ）",
     msg2:"（ Expired ）",
-    title2:"Domain"
+    title2:"Domain",
+    noset:"not configured"
   },
   bonus:{
     title:"Bonus History",
@@ -153,7 +157,8 @@ export default {
     successmsg:"Successful operation",
     waitmsg:"Please be patient and wait for the operation to be confirmed！",
     errmsg: "Operation failed",
-    errmsgtip1: "请求错误，请稍好再次尝试哦...",
+    errmsgtip1: "Wrong request, please try again...",
+    isok:" is confirmed！",
     exchangemsg:'"CGAS exchange"（ 1 GAS → 1 CGAS ） is confirmed！',
     startauctionmsg:'"Start auction" 1234567.neo is confirmed！',
     raisebidmsg:'"Raise bid" 1234567.neo （ 0.1 CGAS ）is confirmed！',
@@ -164,6 +169,7 @@ export default {
     editdomainmsg:'"Edit domain - address resolver" 1234567.neo is confirmed！',
     editdomainmsg2:'"Edit domain - address mapping" 1234567.neo （ AYah...9876 ）is confirmed！',
     editdomainmsg3:'"Edit domain - renewal" 1234567.neo is confirmed！',
-    editdomainerrmsg:'"Edit domain - renewal" 1234567.neo is unconfirmed！Please try it again！'
+    editdomainerrmsg:'"Edit domain - renewal" 1234567.neo is unconfirmed！Please try it again！',
+    empty:"It's empty."
   }
 }

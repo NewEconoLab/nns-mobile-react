@@ -1,5 +1,5 @@
 import {observable, autorun} from 'mobx';
-import {IWithDrawStore, InputModule} from '../interface/withdraw.interface';
+import {IWithDrawStore, InputModule, IWithDrawMessages} from '../interface/withdraw.interface';
 import commonStore from '@/store/common';
 import { toNonExponential } from 'utils/function';
 
@@ -10,6 +10,10 @@ class WithDraw implements IWithDrawStore {
 			status: "",
 			message: "",
 			color: ""
+  }
+  @observable public messages:IWithDrawMessages = {
+    msg:'',
+    errmsg:'',
   }
   constructor() {
     autorun(() => {

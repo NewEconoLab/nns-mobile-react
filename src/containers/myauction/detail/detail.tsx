@@ -9,17 +9,19 @@ import * as formatTime from 'utils/formatTime';
 import { AuctionState, IAuctionAddress } from '@/store/interface/auction.interface';
 import '../index.less'
 import common from '@/store/common';
-export default class Detail extends React.Component<IAuctionDetailProps>
+import { injectIntl } from 'react-intl';
+class Detail extends React.Component<IAuctionDetailProps>
 {
+	public prop = this.props.intl.messages;
 	public bidder = () => {
 		if (!this.props.myauction.detail) {
 			return null;
 		}
 		const address = this.props.myauction.detail.maxBuyer.replace(/^(\w{4})(.*)(\w{4})$/, '$1...$3');
 		if (this.props.myauction.detail.maxBuyer === this.props.common.address) {
-			return <span className="auction-me">我（ {address} ）</span>
+			return <span className="auction-me">{this.prop.myauction.me}（ {address} ）</span>
 		}
-		return <span>他人（ {address} ）</span>
+		return <span>{this.prop.myauction.other}（ {address} ）</span>
 	}
 	public render() {
 		const detail = this.props.myauction.detail;
@@ -37,28 +39,28 @@ export default class Detail extends React.Component<IAuctionDetailProps>
 		return (
 			<React.Fragment>
 				<div className="domain-detail">
-					<TitleText text="域名信息">
+					<TitleText text={this.prop.myauction.info.title}>
 						<div className="status-group">
 							{
 								detail.auctionState === AuctionState.end &&
 								<div>
-									<span>状态：</span>
-									<span className="status-end">已结束</span>
+									<span>{this.prop.myauction.stage}：</span>
+									<span className="status-end">{this.prop.myauction.ended}</span>
 								</div>
 							}
 							{
 								detail.auctionState === AuctionState.random &&
 								<div>
-									<span>状态：</span>
-									<span className="status-random">随机期</span>
+									<span>{this.prop.myauction.stage}：</span>
+									<span className="status-random">{this.prop.myauction.overtime}</span>
 									<Hint type='2' />
 								</div>
 							}
 							{
 								detail.auctionState === AuctionState.fixed &&
 								<div>
-									<span>状态：</span>
-									<span className="status-being">确定期</span>
+									<span>{this.prop.myauction.stage}：</span>
+									<span className="status-being">{this.prop.myauction.period}</span>
 									<Hint type='1'/>
 								</div>
 							}
@@ -66,13 +68,14 @@ export default class Detail extends React.Component<IAuctionDetailProps>
 					</TitleText>
 					<div className="detail-content">
 						<div className="auction-name">{detail.domain}</div>
-						<div className="auction-normal">当前最高价：{detail.maxPrice} CGAS</div>
-						<div className="auction-normal">出价者：{this.bidder()}</div>
-						<div className="auction-normal">开标时间：{formatTime.format('yyyy/MM/dd hh:mm:ss', detail.startTime.blocktime.toString(), this.props.intl.locale)}</div>
-						<div className="auction-normal">我的出价总和：<span className="text-red">{detail.addWho.totalValue}</span> CGAS</div>   {/*todo  出价总和怎么求*/ /*这一看就是你男票帮你写的吧*/ }
+						<div className="auction-normal">{this.prop.myauction.highbid}{detail.maxPrice} CGAS</div>
+						<div className="auction-normal">{this.prop.myauction.bidder}{this.bidder()}</div>
+						<div className="auction-normal">{this.prop.myauction.starttime}{formatTime.format('yyyy/MM/dd hh:mm:ss', detail.startTime.blocktime.toString(), this.props.intl.locale)}</div>
+						<div className="auction-normal">{this.prop.myauction.info.mybidmsg}<span className="text-red">{detail.addWho.totalValue}</span> CGAS</div>   {/*todo  出价总和怎么求*/ /*这一看就是你男票帮你写的吧*/ }
 					</div>
 				</div>
 			</React.Fragment>
 		);
 	}
 }
+export default injectIntl(Detail);

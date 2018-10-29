@@ -12,11 +12,19 @@ import Input from '@/components/Input/Input'
 import './index.less'
 import TitleText from '@/components/titletext';
 import { IWithDrawProps } from './interface/withdraw.interface';
+import { injectIntl } from 'react-intl';
 
 @inject('withdraw', 'common')
 @observer
-export default class Withdraw extends React.Component<IWithDrawProps>
+class Withdraw extends React.Component<IWithDrawProps>
 {
+	public prop = this.props.intl.messages;
+	public componentDidMount() {
+		this.props.withdraw.messages = {
+			msg:this.prop.topup.msg,
+			errmsg:this.prop.topup.errmsg,
+		}
+	  }
 	public change = (value: string) => {
 
 		if(/\./.test(value) && value.split('.')[1].length > 8) {
@@ -49,24 +57,24 @@ export default class Withdraw extends React.Component<IWithDrawProps>
 		const disabled = this.props.withdraw.inputModule.color !== '' || !this.props.withdraw.inputModule.inputValue || parseFloat(this.props.withdraw.inputModule.inputValue) === 0;
 		return (
 			<div className="topup-wrap">
-				<TitleText text="提取CGAS" />
+				<TitleText text={this.prop.topup.title3} />
 				<div className="change-wrapper">
 					<div className="change-left">
 						<img src={account} alt="" className="wallet-img" />
-						<h2 className="h2-text">竞拍账户</h2>
-						<span className="change-number">余额： {this.props.common.accountBalance}</span>
+						<h2 className="h2-text">{this.prop.topup.account}</h2>
+						<span className="change-number">{this.prop.topup.balance} {this.props.common.accountBalance}</span>
 					</div>
 					<div className="change-middle">
 						<img src={direction} alt="" className="direction-img" />
 					</div>
 					<div className="change-right">
 						<img src={balance} alt="" className="wallet-img" />
-						<h2 className="h2-text">钱包</h2>
-						<span className="change-number">余额： {this.props.common.cgasBalance}</span>
+						<h2 className="h2-text">{this.prop.topup.wallet}</h2>
+						<span className="change-number">{this.prop.topup.balance} {this.props.common.cgasBalance}</span>
 
 					</div>
 				</div>
-				<TitleText text="提取数量" />
+				<TitleText text={this.prop.topup.title4} />
 				<div className="amount-number">
 					<Input
 						placeholder=""
@@ -78,7 +86,7 @@ export default class Withdraw extends React.Component<IWithDrawProps>
 						type="number"
 						color={this.props.withdraw.inputModule.color}
 					/>
-					<span className="input-right" onClick={this.onGetAll}>全部</span>
+					<span className="input-right" onClick={this.onGetAll}>{this.prop.topup.max}</span>
 				</div>
 				<div className="topup-footer">
 					<WingBlank>
@@ -86,10 +94,11 @@ export default class Withdraw extends React.Component<IWithDrawProps>
 							type="primary"
 							disabled={disabled}
 							onClick={this.onWithDraw}
-						>提取</Button>
+						>{this.prop.btn.withdraw}</Button>
 					</WingBlank>
 				</div>
 			</div>
 		);
 	}
 }
+export default injectIntl(Withdraw);

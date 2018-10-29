@@ -23,4 +23,5 @@ export interface IManagerStore {
 export interface IManagerProps extends RouteComponentProps{
   manager:IManagerStore,
   common:ICommonStore,
+  intl:any
 }

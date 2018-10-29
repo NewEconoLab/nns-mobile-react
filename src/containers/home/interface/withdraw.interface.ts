@@ -7,10 +7,14 @@ export interface InputModule {
   message?: string,
   color?: string
 }
-
+export interface IWithDrawMessages{
+  msg:string,
+  errmsg:string
+}
 export interface IWithDrawStore {
   fee:number,
-  inputModule:InputModule
+  inputModule:InputModule,
+  messages:IWithDrawMessages
 }
 
 export interface IWithDrawProps extends RouteComponentProps {

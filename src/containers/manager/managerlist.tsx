@@ -11,13 +11,14 @@ import './index.less'
 
 class ManagerList extends React.Component<IManagerListProps>
 {
+  public prop = this.props.intl.messages;
   public dateComputed = (time:string) => {
     if(new Date().getTime() > formatTime.formatUnixTime(time)) {
-      return <span className="text-red">（已过期）</span>;
+      return <span className="text-red">{this.prop.manager.msg2}</span>;
     }
 
     if(formatTime.formatUnixTime(time) - new Date().getTime() <= (86400000 * 60)) {
-      return <span className="text-orange">（即将过期）</span>;
+      return <span className="text-orange">{this.prop.manager.msg}</span>;
     }
 
     return <span/>;
@@ -33,9 +34,9 @@ class ManagerList extends React.Component<IManagerListProps>
         <div className="">
             <div className="list-wrapper" onClick={this.onGoToDetail.bind(this, this.props.item.domain)}>
               <div className="manager-name">{this.props.item.domain}</div>
-              <div className="manager-normal">地址解析器：<br />{this.props.item.resolver ? this.props.item.resolver : '未设置'}</div>
-              <div className="manager-normal">地址映射：<br />{this.props.item.resolverAddr ? this.props.item.resolverAddr : '未设置'}</div>
-              <div className="manager-normal">到期时间：{formatTime.format('yyyy/MM/dd hh:mm:ss', this.props.item.ttl, this.props.intl.locale)} {this.dateComputed(this.props.item.ttl)} </div>
+              <div className="manager-normal">{this.prop.manager.resolver}：<br />{this.props.item.resolver ? this.props.item.resolver : this.prop.manager.noset}</div>
+              <div className="manager-normal">{this.prop.manager.mapping}：<br />{this.props.item.resolverAddr ? this.props.item.resolverAddr : this.prop.manager.noset}</div>
+              <div className="manager-normal">{this.prop.manager.expirationtime}：<br />{formatTime.format('yyyy/MM/dd hh:mm:ss', this.props.item.ttl, this.props.intl.locale)} {this.dateComputed(this.props.item.ttl)} </div>
             </div>
         </div>
       </React.Fragment>

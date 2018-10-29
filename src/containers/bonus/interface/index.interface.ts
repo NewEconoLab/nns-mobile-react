@@ -26,5 +26,6 @@ export interface IBonusStore {
 }
 
 export interface IBonusProps {
-  bonus:IBonusStore
+  bonus:IBonusStore,
+  intl:any
 }
