@@ -100,6 +100,22 @@ export class nnstools{
             throw new Error(error);
         }
     }
+    
+    /**
+     * 取回存储器下的sgas
+     */
+    public static async getMoneyBack(amount: number, register: Neo.Uint160)
+    {
+        const transcount = Neo.Fixed8.fromNumber(amount).getData().toNumber();
+        const data = Contract.buildScript_random(
+            register,
+            "getmoneyback",
+            [ "(addr)" + common.address, "(int)" + transcount ]
+        )
+        const res = await Contract.contractInvokeTrans_attributes(data.ToArray())
+        return res;
+    }
+
 
     /**
      * 域名开标
