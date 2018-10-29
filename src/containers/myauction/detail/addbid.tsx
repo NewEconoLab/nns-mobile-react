@@ -34,7 +34,7 @@ class Addbid extends React.Component<IAuctionAddbidProps&IAuctionDetailProps, Is
     public componentDidMount(){
         const currentPrice = this.props.myauction.detail?this.props.myauction.detail.addWho.totalValue:0;
         this.setState({
-            inputMessage:'我的出价总和将为：'+currentPrice+' CGAS'
+            inputMessage:this.prop.myauction.info.msg2+currentPrice+' CGAS'
         })
     }
     public change = (value: string) => {
@@ -49,17 +49,17 @@ class Addbid extends React.Component<IAuctionAddbidProps&IAuctionDetailProps, Is
         const currentPrice = this.props.myauction.detail?this.props.myauction.detail.addWho.totalValue:0;
         const heightPrice = this.props.myauction.detail?this.props.myauction.detail.maxPrice:0;
         const myBidPrice = value?(parseFloat(value)+currentPrice):currentPrice;
-        state.inputMessage = '我的出价总和将为：'+myBidPrice+' CGAS';
+        state.inputMessage = this.prop.myauction.info.msg2+myBidPrice+' CGAS';
         state.inputColor = '';
         
 
         if(myBidPrice < heightPrice) {
-            state.inputMessage = '您的出价总和小于当前最高价';
+            state.inputMessage = this.prop.myauction.info.errmsg2;
             state.inputColor = 'red-color';
         }
 
         if (parseFloat(value) > parseFloat(this.props.common.accountBalance)) {
-            state.inputMessage = '竞拍账户余额不足';
+            state.inputMessage = this.prop.myauction.info.errmsg;
             state.inputColor = 'red-color';
         }
 
@@ -90,7 +90,7 @@ class Addbid extends React.Component<IAuctionAddbidProps&IAuctionDetailProps, Is
         this.props.myauction.showDialog = false;
         const currentPrice = this.props.myauction.detail?this.props.myauction.detail.addWho.totalValue:0;
         this.setState({
-            inputMessage: '我的出价总和将为：'+currentPrice+' CGAS',
+            inputMessage: this.prop.myauction.info.msg2+currentPrice+' CGAS',
             inputState: '',
             inputColor: ''
         })
@@ -101,30 +101,30 @@ class Addbid extends React.Component<IAuctionAddbidProps&IAuctionDetailProps, Is
             <div className="addbid-wrapper">
                 <div className="addbid-box">
                     <div className="addbid-title">
-                        <h2>竞拍出价</h2>
+                        <h2>{this.prop.myauction.info.title3}</h2>
                         <div className="close-addbid" onClick={this.onClose}>
                             <img src={close} alt="" />
                         </div>
                     </div>
                     <div className="addbid-content">
-                        <div className="addbid-account">竞拍账户余额： {this.props.common.accountBalance} CGAS</div>
+                        <div className="addbid-account">{this.prop.myauction.info.msg} {this.props.common.accountBalance} CGAS</div>
                         <div className="addbid-amount">
-                            <span className="addbid-text">本次加价：</span>
+                            <span className="addbid-text">{this.prop.myauction.info.raisebid}</span>
                             <Input
                                 placeholder=""
-                                style={{ width: 200 }}
+                                style={{ width: '2rem' }}
                                 status={this.state.inputState}
                                 message={this.state.inputMessage}
                                 value={this.props.myauction.myBid}
                                 onChange={this.change}
                                 color={this.state.inputColor}
-                                type="text"
+                                type="number"
                             />
-                            <span className="addbid-text">CGAS</span>
+                            <span className="addbid-text-abs">CGAS</span>
                         </div>
                     </div>
                     <div className="addbid-tips">
-                        <span>注意：每次加价最小单位为 0.1 CGAS，当出价总和小于该域名的当前最高价时，本次出价不成功。</span>
+                        <span>{this.prop.myauction.info.tips3}</span>
                     </div>
                     <Button type="primary" onClick={this.addBid} disabled={ isDisabled} style={{ borderRadius: '0' }} className="detail-btn" >出价</Button>
                 </div>

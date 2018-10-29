@@ -8,11 +8,13 @@ import './index.less'
 import { IRecordProps, IRecordState } from './interface/record.interface';
 import { Task } from '@/store/interface/taskmanager.interface';
 import { ActivityIndicator } from 'antd-mobile';
+import { injectIntl } from 'react-intl';
 
 @inject('taskmanager')
 @observer
-export default class Record extends React.Component<IRecordProps, IRecordState>
+class Record extends React.Component<IRecordProps, IRecordState>
 {
+  public prop = this.props.intl.messages;
   public state = {
     list: []
   }
@@ -44,7 +46,7 @@ export default class Record extends React.Component<IRecordProps, IRecordState>
           <div className="nodata-page">
             <div className="nodata-wrap">
               <img src={require('@/img/nodata.png')} alt="" />
-              <p>这里是空的</p>
+              <p>{this.prop.message.empty}</p>
             </div>
           </div>
         }
@@ -52,8 +54,8 @@ export default class Record extends React.Component<IRecordProps, IRecordState>
           this.state.list.length !== 0 &&
           <>
             <div className="record-title">
-              <h3 className="record-h3">操作记录</h3>
-              <div className="record-tip">注意：这些记录将会在您登出或离开NNS页面时清空。</div>
+              <h3 className="record-h3">{this.prop.record.title}</h3>
+              <div className="record-tip">{this.prop.record.tips}</div>
             </div>
             <div className="record-list">
               {
@@ -70,3 +72,4 @@ export default class Record extends React.Component<IRecordProps, IRecordState>
     );
   }
 }
+export default injectIntl(Record);

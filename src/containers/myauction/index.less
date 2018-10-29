@@ -153,6 +153,8 @@
             font-family: PingFangSC-Regular;
             font-size: 12px;
             color: #A9A9A9;
+            line-height: 16px;
+            text-align: justify;
         }      
     }
     .detail-footer{
@@ -212,10 +214,17 @@
                         font-size: 14px;
                         color: #333333;
                         letter-spacing: 0;
-                        line-height: 14px;                   
+                        line-height: 14px; 
+                        position: relative;
                         .addbid-text{
                             position: relative;
                             top: -.2rem;
+                            // flex:none;
+                        }
+                        .addbid-text-abs{
+                            position: absolute;
+                            top: .15rem;
+                            right: .3rem;
                         }
                     }
                 }
@@ -225,6 +234,7 @@
                     font-size: 12px;
                     color: #A9A9A9;
                     letter-spacing: 0;
+                    text-align: justify;
                 }
             }
         }
@@ -237,7 +247,7 @@
 // 时间轴样式
 .timeline-wrapper {
     display: flex;
-    margin:0 .33rem .8rem;
+    margin:.2rem .33rem .8rem;
     position: relative;
     padding-bottom:.8rem;
 
@@ -269,15 +279,16 @@
 
         .title {
             position: absolute;
-            top:-.25rem;
+            top:-.35rem;
             font-size:12px;
             width:.6rem;
+            // white-space: nowrap;
             left:50%;
-            margin-left:-.3rem;
+            margin-left:-.2rem;
         }
         .time {
             position: absolute;
-            bottom:-.35rem;
+            bottom:-.4rem;
             font-size:12px;
             width:.6rem;
             left:50%;
@@ -314,19 +325,20 @@
 
         .title {
             position: absolute;
-            top:-.25rem;
+            top:-.35rem;
             font-size:12px;
             width:.6rem;
+            // white-space: nowrap;
             left:50%;
-            margin-left:-.3rem;
+            margin-left:-.2rem;
         }
         .time {
             position: absolute;
-            bottom:-.35rem;
+            bottom:-.4rem;
             font-size:12px;
             width:.6rem;
             left:50%;
-            margin-left:-.3rem;
+            margin-left:-.45rem;
         }
     }
 }

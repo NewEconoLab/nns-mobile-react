@@ -13,7 +13,7 @@ import { ITopupProps } from './interface/topup.interface';
 import './index.less'
 import TitleText from '@/components/titletext';
 import { nnstools } from '@/utils/nnstools';
-// import DomainSelling from '@/store/DomainSelling';
+import Alert from '@/components/alert';
 import { injectIntl } from 'react-intl';
 import taskmanager from '@/store/taskmanager';
 import { Task, TaskType, ConfirmType } from '@/store/interface/taskmanager.interface';
@@ -52,7 +52,9 @@ class Topup extends React.Component<ITopupProps>
 		if(res.txid)
 		{
 			taskmanager.addTask(new Task(TaskType.topup,ConfirmType.tranfer,res.txid,{amount}));
-			console.log(res.txid);
+			Alert(this.prop.message.successmsg, this.prop.message.waitmsg, this.prop.btn.confirm, function () {
+				return;
+			  });
 		}
 	}
 	public componentWillUnmount() {

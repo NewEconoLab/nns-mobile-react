@@ -1,7 +1,8 @@
 import { ITaskmanagerStore, Task } from "@/store/interface/taskmanager.interface";
 
 export interface IRecordProps {
-  taskmanager:ITaskmanagerStore
+  taskmanager:ITaskmanagerStore,
+  intl:any
 }
 
 export interface IRecordState {
@@ -9,7 +10,8 @@ export interface IRecordState {
 }
 
 export interface IRecordListProps {
-  item:Task
+  item:Task,
+  intl:any
 }
 
 export interface IRecordListState {

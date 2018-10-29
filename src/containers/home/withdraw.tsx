@@ -16,6 +16,7 @@ import { injectIntl } from 'react-intl';
 import { nnstools } from '@/utils/nnstools';
 import DomainSelling from '@/store/DomainSelling';
 import taskmanager from '@/store/taskmanager';
+import Alert from '@/components/alert';
 import { Task, TaskType, ConfirmType } from '@/store/interface/taskmanager.interface';
 
 @inject('withdraw', 'common')
@@ -52,10 +53,10 @@ class Withdraw extends React.Component<IWithDrawProps>
 		if(res.txid)
 		{
 			taskmanager.addTask(new Task(TaskType.withdraw,ConfirmType.tranfer,res.txid,{amount}));
-			console.log(res.txid);			
+			Alert(this.prop.message.successmsg, this.prop.message.waitmsg, this.prop.btn.confirm, function () {
+				return;
+			  });	
 		}
-		// await this.props.common.sendrawtransaction();
-    alert('操作成功');
 	}
 	public componentWillUnmount() {
     this.props.withdraw.inputModule.inputValue = '';

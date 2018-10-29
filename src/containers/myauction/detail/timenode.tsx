@@ -14,6 +14,7 @@ interface Iprops {
   }
 class TimeDetail extends React.Component<Iprops>
 {
+    public prop = this.props.intl.messages;
     public render()
     {
         const ytd = format('yyyy/MM/dd',this.props.time.toString(),this.props.intl.locale);
@@ -26,10 +27,21 @@ class TimeDetail extends React.Component<Iprops>
                 {
                     this.props.index===0?
                     <>
-                    <div className="title">开标时间</div>
+                    <div className="title">{this.prop.myauction.info.starttime}</div>
                         <div className="time">
-                            <p>{ytd}</p>
-                            <p>{hms}</p>
+                            {
+                                this.props.intl.locale === 'zh' && 
+                                <>
+                                    <p>{ytd}</p>
+                                    <p>{hms}</p>
+                                </>
+                            }
+                            {
+                                this.props.intl.locale === 'en' && 
+                                <>
+                                    <p style={{width:'80px'}}>{ytd}</p>
+                                </>
+                            }                            
                         </div>
                     </>:
                     <></>
@@ -37,10 +49,21 @@ class TimeDetail extends React.Component<Iprops>
                 {
                     this.props.index===3?
                     <>
-                    <div className="title">确定期</div>
+                    <div className="title">{this.prop.myauction.period}</div>
                         <div className="time">
-                            <p>{ytd}</p>
-                            <p>{hms}</p>
+                        {
+                                this.props.intl.locale === 'zh' && 
+                                <>
+                                    <p>{ytd}</p>
+                                    <p>{hms}</p>
+                                </>
+                            }
+                            {
+                                this.props.intl.locale === 'en' && 
+                                <>
+                                    <p style={{width:'80px'}}>{ytd}</p>
+                                </>
+                            }
                         </div>
                     </>:
                     <></>
@@ -48,10 +71,21 @@ class TimeDetail extends React.Component<Iprops>
                 {
                     this.props.index===5?
                     <>
-                    <div className="title">随机期</div>
+                    <div className="title">{this.prop.myauction.overtime}</div>
                         <div className="time">
-                            <p>{ytd}</p>
-                            <p>{hms}</p>
+                        {
+                                this.props.intl.locale === 'zh' && 
+                                <>
+                                    <p>{ytd}</p>
+                                    <p>{hms}</p>
+                                </>
+                            }
+                            {
+                                this.props.intl.locale === 'en' && 
+                                <>
+                                    <p style={{width:'80px'}}>{ytd}</p>
+                                </>
+                            }
                         </div>
                     </>:
                     <></>
