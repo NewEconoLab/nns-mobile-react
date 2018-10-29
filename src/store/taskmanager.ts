@@ -36,7 +36,7 @@ class TaskManager implements ITaskmanagerStore
       
               this.timer = setTimeout(() => {
                  this.selfTask = null;
-              }, 3000)
+              }, 5000)
 
               this.selfTask = item;
             }

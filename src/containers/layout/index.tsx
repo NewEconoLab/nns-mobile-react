@@ -6,7 +6,6 @@ import TopTips from './toptips';
 import {zh_CN, en_US} from '@/language';
 import store from '@/store/common';
 import taskmanagerStore from '@/store/taskmanager';
-
 import './index.less';
 
 export default class LayoutIndex extends React.Component<any, any> {
@@ -41,7 +40,7 @@ export default class LayoutIndex extends React.Component<any, any> {
       <div className="layout-container">
         <Header locale={store.language === 'en' ? en_US.header : zh_CN.header}/>
         <div className="layout-main">
-          <TopTips taskmanager={taskmanagerStore}/>
+          <TopTips taskmanager={taskmanagerStore} locale={store.language === 'en' ? en_US.message : zh_CN.message}/>
           {this.props.children}
         </div>
       </div>

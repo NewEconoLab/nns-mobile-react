@@ -9,10 +9,8 @@ class Bonus implements IBonusStore {
   @action public async getBonusListByAddress() {
     let result:any = [];
     try {
-      result = await Api.getBonusListByAddress(common.address,1,10);
-      console.log(result)
+      result = await Api.getBonusListByAddress(common.address,1,100);
     }catch(e) {
-      console.log(e)
       return false;
     }
     this.bonusList = result ? result[0].list : [];

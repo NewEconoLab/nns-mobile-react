@@ -6,8 +6,8 @@ import * as React from 'react';
 import { Grid} from 'antd-mobile';
 import './index.less'
 // 引入图片
-import tutorial from '@/img/tutorial.png'
-import cgas from '@/img/cgasex.png'
+// import tutorial from '@/img/tutorial.png'
+// import cgas from '@/img/cgasex.png'
 import myauction from '@/img/myauction.png'
 import domainmanager from '@/img/domainmanage.png'
 import bonus from '@/img/bonus.png'
@@ -39,11 +39,11 @@ class Action extends React.Component<IHomeProps,any> {
     public render() {
         // 定义功能
         const data = [
-            {
-                icon: cgas,
-                text: this.home.action.exchange,
-                page:'exchange'
-            },
+            // {
+            //     icon: cgas,
+            //     text: this.home.action.exchange,
+            //     page:'exchange'
+            // },
             {
                 icon: myauction,
                 text: this.home.action.auction,
@@ -63,12 +63,12 @@ class Action extends React.Component<IHomeProps,any> {
                 icon: record,
                 text: this.home.action.record,
                 page:'record'
-            },
-            {
-                icon: tutorial,
-                text: this.home.action.tutorial,
-                page:'tutorial'
             }
+            // {
+            //     icon: tutorial,
+            //     text: this.home.action.tutorial,
+            //     page:'tutorial'
+            // }
         ];
 
         return (

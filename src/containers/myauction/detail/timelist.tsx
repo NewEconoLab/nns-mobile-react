@@ -14,11 +14,6 @@ import { injectIntl } from 'react-intl';
 class DomainDetail extends React.Component<IAuctionDetailProps>
 {
     public prop = this.props.intl.messages;
-    public ilog = (name:any) => {
-        return (value:any) => {
-            console.log(`${name}: ${value}`);
-        };
-    };
 
     public render()
     {
@@ -27,7 +22,7 @@ class DomainDetail extends React.Component<IAuctionDetailProps>
         return (
             <div className="timelist-wrapper">
                 <TitleText text={this.prop.myauction.info.title2}/>
-                <p className="time-tip">注意：确定期为竞拍第一阶段，时长为3天，此期间所有的出价都有效。当确定期最后一天有人出价时将触发最大时长为2天的随机期。否则竞拍即在确定期结束。</p>
+                <p className="time-tip"> {process.timearr.length===4?this.prop.myauction.info.tips1:this.prop.myauction.info.tips2}</p>
                 <div className={wrapperClassNames}>
                     <div className="time-line" style={{width:process.width+'%'}}/>
                     {

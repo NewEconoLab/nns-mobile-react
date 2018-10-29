@@ -65,8 +65,6 @@ class DomainMap extends React.Component<IProps, IState>
 		this.setState({
 			resolverAddr:value
 		})	
-		console.log(this.state.resolverAddr);
-		
 	}
 	public onChangeResolver = () => {
 		this.setState({
