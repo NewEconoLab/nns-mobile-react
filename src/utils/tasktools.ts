@@ -37,7 +37,7 @@ export class TaskTool
     {
         const ress:{[txid:string]:any} = {};   
         
-        console.time('showColumnInfo')
+        // console.time('showColumnInfo')
         for (const task of tasks) {            
             if (task.state === TaskState.watting) // 判断如果状态是 watting 则查找对应的返回值 
             {
@@ -57,7 +57,7 @@ export class TaskTool
                 ress[ task.txid ] = undefined;
             } 
         }
-        console.timeEnd('showColumnInfo') // 4757.181ms
+        // console.timeEnd('showColumnInfo') // 4757.181ms
         return ress;
     }
 

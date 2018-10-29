@@ -2,6 +2,7 @@
 
 import { observable, action } from 'mobx';
  import * as Api from '@/store/api/common.api';
+import { $_GET } from '@/utils/paramstool';
 class Common{
   @observable public title:string = ''; // 标题
   @observable public language:string = 'en';  // 当前语言
@@ -10,6 +11,23 @@ class Common{
   @observable public network:string = 'testnet';  // 当前网络
   @observable public accountBalance:string = '';    // 账户中的cgas
   @observable public cgasBalance:string = '';       // CGAS余额
+  @observable public fee:Neo.Fixed8 = Neo.Fixed8.Zero;
+
+  @action public initWalletConfig = () =>
+  {
+    const params:{} = $_GET();
+    if(params[`fee`])
+    {
+      const fee = params[`fee`];
+      const wallet = params[`wallet`];
+      const network = params[`net`];
+      const language = params[`lang`];
+      this.fee = Neo.Fixed8.fromNumber(fee);
+      this.network = network;
+      this.language = language;
+      console.log(wallet); 
+    }
+  }
 
   /**
    * 获取cgas余额
@@ -113,6 +131,7 @@ class Common{
     const result = await Api.getRehargeAndTransfer(txid);
     return result[0]
   }
+
 
 }
 

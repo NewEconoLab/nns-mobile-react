@@ -27,6 +27,7 @@ addLocaleData([...en, ...zh]);
 // 初始化请求
 // o3tools.init(res => {
 //   if (res) {
+    commonStore.initWalletConfig();
     commonStore.getregisteraddressbalance();
     commonStore.getnep5balanceofaddress();
     auctionmanagerStore.initFilterAuctionList();

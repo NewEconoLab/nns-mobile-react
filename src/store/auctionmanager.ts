@@ -29,16 +29,31 @@ class AuctionManager implements IAuctionListStore {
   
   @action public getAuctionInfoByAddress = async (address:string) => 
   {
-    let result:any = null;
+    let list:IAuction[]=[];
     try 
     {
-      result = await Api.getauctioninfobyaddress(address, 1, 100,'test');
+      const res = await Api.getAuctionInfoCount(address,'test');
+      const count = res[0]['count'];
+      let count2=count;
+      if(count>100)
+      {
+        for(;count2>0;)
+        {
+          const result = await Api.getauctioninfobyaddress(address, 1, count2<100?count2:100,'test');
+          list = list.concat(result?result[0].list:[]);
+          count2 -= 100;
+        }
+      }
+      else
+      {
+        const result = await Api.getauctioninfobyaddress(address, 1, count,'test');
+        list = list.concat(result?result[0].list:[]);
+      }
     }
     catch(e)
     {
       return false;
     }
-    const list:IAuction[] = result?result[0].list:[];
     for (const auction of list) 
     {
       if (auction.addwholist)

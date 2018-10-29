@@ -24,3 +24,14 @@ export const getauctioninfobyaddress = (address:string,pageIndex:number, pageSiz
    }
    return request(opts);
   }
+
+  export const getAuctionInfoCount = (address:string,root:string)=>{
+    const opts = {
+      method:'getauctioninfocount',
+      params:[
+        address,
+        root
+      ]
+    }
+    return request(opts);
+  }
