@@ -69,7 +69,6 @@ class RecordList extends React.Component<IRecordListProps, IRecordListState>
     {
         const item = this.props.item;
         const txidtext = item.txid.replace(/^(\w{4})(.*)(\w{4})$/, '$1...$3');
-        console.log(item);
         return (
             <React.Fragment>
                 <div className="list-wrapper">

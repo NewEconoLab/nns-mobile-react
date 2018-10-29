@@ -14,11 +14,6 @@ import { injectIntl } from 'react-intl';
 class DomainDetail extends React.Component<IAuctionDetailProps>
 {
     public prop = this.props.intl.messages;
-    public ilog = (name:any) => {
-        return (value:any) => {
-            console.log(`${name}: ${value}`);
-        };
-    };
 
     public render()
     {

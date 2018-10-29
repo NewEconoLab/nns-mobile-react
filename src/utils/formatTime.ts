@@ -28,17 +28,14 @@ export const format = function (fmt: string, dateNumber: string, locale: string)
       day = "0" + day;
     }
     let hour = dateObj.getUTCHours().toString();
-    console.log(hour);
     if(hour.length === 1){
       hour = '0' + hour;
     }
     let minute = dateObj.getUTCMinutes().toString();
-    console.log(minute);
     if(minute.length === 1){
       minute = '0' + minute;
     }
     let second = dateObj.getUTCSeconds().toString();
-    console.log(second);
     if(second.length === 1){
       second = '0' + second;
     }
@@ -49,14 +46,12 @@ export const format = function (fmt: string, dateNumber: string, locale: string)
   if (/(y+)/.test(fmt))
   {
     fmt = fmt.replace(RegExp.$1, (dateObj.getFullYear() + "").substr(4 - RegExp.$1.length));
-    console.log("----"+fmt)
   }
   for (const k in o)
   {
     if (new RegExp("(" + k + ")").test(fmt))
     {
       fmt = fmt.replace(RegExp.$1, (RegExp.$1.length === 1) ? (o[k]) : (("00" + o[k]).substr(("" + o[k]).length)));
-      console.log("*****"+fmt)
     }
   }
   return fmt;
