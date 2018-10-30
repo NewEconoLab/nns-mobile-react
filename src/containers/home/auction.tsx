@@ -41,6 +41,7 @@ class Auction extends React.Component<IHomeProps>
   public onStartAuction = async () => {
     const roothash = nnstools.nameHash("test");
     const res = await nnstools.startAuciton(DomainSelling.RootNeo.register,roothash,this.props.home.inputModule.inputValue);
+    // alert(res);
     if(res['txid']){
       const auction  = {} as IAuction;
       auction["auctionId"]= res["txid"];

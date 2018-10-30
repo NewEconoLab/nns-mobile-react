@@ -100,8 +100,11 @@ export class Contract
     const signdata = ThinNeo.Helper.Sign(tran.GetMessage().clone(), prekey);
     tran.AddWitness(signdata, pubkey, addr);
     const data: Uint8Array = tran.GetRawData();
-    const res = await common.sendrawtransaction(data.toHexString())
-    MarkUtxo.setMark(tran.marks);
+    const res = await common.sendrawtransaction(data.toHexString());
+    if(res)
+    {
+      MarkUtxo.setMark(tran.marks);
+    }
     return res;
     // const msg = tran.GetMessage().clone();
     // const promise = new Promise((resolve, reject) =>{      

@@ -73,13 +73,24 @@ class Common{
   @action public sendrawtransaction = async (toHex:string) => {
     let result:any = null;
     try {
+      console.log("===========================sendrawtransaction DATA=======================");
+      console.log(toHex);
+      
       result =  await Api.sendrawtransaction(toHex);
     }catch(e) {
+      console.log("===========================sendrawtransaction ERROR=======================");
+      console.log(e);
+      
       return false;
     }
     if(!result[0].txid) {
+      console.log("===========================sendrawtransaction FALSE=======================");
+      console.log(result);
+      
       return false;
     }
+    console.log("===========================sendrawtransaction SUCCESS=======================");
+    console.log(result[0]);
     
     return result[0];
   }

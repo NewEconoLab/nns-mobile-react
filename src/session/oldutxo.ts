@@ -1,5 +1,4 @@
 import { TABLE_CONFIG } from "@/config";
-import { string } from "prop-types";
 
 export class MarkUtxo
 {
@@ -34,7 +33,7 @@ export class MarkUtxo
     public static getMark()
     {
         const sessionstr:any = sessionStorage.getItem(TABLE_CONFIG.utxoMark);
-        const markutxo:{[txid:string]:number[]} = sessionstr instanceof string? JSON.parse(sessionstr):{};
+        const markutxo:{[txid:string]:number[]} = sessionstr? JSON.parse(sessionstr):{};
         return markutxo;
     }
 

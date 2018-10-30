@@ -19,6 +19,10 @@ export class CoinTool{
                 return {};
             }
             const marks = MarkUtxo.getMark();   // 获得被标记的utxo
+            console.log("=================get mark=============");
+            
+            console.log(marks);
+            
             const assets = {};        
             // 对utxo进行归类，并且将count由string转换成 Neo.Fixed8
             // tslint:disable-next-line:forin        

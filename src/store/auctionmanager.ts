@@ -177,6 +177,9 @@ class AuctionManager implements IAuctionListStore {
     }
   }
 
+  /**
+   * 按开标时间排序 
+   */
   @action public sortFilterAuctionList = () => {
     let keys = Object.keys(this.filterAuctionList);
 

@@ -96,7 +96,7 @@ export class nnstools{
                 throw new Error("交易发送异常");                
             }
         } catch (error) {
-            alert(JSON.stringify(error));
+            // alert(JSON.stringify(error));
             throw new Error(error);
         }
     }
