@@ -5,7 +5,7 @@ import { observable, action } from 'mobx';
 import { $_GET } from '@/utils/paramstool';
 class Common{
   @observable public title:string = ''; // 标题
-  @observable public language:string = 'en';  // 当前语言
+  @observable public language:string = '';  // 当前语言
   @observable public address:string = 'AeDbQBwD9sDMyLV7RgHBQEFTiHctgFHtF4'; // 当前地址
   @observable public publicKey:string='';
   @observable public network:string = 'testnet';  // 当前网络
@@ -16,7 +16,7 @@ class Common{
   @action public initWalletConfig = () =>
   {
     const params:{} = $_GET();
-    if(params[`fee`])
+    if(Object.keys(params).length>0)
     {
       const fee = params[`fee`];
       const wallet = params[`wallet`];

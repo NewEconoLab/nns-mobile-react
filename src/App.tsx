@@ -1,5 +1,5 @@
 import * as React from 'react';
-import { BrowserRouter, Switch } from 'react-router-dom';
+import { Switch, HashRouter } from 'react-router-dom';
 import { renderRoutes } from 'react-router-config';
 import { Provider, observer } from "mobx-react";
 import { IntlProvider, addLocaleData } from 'react-intl';
@@ -71,13 +71,15 @@ const ObserverRender = observer(() => {
 export default () => {
   return (
     <Provider {...store}>
-      <BrowserRouter>
+      {/* <BrowserRouter> */}
+      <HashRouter>
         <Layout>
           <Switch>
             <ObserverRender />
           </Switch>
         </Layout>
-      </BrowserRouter>
+      </HashRouter>
+      {/* </BrowserRouter> */}
     </Provider>
   );
 };

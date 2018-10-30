@@ -30,11 +30,11 @@ class DomainDetail extends React.Component<IAuctionDetailProps, IDetailState>
     public prop = this.props.intl.messages;
     public detail = this.props.myauction.detail as IAuction;
 
-    public componentDidMount() {
-        if(!this.props.myauction.detail) {
-            this.props.history.goBack();
-        }
-    }
+	public componentDidMount() {
+		if (!this.props.myauction.detail) {
+			this.props.history.goBack();
+		}
+	}
     public onShowDialog = () => {
         this.props.myauction.showDialog = true;
         this.props.myauction.myBid = '';
@@ -132,46 +132,52 @@ class DomainDetail extends React.Component<IAuctionDetailProps, IDetailState>
 
     public render()
     {
-        const detail =(this.props.myauction.detail as IAuction);
-        let btn;
-        if(detail.auctionState===AuctionState.random||detail.auctionState===AuctionState.fixed)
-        {
-            btn = <Button type="primary"  onClick={this.onShowDialog} style={{borderRadius:'0'}} className="detail-btn">{this.prop.btn.placebid}</Button>
+		if (!this.props.myauction.detail) {
+            return null;
         }
-        else if(detail.auctionState === AuctionState.end)
+        else
         {
-            if(detail.maxBuyer===common.address)
+            const detail =(this.props.myauction.detail as IAuction);
+            let btn;
+            if(detail.auctionState===AuctionState.random||detail.auctionState===AuctionState.fixed)
             {
-                if(detail.addWho.getdomainTime)
+                btn = <Button type="primary"  onClick={this.onShowDialog} style={{borderRadius:'0'}} className="detail-btn">{this.prop.btn.placebid}</Button>
+            }
+            else if(detail.auctionState === AuctionState.end)
+            {
+                if(detail.maxBuyer===common.address)
                 {
-                    btn = <Button type="primary" disabled={true} style={{borderRadius:'0'}} className="detail-btn">{this.prop.btn.claimed}</Button>
+                    if(detail.addWho.getdomainTime)
+                    {
+                        btn = <Button type="primary" disabled={true} style={{borderRadius:'0'}} className="detail-btn">{this.prop.btn.claimed}</Button>
+                    }
+                    else
+                    {                    
+                        btn = <Button type="primary" loading={this.state.loadingGetDomain} onClick={this.getDomain} style={{borderRadius:'0'}} className="detail-btn">{this.state.loadingGetDomain?this.prop.btn.claiming:this.prop.btn.claimdomain}</Button>
+                    }
+                }
+                else if(detail.addWho.accountTime)
+                {
+                    btn = <Button type="primary" disabled={true} style={{borderRadius:'0'}} className="detail-btn">{this.prop.btn.reclaimed}</Button>
                 }
                 else
-                {                    
-                    btn = <Button type="primary" loading={this.state.loadingGetDomain} onClick={this.getDomain} style={{borderRadius:'0'}} className="detail-btn">{this.state.loadingGetDomain?this.prop.btn.claiming:this.prop.btn.claimdomain}</Button>
+                {
+                    btn = <Button type="primary"  loading={this.state.loadingGetBackCgas} onClick={this.bidSettlement} style={{borderRadius:'0'}} className="detail-btn">{this.state.loadingGetBackCgas?this.prop.btn.reclaiming:this.prop.btn.reclaimcgas}</Button>
                 }
             }
-            else if(detail.addWho.accountTime)
-            {
-                btn = <Button type="primary" disabled={true} style={{borderRadius:'0'}} className="detail-btn">{this.prop.btn.reclaimed}</Button>
-            }
-            else
-            {
-                btn = <Button type="primary"  loading={this.state.loadingGetBackCgas} onClick={this.bidSettlement} style={{borderRadius:'0'}} className="detail-btn">{this.state.loadingGetBackCgas?this.prop.btn.reclaiming:this.prop.btn.reclaimcgas}</Button>
-            }
-        }
-        return (
-            <div className="domain-detail-wrapper">
-                <Detail {...this.props}/>
-                <TimeList {...this.props}/>   
-                <div className="detail-footer">
-                    {
-                        this.props.myauction.showDialog && <Addbid {...this.props} />
-                    }
-                    {btn}
+            return (
+                <div className="domain-detail-wrapper">
+                    <Detail {...this.props}/>
+                    <TimeList {...this.props}/>   
+                    <div className="detail-footer">
+                        {
+                            this.props.myauction.showDialog && <Addbid {...this.props} />
+                        }
+                        {btn}
+                    </div>
                 </div>
-            </div>
-        );
+            );
+        }
     }
     
 }
