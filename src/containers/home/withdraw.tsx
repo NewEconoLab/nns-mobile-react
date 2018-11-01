@@ -24,6 +24,8 @@ import { Task, TaskType, ConfirmType } from '@/store/interface/taskmanager.inter
 class Withdraw extends React.Component<IWithDrawProps>
 {
 	public prop = this.props.intl.messages;
+	public btnWait = false;
+	public btnDis = false;
 	public componentDidMount() {
 		this.props.withdraw.messages = {
 			msg:this.prop.topup.msg,
@@ -48,6 +50,8 @@ class Withdraw extends React.Component<IWithDrawProps>
 	}
 	public onWithDraw = async () => {
 		// todo
+		this.btnWait = true;
+		this.btnDis = true;
 		const amount = parseFloat(this.props.withdraw.inputModule.inputValue);
 		const res = await nnstools.getMoneyBack(amount,DomainSelling.RootNeo.register);
 		if(res.txid)
@@ -57,6 +61,14 @@ class Withdraw extends React.Component<IWithDrawProps>
 				return;
 			  });	
 		}
+		else
+		{			
+			Alert(this.prop.message.errmsg, this.prop.message.errmsgtip1, this.prop.btn.confirm, () => {
+				return;
+			});
+		}
+		this.btnWait=false;
+		this.btnDis=false;
 	}
 	public componentWillUnmount() {
     this.props.withdraw.inputModule.inputValue = '';
@@ -66,7 +78,7 @@ class Withdraw extends React.Component<IWithDrawProps>
   }
 	// 发送交易接口sendrawtransaction 传参：已附加签名鉴证的txHex
 	public render() {
-		const disabled = this.props.withdraw.inputModule.color !== '' || !this.props.withdraw.inputModule.inputValue || parseFloat(this.props.withdraw.inputModule.inputValue) === 0;
+		this.btnDis = this.props.withdraw.inputModule.color !== '' || !this.props.withdraw.inputModule.inputValue || parseFloat(this.props.withdraw.inputModule.inputValue) === 0;
 		return (
 			<div className="topup-wrap">
 				<TitleText text={this.prop.topup.title3} />
@@ -104,7 +116,8 @@ class Withdraw extends React.Component<IWithDrawProps>
 					<WingBlank>
 						<Button 
 							type="primary"
-							disabled={disabled}
+							loading={this.btnWait}
+							disabled={this.btnDis}
 							onClick={this.onWithDraw}
 						>{this.prop.btn.withdraw}</Button>
 					</WingBlank>

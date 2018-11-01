@@ -102,7 +102,7 @@ export class nnstools{
     }
     
     /**
-     * 取回存储器下的sgas
+     * 取回存储器下的cgas
      */
     public static async getMoneyBack(amount: number, register: Neo.Uint160)
     {

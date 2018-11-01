@@ -58,6 +58,12 @@ class Auction extends React.Component<IHomeProps>
         return;
       });
     }
+    else
+    {      
+      Alert(this.prop.message.errmsg, this.prop.message.errmsgtip1, this.prop.btn.confirm, () => {
+        return;
+    });
+    }
   }
   public onRaiseAuction = async () => 
   {

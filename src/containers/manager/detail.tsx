@@ -90,6 +90,12 @@ class DomainMap extends React.Component<IProps, IState>
 			});
 			this.onCloseMessageResolver();
 		}
+		else
+		{
+			Alert(this.prop.message.errmsg, this.prop.message.errmsgtip1, this.prop.btn.confirm, () => {
+				return;
+			});
+		}
 	}
 	public onCloseMessageResolver = () => {
 		this.setState({
@@ -110,6 +116,12 @@ class DomainMap extends React.Component<IProps, IState>
 			});
 			this.onCloseMessageResolver();
 		}
+		else
+		{
+			Alert(this.prop.message.errmsg, this.prop.message.errmsgtip1, this.prop.btn.confirm, () => {
+				return;
+			});
+		}
 	}
 	public onCloseMessageResolverAddr = () => {
 		this.setState({
@@ -129,6 +141,12 @@ class DomainMap extends React.Component<IProps, IState>
 				console.log("成功了");                        
 			});
 			this.onCloseMessageResolver();
+		}
+		else
+		{			
+			Alert(this.prop.message.errmsg, this.prop.message.errmsgtip1, this.prop.btn.confirm, () => {
+				return;
+			});
 		}
 	}
 

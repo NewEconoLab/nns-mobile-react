@@ -13,6 +13,7 @@ import { injectIntl } from 'react-intl'
 import Alert from '@/components/alert';
 import taskmanager from '@/store/taskmanager';
 import { Task, ConfirmType, TaskType } from '@/store/interface/taskmanager.interface';
+import { accAdd } from '@/utils/alculator';
 
 interface Istate {
     inputMessage: string,
@@ -45,14 +46,13 @@ class Addbid extends React.Component<IAuctionAddbidProps&IAuctionDetailProps, Is
         }
         if (/\./.test(value) && value.split('.')[1].length >= 2) {
             return false;
-        }
+        }        
         const currentPrice = this.props.myauction.detail?this.props.myauction.detail.addWho.totalValue:0;
         const heightPrice = this.props.myauction.detail?this.props.myauction.detail.maxPrice:0;
-        const myBidPrice = value?(parseFloat(value)+currentPrice):currentPrice;
+        const myBidPrice = value?(accAdd(value,currentPrice)):currentPrice;
         state.inputMessage = this.prop.myauction.info.msg2+myBidPrice+' CGAS';
-        state.inputColor = '';
+        state.inputColor = '';          
         
-
         if(myBidPrice < heightPrice) {
             state.inputMessage = this.prop.myauction.info.errmsg2;
             state.inputColor = 'red-color';
@@ -72,10 +72,18 @@ class Addbid extends React.Component<IAuctionAddbidProps&IAuctionDetailProps, Is
     public addBid = async () => {
         const auction = this.props.myauction.detail as IAuction;
         try {
+            console.log(DomainSelling.RootNeo.register.toString());
+            
             const res = await nnstools.raise(auction.auctionId, this.props.myauction.myBid, DomainSelling.RootNeo.register);
             if (res) {
                 taskmanager.addTask(new Task(TaskType.raise, ConfirmType.contract, res['txid'], { domain: auction["fulldomain"], amount: this.props.myauction.myBid }))
                 Alert(this.prop.message.successmsg, this.prop.message.waitmsg, this.prop.btn.confirm, () => {
+                    return;
+                });
+            }
+            else
+            {
+                Alert(this.prop.message.errmsg, this.prop.message.errmsgtip1, this.prop.btn.confirm, () => {
                     return;
                 });
             }

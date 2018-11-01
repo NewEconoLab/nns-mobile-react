@@ -12,7 +12,8 @@ class TaskManager implements ITaskmanagerStore
     @observable public selfTask:Task | null = null;
     public confrimConact = 
     {
-        [TaskType.raise]:`assetManagement`,
+        [TaskType.raise]:`raise`,
+        [TaskType.recoverCgas]:`bidSettlement`,
         [TaskType.startAuction]:`startAuction`,
         [TaskType.collectDomain]:`collectDomain`,
         [TaskType.domainMapping]:`setResolverData`,

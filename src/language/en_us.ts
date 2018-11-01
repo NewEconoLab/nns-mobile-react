@@ -17,6 +17,7 @@ export default {
   },
   btn:{
     withdraw:"Withdraw",
+    withdrawin: "Withdraw...",
     topup:"Top up",
     topingup:"Topping up...",
     exchange:"Exchange",

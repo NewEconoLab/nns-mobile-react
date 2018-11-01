@@ -61,6 +61,12 @@ class DomainDetail extends React.Component<IAuctionDetailProps, IDetailState>
                     return;
                 });
             }
+            else
+            {                
+                Alert(this.prop.message.errmsg, this.prop.message.errmsgtip1, this.prop.btn.confirm, () => {
+                    return;
+                });
+            }
         } catch (error) {
             console.error(error);            
         }

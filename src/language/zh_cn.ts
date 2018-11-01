@@ -17,6 +17,7 @@ export default {
   },
   btn: {
     withdraw: "提取",
+    withdrawin: "提取中...",
     topup: "充值",
     topingup: "充值中...",
     exchange: "兑换",
