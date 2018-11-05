@@ -1,5 +1,5 @@
 export default {
-  accountCGAS:'0x87ff07afbf72125dc3d8514c84d4e6670252211e',
+  accountCGAS:'0xc5bf7b424edef0fefbc6cc4481bd40bdb23f4a35',
   ID_CGAS: Neo.Uint160.parse('74f2dc36a68fdc4682034178eb2220729231db76'),
   DAPP_NNC: Neo.Uint160.parse("fc732edee1efdf968c23c20a9628eaa5a6ccb934"),
   baseContract : Neo.Uint160.parse("348387116c4a75e420663277d9c02049907128c7"),
