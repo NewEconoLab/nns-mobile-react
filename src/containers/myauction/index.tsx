@@ -13,8 +13,16 @@ import { injectIntl } from 'react-intl';
 @observer
 class MyAuction extends React.Component<IAuctionProps, IAuctionState>
 {
-  public state = {
-    searchValue: ''
+  public state :{
+    searchValue: string;
+		data:string[];
+		isLoadingMore: boolean,
+		wrapper:HTMLDivElement | null
+  } = {
+    searchValue: '',
+		data: ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h','i','j','k','l','m','n', 'b', 'c', 'd', 'e', 'f', 'g', 'h','i','j','k','l','m','n', 'b', 'c', 'd', 'e', 'f', 'g', 'h','i','j','k','l','m','n', 'b', 'c', 'd', 'e', 'f', 'g', 'h','i','j','k','l','m','n', 'b', 'c', 'd', 'e', 'f', 'g', 'h','i','j','k','l','m','n', 'b', 'c', 'd', 'e', 'f', 'g', 'h','i','j','k','l','m','n'],
+		isLoadingMore: false,
+		wrapper: null
   }
   public prop = this.props.intl.messages;
   // 显示选项框
@@ -50,13 +58,15 @@ class MyAuction extends React.Component<IAuctionProps, IAuctionState>
     this.props.myauction.peopleValue = this.props.myauction.clickPeople;
 
     const list = this.props.auctionmanager.auctionList;
+    
     let newList = {};
     let keysArr: string[] = [];
 
     if (this.props.myauction.statusValue.toString() === "0")
     {
       this.props.auctionmanager.filterAuctionList = list;
-    } else
+    }
+    else
     {
       keysArr = Object.keys(this.props.auctionmanager.auctionList).filter((keys: string) =>
       {
@@ -159,6 +169,8 @@ class MyAuction extends React.Component<IAuctionProps, IAuctionState>
           </div>
         }
         {
+      console.log(JSON.stringify(this.props.auctionmanager.auctionList))}
+        {
           Object.keys(this.props.auctionmanager.auctionList).length === 0 &&
           <div className="nodata-page">
             <div className="nodata-wrap">
@@ -219,9 +231,46 @@ class MyAuction extends React.Component<IAuctionProps, IAuctionState>
             </Modal>
           </React.Fragment>
         }
-
+        <div className="loadMore" ref={el => this.state.wrapper = el}>加载更多</div>
+        {this.state.data.map((item, index) => (
+            <li key={index} className="li-item">{item}</li>
+          ))}
       </div>
     );
+  }
+	public componentDidMount() {
+		const wrapper = this.state.wrapper as HTMLElement;		
+		const loadMoreDataFn = this.loadMoreDataFn;
+		const that = this; // 为解决不同context的问题
+		let timeCount;
+		function callback() {
+			const top = wrapper.getBoundingClientRect().top;
+			const windowHeight = window.screen.height;
+
+			if (top && top < windowHeight) {
+				// 当 wrapper 已经被滚动到页面可视范围之内触发
+				loadMoreDataFn(that);
+			}
+		}
+	
+    window.addEventListener('scroll', ()=> 
+    {
+      if (this.state.isLoadingMore) {		  
+        return ;
+      }
+
+      if (timeCount) {
+        clearTimeout(timeCount);
+      }
+
+      timeCount = setTimeout(callback, 50);
+    }, false);
+  }
+	
+  public loadMoreDataFn(that) {
+    that.setState({
+      data: that.state.data.concat(['E', 'c', 'h', 'o'])
+    })
   }
 }
 export default injectIntl(MyAuction);
