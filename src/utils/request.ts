@@ -1,4 +1,5 @@
 import Axios from 'axios';
+import common from '@/store/common';
 
 interface IOpts {
   method:string, // 接口名
@@ -8,8 +9,8 @@ interface IOpts {
   getAll?:boolean, // 是否获取所有返回结果
 }
 
-const baseCommonUrl: string = "https://api.nel.group/api/testnet";
-const baseUrl: string = "https://apiwallet.nel.group/api/testnet";
+const baseCommonUrl: string = "https://api.nel.group/api/"+common.network;
+const baseUrl: string = "https://apiwallet.nel.group/api/"+common.network;
 
 const makeRpcPostBody = (method: string, params: any): {} => {
     
