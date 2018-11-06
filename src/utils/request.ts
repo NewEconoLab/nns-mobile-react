@@ -31,7 +31,8 @@ const defaultConfig = {
   }
 }
 export default function request(opts: IOpts): Promise<any> {
-  const network = common.network?"testnet":common.network;
+  const network = common.network?common.network:"testnet";
+  
   let url = baseUrl+network;
   if (opts.baseUrl === 'common') {
     url = baseCommonUrl+network;
