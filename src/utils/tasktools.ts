@@ -1,9 +1,10 @@
-import { Task, TaskState, ConfirmType } from "@/store/interface/taskmanager.interface";
+import { Task, TaskState, ConfirmType, TaskType } from "@/store/interface/taskmanager.interface";
 import * as Api from '@/store/api/common.api';
 import taskmanager from "@/store/taskmanager";
 import { TABLE_CONFIG } from "@/config";
 import auctionmanager from "@/store/auctionmanager";
 import common from "@/store/common";
+import statemanager from "@/store/statemanager";
 
 export class TaskTool
 {
@@ -63,6 +64,9 @@ export class TaskTool
         return ress;
     }
 
+    /**
+     * 启动任务管理器
+     */
     public static start()
     {
         setInterval(
@@ -87,6 +91,29 @@ export class TaskTool
                 auctionmanager.updateAuctionList();
             }
         },5000)
+    }
+
+    public static stateUpdate(task:Task)
+    {
+        switch (task.taskType) {
+            case TaskType.collectDomain:
+                statemanager.domainStateDel(task.message["domain"]);
+                break;
+            case TaskType.recoverCgas:
+                statemanager.bidSettlementStateDel(task.message["domain"]);
+                break;
+            case TaskType.domainRenewal:
+                statemanager.renewDomainStateDel(task.message["domain"]);
+                break;
+            case TaskType.domainResovle:
+                statemanager.setResolverStateDel(task.message["domain"]);
+                break;
+            case TaskType.domainMapping:
+                statemanager.setResolverDataStateDel(task.message["domain"]);
+                break;
+            default:
+                break;
+        }
     }
 
 }

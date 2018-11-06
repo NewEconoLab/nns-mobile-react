@@ -10,6 +10,7 @@ import { IAuctionDetailProps } from '../interface/index.interface';
 import TimeDetail from './timenode';
 import Process from './process';
 import { injectIntl } from 'react-intl';
+import DomainSelling from '@/store/DomainSelling';
 
 class DomainDetail extends React.Component<IAuctionDetailProps>
 {
@@ -17,7 +18,7 @@ class DomainDetail extends React.Component<IAuctionDetailProps>
 
     public render()
     {
-        const process = Process.getProcess(this.props.myauction.detail as IAuction,5*60*1000);
+        const process = Process.getProcess(this.props.myauction.detail as IAuction,DomainSelling.day);
         const wrapperClassNames = classnames('timeline-wrapper', {'active-over': this.props.myauction.detail ? this.props.myauction.detail.auctionState === AuctionState.end : false});
         return (
             <div className="timelist-wrapper">

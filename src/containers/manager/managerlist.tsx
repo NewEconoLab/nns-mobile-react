@@ -6,6 +6,7 @@ import { injectIntl } from 'react-intl';
 import { IManagerListProps } from './interface/index.interface';
 import * as formatTime from 'utils/formatTime';
 import './index.less'
+import DomainSelling from '@/store/DomainSelling';
 
 // 获取解析地址 getresolvedaddress 参数：域名
 
@@ -17,7 +18,7 @@ class ManagerList extends React.Component<IManagerListProps>
       return <span className="text-red">{this.prop.manager.msg2}</span>;
     }
 
-    if(formatTime.formatUnixTime(time) - new Date().getTime() <= (86400000 * 60)) {
+    if(formatTime.formatUnixTime(time) - new Date().getTime() <= (DomainSelling.day* 60)) {
       return <span className="text-orange">{this.prop.manager.msg}</span>;
     }
 
@@ -40,7 +41,7 @@ class ManagerList extends React.Component<IManagerListProps>
             </div>
         </div>
       </React.Fragment>
-    );
+    )
   }
 }
 

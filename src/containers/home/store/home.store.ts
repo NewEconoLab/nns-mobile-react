@@ -3,6 +3,7 @@ import { IHomeStore, InputModule, IMessages } from '../interface/home.interface'
 import * as Api from '../api/home.api';
 import { IAuction, IAuctionAddress } from '@/store/interface/auction.interface';
 import common from '@/store/common';
+import DomainSelling from '@/store/DomainSelling';
 class Home implements IHomeStore {
   @observable public inputModule: InputModule = {
     inputValue: "",
@@ -44,7 +45,7 @@ class Home implements IHomeStore {
   @action public async getAuctionState() {
     let result: any = null;
     try {
-      result = await Api.getdomainauctioninfo(this.inputModule.inputValue?this.inputModule.inputValue+".test":"");
+      result = await Api.getdomainauctioninfo(this.inputModule.inputValue?this.inputModule.inputValue+"."+DomainSelling.RootNeo.root:"");
       if(!result)
       {
         this.inputModule.message = this.messages.successmsg;

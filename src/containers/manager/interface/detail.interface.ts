@@ -1,5 +1,6 @@
 import { IManagerStore } from './index.interface';
 import { RouteComponentProps } from 'react-router-dom';
+import { IStatemanagerStore } from '@/store/interface/statemanager.interface';
 
 export interface IState {
   timelater: number,
@@ -12,6 +13,7 @@ export interface IState {
 export interface IProps extends RouteComponentProps {
   intl: any,
   manager: IManagerStore
+  statemanager:IStatemanagerStore;
 }
 
 export interface IDetail{

@@ -19,7 +19,7 @@ import { Task, ConfirmType, TaskType } from '@/store/interface/taskmanager.inter
 import {IDetailState} from '../interface/detail.interface';
 import Alert from '@/components/alert';
 
-@inject('myauction', 'common')
+@inject('myauction', 'common','statemanager')
 @observer
 class DomainDetail extends React.Component<IAuctionDetailProps, IDetailState>
 {   
@@ -48,6 +48,7 @@ class DomainDetail extends React.Component<IAuctionDetailProps, IDetailState>
         this.setState({
             loadingGetBackCgas:true
         })
+        this.props.statemanager.bidSettlementStatePush(this.detail.fulldomain)
         try {
             const data = await nnstools.bidSettlement(this.detail.auctionId,DomainSelling.RootNeo.register);
             const res = await common.sendrawtransaction(data.toHexString());
@@ -55,19 +56,21 @@ class DomainDetail extends React.Component<IAuctionDetailProps, IDetailState>
             {
                 const txid = res[ "txid" ];
                 taskmanager.addTask(
-                    new Task(TaskType.recoverCgas,ConfirmType.tranfer, txid, { domain: this.detail.fulldomain, amount: this.detail.addWho.totalValue })
+                    new Task(TaskType.recoverCgas,ConfirmType.contract, txid, { domain: this.detail.fulldomain, amount: this.detail.addWho.totalValue })
                 );
                 Alert(this.prop.message.successmsg, this.prop.message.waitmsg, this.prop.btn.confirm, ()=>{ 
                     return;
                 });
             }
             else
-            {                
+            {
                 Alert(this.prop.message.errmsg, this.prop.message.errmsgtip1, this.prop.btn.confirm, () => {
                     return;
                 });
+                throw new Error("Transaction send failed");                
             }
         } catch (error) {
+            this.props.statemanager.bidSettlementStateDel(this.detail.auctionId);
             console.error(error);            
         }
         this.setState({
@@ -76,10 +79,11 @@ class DomainDetail extends React.Component<IAuctionDetailProps, IDetailState>
     }
 
     public getDomain = async () =>
-    {        
+    {
         this.setState({
             loadingGetDomain: true
         })
+        this.props.statemanager.domainStatePush(this.detail.fulldomain)
         if(this.detail.addWho.accountTime && this.detail.addWho.accountTime.blockindex > 0)
         {
             try {
@@ -89,15 +93,21 @@ class DomainDetail extends React.Component<IAuctionDetailProps, IDetailState>
                 {
                     const txid = res[ "txid" ];
                     taskmanager.addTask(
-                        new Task(TaskType.collectDomain,ConfirmType.contract, txid, { domain: this.detail.fulldomain, amount: this.detail.addWho.totalValue })
+                        new Task(TaskType.collectDomain,ConfirmType.contract, txid, { domain: this.detail.fulldomain })
                     );
                     
                     Alert(this.prop.message.successmsg, this.prop.message.waitmsg, this.prop.btn.confirm, ()=>{ 
                         console.log("成功了");                        
                     });
                 }
+                else
+                {
+                    throw new Error("交易发送失败");
+                    
+                }
             } catch (error) {
-                console.error(error)
+                console.error(error);
+                this.props.statemanager.domainStateDel(this.detail.auctionId);
                 Alert(this.prop.message.successmsg, this.prop.message.waitmsg, this.prop.btn.confirm, ()=>
                 {
                     console.log(error);                    
@@ -112,11 +122,9 @@ class DomainDetail extends React.Component<IAuctionDetailProps, IDetailState>
                 const res = await common.rechargeAndTransfer(data1,data2);
                 if (res[ "errCode" ]&& res["errCode"]==="0000")
                 {
-                    const txid = res[ "txid" ];
-                    console.log("            txid:"+txid);
-                    
+                    const txid = res[ "txid" ];                    
                     taskmanager.addTask(
-                        new Task(TaskType.collectDomain,ConfirmType.recharge, txid, { domain: this.detail.fulldomain, amount: this.detail.addWho.totalValue })
+                        new Task(TaskType.collectDomain,ConfirmType.recharge, txid, { domain: this.detail.fulldomain })
                     );
                     Alert(this.prop.message.successmsg, this.prop.message.waitmsg, this.prop.btn.confirm, ()=>{ 
                         return;
@@ -127,6 +135,7 @@ class DomainDetail extends React.Component<IAuctionDetailProps, IDetailState>
                     throw new Error("交易发送失败");                    
                 }
             } catch (error) {
+                this.props.statemanager.domainStateDel(this.detail.auctionId);
                 console.error(error)
             }
         }
@@ -138,7 +147,8 @@ class DomainDetail extends React.Component<IAuctionDetailProps, IDetailState>
 
     public render()
     {
-		if (!this.props.myauction.detail) {
+        if (!this.props.myauction.detail) 
+        {
             return null;
         }
         else
@@ -158,8 +168,11 @@ class DomainDetail extends React.Component<IAuctionDetailProps, IDetailState>
                         btn = <Button type="primary" disabled={true} style={{borderRadius:'0'}} className="detail-btn">{this.prop.btn.claimed}</Button>
                     }
                     else
-                    {                    
-                        btn = <Button type="primary" loading={this.state.loadingGetDomain} onClick={this.getDomain} style={{borderRadius:'0'}} className="detail-btn">{this.state.loadingGetDomain?this.prop.btn.claiming:this.prop.btn.claimdomain}</Button>
+                    {     
+                        const wait = this.props.statemanager.getDomainState?this.props.statemanager.getDomainState.includes(detail.fulldomain):false;
+                        btn = wait
+                            ?<Button type="primary" loading={true}  style={{borderRadius:'0'}} className="detail-btn">{this.prop.btn.claiming}</Button>
+                            :<Button type="primary" onClick={this.getDomain} style={{borderRadius:'0'}} className="detail-btn">{this.prop.btn.claimdomain}</Button>
                     }
                 }
                 else if(detail.addWho.accountTime)
@@ -167,8 +180,11 @@ class DomainDetail extends React.Component<IAuctionDetailProps, IDetailState>
                     btn = <Button type="primary" disabled={true} style={{borderRadius:'0'}} className="detail-btn">{this.prop.btn.reclaimed}</Button>
                 }
                 else
-                {
-                    btn = <Button type="primary"  loading={this.state.loadingGetBackCgas} onClick={this.bidSettlement} style={{borderRadius:'0'}} className="detail-btn">{this.state.loadingGetBackCgas?this.prop.btn.reclaiming:this.prop.btn.reclaimcgas}</Button>
+                {                    
+                    const wait = this.props.statemanager.bidSettlementState?this.props.statemanager.bidSettlementState.includes(detail.fulldomain):false;
+                    btn = wait
+                        ?<Button type="primary" loading={true} style={{borderRadius:'0'}} className="detail-btn">{this.prop.btn.reclaiming}</Button>
+                        :<Button type="primary" onClick={this.bidSettlement} style={{borderRadius:'0'}} className="detail-btn">{this.prop.btn.reclaimcgas}</Button>
                 }
             }
             return (

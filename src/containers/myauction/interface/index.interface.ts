@@ -1,6 +1,7 @@
 import { RouteComponentProps } from 'react-router-dom';
 import {ICommonStore} from '@/store/interface/common.interface'
 import { IAuction,IAuctionListStore } from '@/store/interface/auction.interface';
+import { IStatemanagerStore } from '@/store/interface/statemanager.interface';
 
 export interface IProps extends RouteComponentProps{
   a:1
@@ -62,5 +63,6 @@ export interface IAuctionDetailProps extends RouteComponentProps{
   // auctionList:IAuctionListStore,
   myauction:IMyAuctionStore,
   common:ICommonStore,
+  statemanager:IStatemanagerStore,
   intl:any,
 }

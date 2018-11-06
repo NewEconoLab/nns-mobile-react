@@ -15,12 +15,10 @@ class MyAuction extends React.Component<IAuctionProps, IAuctionState>
 {
   public state :{
     searchValue: string;
-		data:string[];
 		isLoadingMore: boolean,
 		wrapper:HTMLDivElement | null
   } = {
     searchValue: '',
-		data: ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h','i','j','k','l','m','n', 'b', 'c', 'd', 'e', 'f', 'g', 'h','i','j','k','l','m','n', 'b', 'c', 'd', 'e', 'f', 'g', 'h','i','j','k','l','m','n', 'b', 'c', 'd', 'e', 'f', 'g', 'h','i','j','k','l','m','n', 'b', 'c', 'd', 'e', 'f', 'g', 'h','i','j','k','l','m','n', 'b', 'c', 'd', 'e', 'f', 'g', 'h','i','j','k','l','m','n'],
 		isLoadingMore: false,
 		wrapper: null
   }
@@ -169,8 +167,6 @@ class MyAuction extends React.Component<IAuctionProps, IAuctionState>
           </div>
         }
         {
-      console.log(JSON.stringify(this.props.auctionmanager.auctionList))}
-        {
           Object.keys(this.props.auctionmanager.auctionList).length === 0 &&
           <div className="nodata-page">
             <div className="nodata-wrap">
@@ -231,10 +227,10 @@ class MyAuction extends React.Component<IAuctionProps, IAuctionState>
             </Modal>
           </React.Fragment>
         }
-        <div className="loadMore" ref={el => this.state.wrapper = el}>加载更多</div>
-        {this.state.data.map((item, index) => (
+        <div className="loadMore" ref={el => this.state.wrapper = el}>{""}</div>
+        {/* {this.state.data.map((item, index) => (
             <li key={index} className="li-item">{item}</li>
-          ))}
+          ))} */}
       </div>
     );
   }
@@ -268,9 +264,12 @@ class MyAuction extends React.Component<IAuctionProps, IAuctionState>
   }
 	
   public loadMoreDataFn(that) {
-    that.setState({
-      data: that.state.data.concat(['E', 'c', 'h', 'o'])
-    })
+    console.log(that);
+    
+    console.log("加载更多");
+    // that.setState({
+    //   data: that.state.data.concat(['E', 'c', 'h', 'o'])
+    // })
   }
 }
 export default injectIntl(MyAuction);

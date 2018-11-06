@@ -3,6 +3,7 @@ import * as Api from '@/store/api/domain.api';
 import { IAuctionListStore, IAuction, AuctionState, IAuctionAddress } from './interface/auction.interface';
 import common from './common';
 import { TABLE_CONFIG } from '@/config';
+import DomainSelling from './DomainSelling';
 
 class AuctionManager implements IAuctionListStore {
 
@@ -142,7 +143,7 @@ class AuctionManager implements IAuctionListStore {
     }
     if(ids.length>0)
     {  // 如果有需要更新的id 则进方法进行更新
-      const result = await Api.getAuctionInfoByAucitonid(common.address, ids, ".test");
+      const result = await Api.getAuctionInfoByAucitonid(common.address, ids, '.'+DomainSelling.RootNeo.root);
       if (result)
       {
         const list = result[ 0 ].list as IAuction[];

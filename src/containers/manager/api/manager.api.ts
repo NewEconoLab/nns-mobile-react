@@ -1,11 +1,12 @@
 import request from 'utils/request';
+import DomainSelling from '@/store/DomainSelling';
 
 export const getdomainbyaddress = (address:string)=>{
   const opts = {
     method:"getdomainbyaddress",
     params:[
       address,
-      ".test"
+      "."+DomainSelling.RootNeo.root
     ]
   }
   return request(opts);

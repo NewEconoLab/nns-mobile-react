@@ -9,8 +9,8 @@ interface IOpts {
   getAll?:boolean, // 是否获取所有返回结果
 }
 
-const baseCommonUrl: string = "https://api.nel.group/api/";
-const baseUrl: string = "https://apiwallet.nel.group/api/";
+const baseCommonUrl: string = "https://api.nel.group/api";
+const baseUrl: string = "https://apiwallet.nel.group/api";
 
 console.log(baseCommonUrl);
 console.log(baseUrl);
@@ -31,12 +31,10 @@ const defaultConfig = {
   }
 }
 export default function request(opts: IOpts): Promise<any> {
-  const network = common.network?common.network:"testnet";
-  
-  let url = baseUrl+network;
+  let url = [baseUrl,common.network].join('/');
   if (opts.baseUrl === 'common') {
-    url = baseCommonUrl+network;
-  }
+    url = [baseCommonUrl,common.network].join('/')
+  }  
   const params = makeRpcPostBody(opts.method, opts.params);
   const args = {
     url,

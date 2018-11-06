@@ -17,14 +17,6 @@ import DomainSelling from './store/DomainSelling';
 import { TaskTool } from './utils/tasktools';
 addLocaleData([...en, ...zh]);
 
-// setTimeout(() => {
-//   store['common'].language = 'en'
-// }, 3000)
-
-// setTimeout(() => {
-//   store['common'].language = 'zh'
-// }, 6000)
-
 // 初始化请求
 // o3tools.init(res => {
 //   if (res) {
@@ -35,7 +27,6 @@ addLocaleData([...en, ...zh]);
     DomainSelling.initRoot();
     TaskTool.start();
 //     console.log("Address:   "+commonStore.address );
-    
 //     return true
 //   } else {
 //     return false

@@ -7,18 +7,19 @@ export class DomainInfo
     public root:string;// 根域名
     public parentOwner:string;// 父域名所有者
 
-    constructor()
+    constructor(root:string)
     {
         this.owner = "";
         this.register = Neo.Uint160.Zero;
         this.ttl = "";
-        this.root = "";
+        this.root = root;
         this.parentOwner="";
     }
 }
 
 export interface IDomainSelling
 {
+    day:number,
     RootNeo:DomainInfo,
     initRoot:()=>Promise<boolean>
 }

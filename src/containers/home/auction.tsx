@@ -27,6 +27,9 @@ import common from '@/store/common';
 class Auction extends React.Component<IHomeProps>
 {
   public prop = this.props.intl.messages;
+  public state = {
+    btnWait:false
+  }
   public componentDidMount() {
     this.props.home.messages = {
       errmsg1: this.prop.home.auction.errmsg1,
@@ -39,14 +42,15 @@ class Auction extends React.Component<IHomeProps>
     this.props.home.inputModule.inputValue = value;
   }
   public onStartAuction = async () => {
-    const roothash = nnstools.nameHash("test");
+    this.setState({btnWait:true});
+    const roothash = nnstools.nameHash(DomainSelling.RootNeo.root);
     const res = await nnstools.startAuciton(DomainSelling.RootNeo.register,roothash,this.props.home.inputModule.inputValue);
     // alert(res);
     if(res['txid']){
       const auction  = {} as IAuction;
       auction["auctionId"]= res["txid"];
       auction["domain"] = this.props.home.inputModule.inputValue
-      auction["fulldomain"] = auction["domain"]+".test";
+      auction["fulldomain"] = [auction["domain"],DomainSelling.RootNeo.root].join('.');
       auction["auctionState"] = AuctionState.open;
       const who:IAuctionAddress={} as IAuctionAddress;
       who["address"]=common.address;
@@ -63,7 +67,8 @@ class Auction extends React.Component<IHomeProps>
       Alert(this.prop.message.errmsg, this.prop.message.errmsgtip1, this.prop.btn.confirm, () => {
         return;
     });
-    }
+    }    
+    this.setState({btnWait:false});
   }
   public onRaiseAuction = async () => 
   {
@@ -97,7 +102,12 @@ class Auction extends React.Component<IHomeProps>
           <WingBlank>
             {
               this.props.home.isStatus === 1 &&
-              <Button type="primary" onClick={this.onStartAuction}>{this.prop.btn.startauction}</Button>
+              (
+                // <Button type="primary" loading={this.state.btnWait} onClick={this.onStartAuction}>{this.prop.btn.startauction}</Button>
+                this.state.btnWait
+                ?<Button type="primary" loading={true}>{this.prop.btn.startauction}</Button>
+                :<Button type="primary" loading={this.state.btnWait} onClick={this.onStartAuction}>{this.prop.btn.startauction}</Button>
+              )
             }
             {
               this.props.home.isStatus === 2 &&

@@ -107,6 +107,10 @@ class TaskManager implements ITaskmanagerStore
                     }
                 }
             }
+            if(task.state !== TaskState.watting)
+            {
+                TaskTool.stateUpdate(task);
+            }
             return task;
         });
 

@@ -18,7 +18,8 @@ import { accAdd } from '@/utils/alculator';
 interface Istate {
     inputMessage: string,
     inputState: string,
-    inputColor: string
+    inputColor: string,
+    btnWait:boolean,
 }
 
 // 获取竞拍状态：getauctionstate 参数：域名
@@ -29,7 +30,8 @@ class Addbid extends React.Component<IAuctionAddbidProps&IAuctionDetailProps, Is
     public state = {
         inputMessage: '',
         inputState: '',
-        inputColor: ''
+        inputColor: '',
+        btnWait:false
     }
     public prop = this.props.intl.messages;
     public componentDidMount(){
@@ -72,8 +74,7 @@ class Addbid extends React.Component<IAuctionAddbidProps&IAuctionDetailProps, Is
     public addBid = async () => {
         const auction = this.props.myauction.detail as IAuction;
         try {
-            console.log(DomainSelling.RootNeo.register.toString());
-            
+            this.setState({btnWait:true});
             const res = await nnstools.raise(auction.auctionId, this.props.myauction.myBid, DomainSelling.RootNeo.register);
             if (res) {
                 taskmanager.addTask(new Task(TaskType.raise, ConfirmType.contract, res['txid'], { domain: auction["fulldomain"], amount: this.props.myauction.myBid }))
@@ -87,9 +88,10 @@ class Addbid extends React.Component<IAuctionAddbidProps&IAuctionDetailProps, Is
                     return;
                 });
             }
+            this.setState({btnWait:false});
         } catch (error) {
             console.log(error);
-
+            this.setState({btnWait:false});
         }
         this.onClose();
     }
@@ -134,7 +136,11 @@ class Addbid extends React.Component<IAuctionAddbidProps&IAuctionDetailProps, Is
                     <div className="addbid-tips">
                         <span>{this.prop.myauction.info.tips3}</span>
                     </div>
-                    <Button type="primary" onClick={this.addBid} disabled={ isDisabled} style={{ borderRadius: '0' }} className="detail-btn" >出价</Button>
+                    {
+                        this.state.btnWait
+                        ?<Button type="primary" style={{ borderRadius: '0' }} className="detail-btn" loading={true}>{this.prop.btn.placebid}</Button>
+                        :<Button type="primary" onClick={this.addBid} disabled={ isDisabled} style={{ borderRadius: '0' }} className="detail-btn" >{this.prop.btn.placebid}</Button>
+                    }
                 </div>
             </div>
 

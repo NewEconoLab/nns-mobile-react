@@ -16,8 +16,9 @@ import taskmanager from '@/store/taskmanager';
 import { Task, ConfirmType, TaskType } from '@/store/interface/taskmanager.interface';
 import Alert from '@/components/alert';
 import DomainSelling from '@/store/DomainSelling';
+import { HASH_CONFIG } from '@/config';
 
-@inject('manager')
+@inject('manager','statemanager')
 @observer
 class DomainMap extends React.Component<IProps, IState>
 {
@@ -43,7 +44,7 @@ class DomainMap extends React.Component<IProps, IState>
 		if (new Date().getTime() > formatTime.formatUnixTime(time)) {
 			return <span className="text-red">{this.prop.manager.msg2}</span>;
 		}
-		if (formatTime.formatUnixTime(time) - new Date().getTime() <= (86400000 * 60)) {
+		if (formatTime.formatUnixTime(time) - new Date().getTime() <= (DomainSelling.day * 60)) {
 			return <span className="text-orange">{this.prop.manager.msg}</span>;
 		}
 
@@ -53,11 +54,15 @@ class DomainMap extends React.Component<IProps, IState>
 	public renewdiv = (time: string) =>
 	{
 		if (new Date().getTime() > formatTime.formatUnixTime(time)) {
-			return;
-		}else if (formatTime.formatUnixTime(time) - new Date().getTime() <= (86400000 * 60)) {
-			return <Button type="primary" inline={true} size="small" onClick={this.onReNew}>{this.prop.btn.renew}</Button>
+			return null;
+		}else if (formatTime.formatUnixTime(time) - new Date().getTime() <= (DomainSelling.day * 60)) {
+			return (	
+				this.props.statemanager.renewDomainState.includes(this.state.detail.domain)?
+				<Button type="primary" inline={true} size="small" loading={true}>{}</Button>:
+				<Button type="primary" inline={true} size="small" onClick={this.onReNew}>{this.prop.btn.renew}</Button>
+			)
 		}else{
-			return ;
+			return null;
 		}
 		
 	}
@@ -77,6 +82,7 @@ class DomainMap extends React.Component<IProps, IState>
 		})
 	}
 	public onReNew = async () => {
+		this.props.statemanager.renewDomainState.push(this.state.detail.domain);
 		const res = await nnstools.renewDomain(this.state.detail.domain,DomainSelling.RootNeo.register);
 		if(res && res["txid"])
 		{
@@ -95,6 +101,7 @@ class DomainMap extends React.Component<IProps, IState>
 			Alert(this.prop.message.errmsg, this.prop.message.errmsgtip1, this.prop.btn.confirm, () => {
 				return;
 			});
+			this.props.statemanager.renewDomainStateDel(this.state.detail.domain);
 		}
 	}
 	public onCloseMessageResolver = () => {
@@ -103,6 +110,7 @@ class DomainMap extends React.Component<IProps, IState>
 		})
 	}
 	public onConfirmMessageResolver = async () => {
+		this.props.statemanager.setResolverState.push(this.state.detail.domain);
 		const res = await nnstools.setResolve(this.state.detail.domain,this.state.detail.resolver);
 		if(res && res["txid"])
 		{
@@ -121,6 +129,7 @@ class DomainMap extends React.Component<IProps, IState>
 			Alert(this.prop.message.errmsg, this.prop.message.errmsgtip1, this.prop.btn.confirm, () => {
 				return;
 			});
+			this.props.statemanager.setResolverStateDel(this.state.detail.domain);
 		}
 	}
 	public onCloseMessageResolverAddr = () => {
@@ -129,6 +138,7 @@ class DomainMap extends React.Component<IProps, IState>
 		})
 	}
 	public onConfirmMessageResolverAddr = async () => {
+		this.props.statemanager.setResolverDataState.push(this.state.detail.domain);
 		const res = await nnstools.setResolveData(this.state.detail.domain,this.state.resolverAddr,this.state.detail.resolver);
 		if(res && res["txid"])
 		{
@@ -143,10 +153,11 @@ class DomainMap extends React.Component<IProps, IState>
 			this.onCloseMessageResolver();
 		}
 		else
-		{			
+		{
 			Alert(this.prop.message.errmsg, this.prop.message.errmsgtip1, this.prop.btn.confirm, () => {
 				return;
 			});
+			this.props.statemanager.setResolverDataStateDel(this.state.detail.domain);
 		}
 	}
 
@@ -159,7 +170,7 @@ class DomainMap extends React.Component<IProps, IState>
 		this.state.detail.resolver = 
 			this.props.manager.detail.resolver?
 			this.props.manager.detail.resolver:
-			"6bcc17c5628de5fc05a80cd87add35f0f3f1b0ab";
+			HASH_CONFIG.resolverHash;
 		this.state.detail.resolverAddr = 
 			this.props.manager.detail.resolverAddr
 		return (
@@ -171,9 +182,13 @@ class DomainMap extends React.Component<IProps, IState>
 				<div className="mapping-block">
 					<TitleText text={this.prop.manager.resolver}>
 						{
-							this.props.manager.detail.resolver ?
+							this.props.statemanager.setResolverState.includes(this.props.manager.detail.domain)?
+							<Button type={this.props.manager.detail.resolver?"warning":"primary"} inline={true} size="small" loading={true}>{}</Button>:
+							(
+								this.props.manager.detail.resolver ?
 								<Button type="warning" inline={true} size="small" onClick={this.onChangeResolver}>{this.prop.btn.reset}</Button> :
 								<Button type="primary" inline={true} size="small" onClick={this.onChangeResolver}>{this.prop.btn.set}</Button>
+							)
 						}
 					</TitleText>
 					<div className={this.props.manager.detail.resolver?'text-normal':'text-normal nodata'}>{this.props.manager.detail.resolver || this.prop.manager.noset}</div>
@@ -181,9 +196,13 @@ class DomainMap extends React.Component<IProps, IState>
 				<div className="mapping-block">
 					<TitleText text={this.prop.manager.mapping}>
 						{
-							this.props.manager.detail.resolverAddr ?
-								<Button type="warning" inline={true} size="small" onClick={this.onChangeResolverAddr}>{this.prop.btnreset}</Button> :
+							this.props.statemanager.setResolverDataState.includes(this.props.manager.detail.domain)?
+							<Button type={this.props.manager.detail.resolverAddr?"warning":"primary"} inline={true} size="small" loading={true}>{}</Button>:
+							(
+								this.props.manager.detail.resolverAddr ?
+								<Button type="warning" inline={true} size="small" onClick={this.onChangeResolverAddr}>{this.prop.btn.reset}</Button> :
 								<Button type={!!!this.props.manager.detail.resolver?"ghost":"primary"} inline={true} size="small" disabled={!!!this.props.manager.detail.resolver}  onClick={this.onChangeResolverAddr}>{this.prop.btn.set}</Button>
+							)
 						}
 					</TitleText>
 					<div className={this.props.manager.detail.resolverAddr?'text-normal':'text-normal nodata'}>{this.props.manager.detail.resolverAddr || this.prop.manager.noset}</div>
