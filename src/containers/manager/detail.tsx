@@ -111,7 +111,7 @@ class DomainMap extends React.Component<IProps, IState>
 	}
 	public onConfirmMessageResolver = async () => {
 		this.props.statemanager.setResolverState.push(this.state.detail.domain);
-		const res = await nnstools.setResolve(this.state.detail.domain,this.state.detail.resolver);
+		const res = await nnstools.setResolve(this.state.detail.domain,HASH_CONFIG.resolverHash);
 		if(res && res["txid"])
 		{
 			const txid = res[ "txid" ];
@@ -140,11 +140,14 @@ class DomainMap extends React.Component<IProps, IState>
 	public onConfirmMessageResolverAddr = async () => {
 		this.props.statemanager.setResolverDataState.push(this.state.detail.domain);
 		const res = await nnstools.setResolveData(this.state.detail.domain,this.state.resolverAddr,this.state.detail.resolver);
+		console.log(res);
+		
 		if(res && res["txid"])
 		{
 			const txid = res[ "txid" ];
+			alert(this.state.resolverAddr)
 			taskmanager.addTask(
-				new Task(TaskType.domainMapping,ConfirmType.contract, txid, { domain: this.state.detail.domain, address: this.state.detail.resolverAddr })
+				new Task(TaskType.domainMapping,ConfirmType.contract, txid, { domain: this.state.detail.domain, address: this.state.resolverAddr })
 			);
 			
 			Alert(this.prop.message.successmsg, this.prop.message.waitmsg, this.prop.btn.confirm, ()=>{ 
@@ -225,7 +228,7 @@ class DomainMap extends React.Component<IProps, IState>
 							onConfirm={this.onConfirmMessageResolver}
 						>
 							<div className="message-resolver-box">
-								{this.state.detail.resolver}
+								{HASH_CONFIG.resolverHash}
 							</div>
 						</Message>
 					)
