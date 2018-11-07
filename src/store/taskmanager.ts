@@ -2,6 +2,7 @@ import { ITaskmanagerStore, Task, TaskType, ConfirmType, TaskState } from "@/sto
 import { observable, action } from 'mobx';
 import { TABLE_CONFIG } from "@/config";
 import { TaskTool } from "@/utils/tasktools";
+import common from "./common";
 
 class TaskManager implements ITaskmanagerStore
 {
@@ -55,6 +56,8 @@ class TaskManager implements ITaskmanagerStore
    
     @action public async update()
     {
+        common.getnep5balanceofaddress();
+        common.getregisteraddressbalance();
         if(!this.taskList || this.taskList.length<=0)
         {
             return;
