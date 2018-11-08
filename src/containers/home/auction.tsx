@@ -45,7 +45,6 @@ class Auction extends React.Component<IHomeProps>
     this.setState({btnWait:true});
     const roothash = nnstools.nameHash(DomainSelling.RootNeo.root);
     const res = await nnstools.startAuciton(DomainSelling.RootNeo.register,roothash,this.props.home.inputModule.inputValue);
-    // alert(res);
     if(res['txid']){
       const auction  = {} as IAuction;
       auction["auctionId"]= res["txid"];
@@ -103,10 +102,9 @@ class Auction extends React.Component<IHomeProps>
             {
               this.props.home.isStatus === 1 &&
               (
-                // <Button type="primary" loading={this.state.btnWait} onClick={this.onStartAuction}>{this.prop.btn.startauction}</Button>
                 this.state.btnWait
                 ?<Button type="primary" loading={true}>{this.prop.btn.startauction}</Button>
-                :<Button type="primary" loading={this.state.btnWait} onClick={this.onStartAuction}>{this.prop.btn.startauction}</Button>
+                :<Button type="primary" onClick={this.onStartAuction}>{this.prop.btn.startauction}</Button>
               )
             }
             {

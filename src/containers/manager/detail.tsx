@@ -17,6 +17,7 @@ import { Task, ConfirmType, TaskType } from '@/store/interface/taskmanager.inter
 import Alert from '@/components/alert';
 import DomainSelling from '@/store/DomainSelling';
 import { HASH_CONFIG } from '@/config';
+import { IManagerList } from './interface/index.interface';
 
 @inject('manager','statemanager')
 @observer
@@ -87,8 +88,9 @@ class DomainMap extends React.Component<IProps, IState>
 		if(res && res["txid"])
 		{
 			const txid = res[ "txid" ];
+			const time = formatTime.formatUnixTime((this.props.manager.detail as IManagerList).ttl)+365*DomainSelling.day;
 			taskmanager.addTask(
-				new Task(TaskType.domainRenewal,ConfirmType.contract, txid, { domain: this.state.detail.domain})
+				new Task(TaskType.domainRenewal,ConfirmType.contract, txid, { domain: this.state.detail.domain,time})
 			);
 			
 			Alert(this.prop.message.successmsg, this.prop.message.waitmsg, this.prop.btn.confirm, ()=>{ 
