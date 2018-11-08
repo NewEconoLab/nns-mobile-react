@@ -24,7 +24,7 @@ export const getregisteraddressbalance =  (address:string) => {
    method:'getregisteraddressbalance',
    params:[    
     address,
-    HASH_CONFIG.accountCGAS.toString()
+    "0x"+HASH_CONFIG.accountCGAS.toString()
    ]
   }
   return request(opts);
