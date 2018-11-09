@@ -15,13 +15,16 @@ import { en_US, zh_CN } from '@/language';
 import o3tools from '@/utils/o3tools';
 import DomainSelling from './store/DomainSelling';
 import { TaskTool } from './utils/tasktools';
+import Alert from './components/alert';
 addLocaleData([...en, ...zh]);
 
 commonStore.initWalletConfig();
 DomainSelling.initRoot();
 // 初始化请求
 o3tools.init(res => {
-  alert(res);
+  Alert("", res+"" , "确认", function () {
+    return;
+  });
   if (res) {
     commonStore.getregisteraddressbalance();
     commonStore.getnep5balanceofaddress();
