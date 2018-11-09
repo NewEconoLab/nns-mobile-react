@@ -13,6 +13,23 @@ export class O3Tool {
     o3.requestToSignRawTransaction(data)
   }
 
+  public async initAwait()
+  {
+    return new Promise((resolve, reject) =>{
+      this.init(res => {
+      if (res) {
+        common.getregisteraddressbalance();
+        common.getnep5balanceofaddress();
+        resolve(true)
+        return true;
+      } else {
+        reject(false);
+        return false;
+      }
+    });
+    })
+  }
+
   /**
    * 初始化 O3 SDK
    */

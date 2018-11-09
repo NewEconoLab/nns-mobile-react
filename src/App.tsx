@@ -17,16 +17,16 @@ import DomainSelling from './store/DomainSelling';
 import { TaskTool } from './utils/tasktools';
 addLocaleData([...en, ...zh]);
 
+commonStore.initWalletConfig();
+DomainSelling.initRoot();
+auctionmanagerStore.initFilterAuctionList();
+TaskTool.start();
 // 初始化请求
 o3tools.init(res => {
   if (res) {
     commonStore.initWalletConfig();
     commonStore.getregisteraddressbalance();
     commonStore.getnep5balanceofaddress();
-    auctionmanagerStore.initFilterAuctionList();
-    DomainSelling.initRoot();
-    TaskTool.start();
-//     console.log("Address:   "+commonStore.address );
     return true
   } else {
     return false
@@ -52,9 +52,7 @@ const ObserverRender = observer(() => {
       messages={messages}
     >
       {
-        (commonStore.accountBalance && commonStore.cgasBalance) ?
-          renderRoutes(routes) :
-          <div />
+        renderRoutes(routes)
       }
     </IntlProvider>
   )
