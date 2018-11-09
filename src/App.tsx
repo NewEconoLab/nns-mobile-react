@@ -19,14 +19,15 @@ addLocaleData([...en, ...zh]);
 
 commonStore.initWalletConfig();
 DomainSelling.initRoot();
-auctionmanagerStore.initFilterAuctionList();
-TaskTool.start();
 // 初始化请求
 o3tools.init(res => {
+  alert(res);
   if (res) {
-    commonStore.initWalletConfig();
     commonStore.getregisteraddressbalance();
     commonStore.getnep5balanceofaddress();
+    auctionmanagerStore.initFilterAuctionList();
+    TaskTool.start();
+//     console.log("Address:   "+commonStore.address );
     return true
   } else {
     return false
@@ -52,7 +53,10 @@ const ObserverRender = observer(() => {
       messages={messages}
     >
       {
-        renderRoutes(routes)
+        // (commonStore.accountBalance && commonStore.cgasBalance) ?
+        //   renderRoutes(routes) :
+        //   <div />
+          renderRoutes(routes)
       }
     </IntlProvider>
   )
