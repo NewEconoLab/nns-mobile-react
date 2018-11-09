@@ -51,8 +51,16 @@ export class O3Tool {
             o3.getAccounts()
             break
           case 'getAccounts':
-            common.address = response.data.accounts[0].neo.address
-            common.publicKey = response.data.accounts[0].neo.publicKey
+            if(response.data.accounts instanceof Array)
+            {
+              common.address = response.data.accounts[0].neo.address
+              common.publicKey = response.data.accounts[0].neo.publicKey
+            }
+            else
+            {
+              common.address = response.data.accounts.neo.address
+              common.publicKey = response.data.accounts.neo.publicKey
+            }
             call(true)
             break
           case 'requestToSign':
