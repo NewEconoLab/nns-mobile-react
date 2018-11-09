@@ -37,7 +37,7 @@ export class O3Tool {
    */
   public init(call: (connect: boolean) => {}) {
     o3.init(response => {
-      alert(response);
+      alert(JSON.stringify(response));
       if (response == null) {
         throw new Error('response is undefined')
       } else {
