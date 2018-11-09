@@ -14,6 +14,8 @@ const _sendMessage = function(command, data) {
     command: command,
     data: data
   }
+  alert(typeof window.O3AndroidInterface);
+  alert(message);
   if (typeof window.O3AndroidInterface !== 'undefined') {
     window.O3AndroidInterface.messageHandler(JSON.stringify(message))
   } else {
@@ -32,6 +34,9 @@ const o3 = {
 
   //This is the method that both iOS and Android will call after the operation finished.
   callback: function(response) {
+    console.log("==========进来了");
+    
+    alert(JSON.stringify(response))
     callbackHandler(response)
   },
 
