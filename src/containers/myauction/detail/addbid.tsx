@@ -8,12 +8,13 @@ import { Button } from 'antd-mobile';
 import { IAuctionAddbidProps, IAuctionDetailProps } from "@/containers/myauction/interface/index.interface";
 import { nnstools } from '@/utils/nnstools';
 import DomainSelling from '@/store/DomainSelling';
-import { IAuction } from '@/store/interface/auction.interface';
+import { IAuction, AuctionState } from '@/store/interface/auction.interface';
 import { injectIntl } from 'react-intl'
 import Alert from '@/components/alert';
 import taskmanager from '@/store/taskmanager';
 import { Task, ConfirmType, TaskType } from '@/store/interface/taskmanager.interface';
 import { accAdd } from '@/utils/alculator';
+import { toNumFixed } from '@/utils/function';
 
 interface Istate {
     inputMessage: string,
@@ -48,12 +49,26 @@ class Addbid extends React.Component<IAuctionAddbidProps&IAuctionDetailProps, Is
         }
         if (/\./.test(value) && value.split('.')[1].length >= 2) {
             return false;
-        }        
+        }
         const currentPrice = this.props.myauction.detail?this.props.myauction.detail.addWho.totalValue:0;
         const heightPrice = this.props.myauction.detail?this.props.myauction.detail.maxPrice:0;
         const myBidPrice = value?(accAdd(value,currentPrice)):currentPrice;
         state.inputMessage = this.prop.myauction.info.msg2+myBidPrice+' CGAS';
-        state.inputColor = '';          
+        state.inputColor = '';
+        if(this.props.myauction.detail)
+        {
+            if(this.props.myauction.detail.auctionState === AuctionState.fixed)
+            {
+                const num =toNumFixed(currentPrice*0.1,1);
+                if(parseFloat(value)<num)
+                {
+                    state.inputMessage = this.prop.myauction.info.errmsg3;
+                    state.inputColor='red-color';
+                    return false;
+                }
+            }
+        }
+        
         
         if(myBidPrice < heightPrice) {
             state.inputMessage = this.prop.myauction.info.errmsg2;

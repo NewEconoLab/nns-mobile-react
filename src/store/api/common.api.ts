@@ -22,7 +22,7 @@ export const getnep5balanceofaddress =  (address:string) => {
 export const getregisteraddressbalance =  (address:string) => {
   const opts = {
    method:'getregisteraddressbalance',
-   params:[    
+   params:[
     address,
     "0x"+HASH_CONFIG.accountCGAS.toString()
    ]

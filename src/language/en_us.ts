@@ -115,6 +115,7 @@ export default {
       msg2:"My cumulative bid will be：",
       errmsg:"Insufficient balance in Auction account",
       errmsg2:"your cumulative bid is lower than the highest price",
+      errmsg3: "Your bid raise must not be less than 10% of the current highest bid price!",
       tips3:"Tips:The minimum bid increment is 0.1 CGAS. If your cumulative bid is lower than the highest bid, your raise will be  unsuccessful.",
     }
   },
