@@ -1,5 +1,4 @@
 import common from '@/store/common'
-import Alert from '@/components/alert';
 export class O3Tool {
   public signData: string // 待签名数据
   public signcall: (response: any) => {} // 签名委托
@@ -36,10 +35,6 @@ export class O3Tool {
    */
   public init(call: (connect: boolean) => {}) {
     o3.init(response => {
-      alert(JSON.stringify(response));
-      Alert("", JSON.stringify(response)+"" , "确认", function () {
-        return;
-      });
       if (response == null) {
         throw new Error('response is undefined')
       } else {
