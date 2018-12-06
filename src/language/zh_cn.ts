@@ -39,7 +39,10 @@ export default {
     starting: "开标中...",
     join: "参与竞拍",
     gotit: "我知道了",
-    select:"筛选"
+    select:"筛选",
+    apply:"申请",
+    applying:"申请中",
+    applyed:"已发放"
   },
   home: {
     action: {
@@ -130,11 +133,14 @@ export default {
     noset:"未设置"
   },
   bonus: {
-    title: "分红记录",
-    dividends: "我的分红：",
+    title: "分红历史",
+    dividends: "可领取分红：",
     pool: "奖金池快照：",
     mytotal: "我的NNC总量：",
-    time: "快照时间："
+    time: "快照时间：",
+    bonus:"分红",
+    tips:"注意：为了防止自动分红所造成的网络拥堵，我们在NNS分红上增加了手动申请的步骤，您需要点击申请来获得您的分红，分红会在您申请的一周内发放。",
+    blocktime:"时间："
   },
   record: {
     title: "操作记录",

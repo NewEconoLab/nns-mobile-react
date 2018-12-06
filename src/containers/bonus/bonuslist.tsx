@@ -15,10 +15,8 @@ class BonusList extends React.Component<IBonusListProps,any>
     return (
       <React.Fragment>
           <div className="list-wrapper">
-            <div className="bonus-me">{this.prop.bonus.dividends}<span className="text-green">{this.props.item.addrBonus}</span></div>
-            <div className="bonus-normal">{this.prop.bonus.pool}{this.props.item.totalValue} CGAS</div>
-            <div className="bonus-normal">{this.prop.bonus.mytotal}{this.props.item.balance} NNC</div>
-            <div className="bonus-normal">{this.prop.bonus.time}{formatTime.format('yyyy/MM/dd hh:mm:ss', this.props.item.blocktime, this.props.intl.locale)}</div>
+            <div className="bonus-me text-green">+ {this.props.item.send} CGAS</div>
+            <div className="bonus-time">{this.prop.bonus.blocktime}{formatTime.format('yyyy/MM/dd hh:mm:ss', this.props.item.blocktime, this.props.intl.locale)}</div>
           </div>
       </React.Fragment>
     );

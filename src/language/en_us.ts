@@ -39,7 +39,10 @@ export default {
     starting:"Starting auction...",
     join:"Join auction",
     gotit:"OK，got it",
-    select:"Filter"
+    select:"Filter",
+    apply:"Apply",
+    applying:"Applying",
+    applyed:"Distributed"
   },
   home:{
     action:{
@@ -130,11 +133,14 @@ export default {
     noset:"not configured"
   },
   bonus:{
-    title:"Bonus History",
-    dividends:"My dividends:",
+    title: "Bonus history",
+    dividends: "Dividends claimable：",
     pool:"Distribution pool snapshot：",
     mytotal:"My total NNC holdings：",
-    time:"Snapshot time："
+    time:"Snapshot time：",
+    bonus:"Bonus",
+    tips:'Tips: In order to prevent network congestion caused by the previous airdrop of CGAS dividends, we changed it to a claim-based NNS dividends distribution. You need to click the "Apply" button  and the CGAS dividends will be distributed within one week following your claim.',
+    blocktime:"Time："
   },
   record:{
     title:"Record",

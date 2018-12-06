@@ -1,8 +1,3 @@
-// import { RouteComponentProps } from 'react-router-dom';
-
-// export interface IProps extends RouteComponentProps{
-//   a:1
-// }
 /**
  * 分红列表数据类型
  */
@@ -14,18 +9,35 @@ export interface IBonusList {
 }
 
 export interface IBonusListProps {
-  item:IBonusList,
+  item:IBonuseInfo,
   intl:any,
 }
 /**
  * 分红页的数据存储
  */
 export interface IBonusStore {
-  bonusList:IBonusList[],
-  getBonusListByAddress:() => void
+  bonusList:IBonuseInfo[],
+  myBonusInfo:IBonuseInfo|null,
+  applyState:number,
+  getBonusListByAddress:() => Promise<boolean>,
+  getCurrentBonus:() => Promise<boolean>,
+  applyBonus:() => Promise<boolean>
 }
 
 export interface IBonusProps {
   bonus:IBonusStore,
   intl:any
+}
+
+export interface IBonuseInfo {
+  addr:string,
+  applied:boolean,
+  assetid:string,
+  balance:string,
+  blocktime:string,
+  height:number,
+  send:string,
+  sendAssetid:string,
+  totalSend:string,
+  txid:string
 }
