@@ -3,6 +3,10 @@ import asyncComponent from '@/components/asyncComponent';
 
 export default [
   {
+    component: asyncComponent(() => import('../containers/traderecord')),
+    path: '/traderecord',
+  },
+  {
     component: asyncComponent(() => import('../containers/home/withdraw')),
     path: '/withdraw',
   },

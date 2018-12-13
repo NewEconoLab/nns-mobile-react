@@ -11,6 +11,7 @@ export default {
     '/record': 'Record',
     '/topup':'Topup',
     '/withdraw':'Withdraw',
+    '/traderecord': 'Trading History',
   },
   header:{
     back:'Back'
@@ -52,7 +53,8 @@ export default {
       auction:'My auction',
       manager:'My domain',
       bonus:'Bonus',
-      record:'Record'
+      record:'Record',
+      traderecord: 'Trading History'
     },
     account:{
       title:"Auction account",
@@ -63,6 +65,7 @@ export default {
       errmsg2:"This domain was auctioned",
       successmsg:"This domain is available",
       successmsg2:'This domain is currently in auction.Click "Join auction" to bid for it.',
+      successmsg3:'This name is on selling'
     }
   },
   topup:{

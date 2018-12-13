@@ -11,6 +11,7 @@ export default {
     '/record': '操作记录',
     '/topup': '充值',
     '/withdraw': '提取',
+    '/traderecord': '域名交易记录',
   },
   header:{
     back:'返回'
@@ -52,7 +53,8 @@ export default {
       auction: '我的竞拍',
       manager: '域名管理',
       bonus: '我的分红',
-      record: '操作记录'
+      record: '操作记录',
+      traderecord: '域名交易记录'
     },
     account: {
       title: "竞拍账户",
@@ -63,6 +65,7 @@ export default {
       errmsg2: "该域名已经被别人拥有啦",
       successmsg: "该域名可以使用",
       successmsg2: '该域名正在进行竞拍',
+      successmsg3:'该域名正在出售中'
     }
   },
   topup: {

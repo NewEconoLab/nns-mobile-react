@@ -73,6 +73,12 @@ export enum TaskType
     recoverCgas,// 退回sgas
     ClaimGas,// 领取Gas
     tranfer,// 交易确认 需要签名的任务，涉及资产变动
+    domainTransfer,// 域名转让
+    saleDomain,// 出售域名
+    unSaleDomain,// 下架域名
+    buyDomain,// 购买域名
+    getMyNNC,// 获取收入的NNC
+    requestNNC,// 索取NNC
 }
 
 export interface ITaskmanagerStore 

@@ -19,14 +19,18 @@ export interface IMessages {
   errmsg1:string,
   errmsg2:string,
   successmsg:string,
-  successmsg2:string
+  successmsg2:string,
+  successmsg3:string,
 }
 
 export interface IHomeStore {
   inputModule:InputModule,
   isStatus:number,
   messages:IMessages,
-  auctionInfo:IAuction
+  auctionInfo:IAuction,
+  sellingDomain:ISaleDomainInfo|null,
+  isOKSale:boolean,
+  getAuctionInfo:() => Promise<boolean>
 }
 
 
@@ -35,4 +39,12 @@ export interface IHomeProps extends RouteComponentProps {
   common:ICommonStore,
   home:IHomeStore,
   myauction:IMyAuctionStore,
+}
+
+export interface ISaleDomainInfo {
+  domain: string,
+  owner: string,
+  ttl: number,
+  price: string,
+  state: string
 }

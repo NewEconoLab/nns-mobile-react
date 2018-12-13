@@ -1,4 +1,5 @@
 import common from "@/store/common";
+import * as commonAPI from "@/store/api/common.api";
 import { Contract } from "./contract";
 import DomainSelling from "@/store/DomainSelling";
 import { HASH_CONFIG } from "@/config";
@@ -6,9 +7,10 @@ import { CoinTool } from "@/utils/cointools";
 import { Transaction } from "@/utils/transaction";
 import o3tools from "@/utils/o3tools";
 
-export class nnstools{
+export class nnstools
+{
 
-    
+
     /**
      * 域名转hash    
      * #region 域名转hash算法
@@ -18,7 +20,7 @@ export class nnstools{
      */
     public static nameHash(domain: string): Neo.Uint256
     {
-        const domainBytes:Uint8Array = ThinNeo.Helper.String2Bytes(domain);
+        const domainBytes: Uint8Array = ThinNeo.Helper.String2Bytes(domain);
         const hashd = Neo.Cryptography.Sha256.computeHash(domainBytes);
         return new Neo.Uint256(hashd);
     }
@@ -49,14 +51,14 @@ export class nnstools{
     public static nameHashArray(domainarray: string[]): Neo.Uint256
     {
         domainarray.reverse();
-        let hash: Neo.Uint256 = this.nameHash(domainarray[ 0 ]);
+        let hash: Neo.Uint256 = this.nameHash(domainarray[0]);
         for (let i = 1; i < domainarray.length; i++)
         {
-            hash = this.nameHashSub(hash, domainarray[ i ]);
+            hash = this.nameHashSub(hash, domainarray[i]);
         }
         return hash;
     }
-    
+
     /**
      * 注册器充值
      * @param amount 充值金额
@@ -85,22 +87,24 @@ export class nnstools{
         sb.EmitPushString("setmoneyin");
         sb.EmitAppCall(DomainSelling.RootNeo.register);
         const script = sb.ToArray();
-        try {
+        try
+        {
             const res = await Contract.contractInvokeTrans_attributes(script);
-            if(res)
+            if (res)
             {
                 return res;
             }
             else
             {
-                throw new Error("交易发送异常");                
+                throw new Error("交易发送异常");
             }
-        } catch (error) {
+        } catch (error)
+        {
             // alert(JSON.stringify(error));
             throw new Error(error);
         }
     }
-    
+
     /**
      * 取回存储器下的cgas
      */
@@ -110,7 +114,7 @@ export class nnstools{
         const data = Contract.buildScript_random(
             register,
             "getmoneyback",
-            [ "(addr)" + common.address, "(int)" + transcount ]
+            ["(addr)" + common.address, "(int)" + transcount]
         )
         const res = await Contract.contractInvokeTrans_attributes(data.ToArray())
         return res;
@@ -120,13 +124,13 @@ export class nnstools{
     /**
      * 域名开标
      */
-    public static async startAuciton(register:Neo.Uint160,roothash:Neo.Uint160,subname: string)
+    public static async startAuciton(register: Neo.Uint160, roothash: Neo.Uint160, subname: string)
     {
         try
         {
             const who = new Neo.Uint160(ThinNeo.Helper.GetPublicKeyScriptHash_FromAddress(common.address).buffer as ArrayBuffer);
             const sb = Contract.buildScript_random(
-                register, 
+                register,
                 "startAuction",
                 [
                     '(hex160)' + who.toString(),
@@ -153,13 +157,13 @@ export class nnstools{
         const sb = Contract.buildScript_random(
             register,
             "raise",
-            [ "(hex160)" + who.toString(), "(hex256)" + id, "(int)" + count ]
+            ["(hex160)" + who.toString(), "(hex256)" + id, "(int)" + count]
         );
         const res = await Contract.contractInvokeTrans_attributes(sb.ToArray());
         return res;
     }
 
-    
+
     /**
      * 结束竞拍
      * @param domain 域名
@@ -183,7 +187,7 @@ export class nnstools{
      * 获得领取域名
      * @param domain 域名
      */
-    public static async collectDomain(id: string, register: Neo.Uint160):Promise<Uint8Array>
+    public static async collectDomain(id: string, register: Neo.Uint160): Promise<Uint8Array>
     {
         const who = new Neo.Uint160(ThinNeo.Helper.GetPublicKeyScriptHash_FromAddress(common.address).buffer as ArrayBuffer);
         const script = Contract.buildScript_random(
@@ -256,13 +260,13 @@ export class nnstools{
         return res;
     }
 
-    
+
     public static async renewDomain(domain: string, register: Neo.Uint160)
     {
         const who = new Neo.Uint160(ThinNeo.Helper.GetPublicKeyScriptHash_FromAddress(common.address).buffer as ArrayBuffer);
         const domainarr = domain.split(".").reverse();
-        const str = domainarr[ 1 ];
-        const roothash = this.nameHash(domainarr[ 0 ]);
+        const str = domainarr[1];
+        const roothash = this.nameHash(domainarr[0]);
         const sb = Contract.buildScript(
             register,
             "renewDomain", [
@@ -277,11 +281,201 @@ export class nnstools{
         } catch (error)
         {
             throw error;
-            
-        }
 
+        }
     }
-    
+
+    /**
+     * 域名转让
+     * @param domain 
+     * @param newOwner 
+     */
+    public static async setOwner(domain: string, newOwner: string)
+    {
+        const who = new Neo.Uint160(ThinNeo.Helper.GetPublicKeyScriptHash_FromAddress(common.address).buffer as ArrayBuffer);
+        const toWho = new Neo.Uint160(ThinNeo.Helper.GetPublicKeyScriptHash_FromAddress(newOwner).buffer as ArrayBuffer);
+
+        const nnshash: Neo.Uint256 = nnstools.nameHashArray(domain.split("."));
+        const scriptaddress = HASH_CONFIG.baseContract;
+        try
+        {
+            const sb = Contract.buildScript_random(
+                scriptaddress,
+                "owner_SetOwner",
+                [
+                    "(hex160)" + who,
+                    "(hex256)" + nnshash.toString(),
+                    "(hex160)" + toWho
+                ]
+            );
+            const res = await Contract.contractInvokeTrans_attributes(sb.ToArray());
+            return res;
+        } catch (error)
+        {
+            throw error;
+        }
+    }
+    /**
+     * 获取收益的nnc
+     */
+    public static async getAllMyNNC()
+    {
+        const who = new Neo.Uint160(ThinNeo.Helper.GetPublicKeyScriptHash_FromAddress(common.address).buffer as ArrayBuffer);
+        const scriptaddress = HASH_CONFIG.saleContract;
+        try
+        {
+            const sb = Contract.buildScript_random(
+                scriptaddress,
+                "getMoneyBackAll",
+                [
+                    "(hex160)" + who,
+                ]
+            );
+            const res = await Contract.contractInvokeTrans_attributes(sb.ToArray());
+            return res;
+        } catch (error)
+        {
+            throw error;
+        }
+    }
+    /**
+     * 域名出售
+     * @param domain 
+     * @param newOwner 
+     */
+    public static async saleDomain(domain: string, price: string)
+    {
+        const result = await commonAPI.getnep5asset(HASH_CONFIG.ID_NNC.toString());
+        if (!result)
+        {
+            return;
+        }
+        const arr = domain.split(".").reverse();
+        arr[0] = "(str)" + arr[0]
+        arr[1] = "(str)" + arr[1]
+        const scriptaddress = HASH_CONFIG.saleContract;
+        const count = parseFloat(price).toFixed(result.decimals).replace(".", "");
+        try
+        {
+            const sb = Contract.buildScript_random(
+                scriptaddress,
+                "launch",
+                [
+                    // arr,
+                    "(int)" + count
+                ]
+            );
+            const res = await Contract.contractInvokeTrans_attributes(sb.ToArray());
+            return res;
+        } catch (error)
+        {
+            throw error;
+        }
+    }
+    /**
+     * 购买金额处理
+     * @param amount 金额
+     */
+    public static async registerNNC(amount)
+    {
+        const result = await commonAPI.getnep5asset(HASH_CONFIG.ID_NNC.toString());
+        if (!result)
+        {
+            return;
+        }
+        const register = HASH_CONFIG.saleContract;
+        // const amount = Neo.Fixed8.fromNumber(0.1333333);
+        const value = parseFloat(amount).toFixed(result.decimals).replace(".", "");
+        const addressto = ThinNeo.Helper.GetAddressFromScriptHash(register);
+        const sb = Contract.buildScript_random(
+            HASH_CONFIG.ID_NNC,
+            "transfer",
+            [
+                "(addr)" + common.address,// from
+                "(addr)" + addressto,// to
+                "(int)" + value// value
+            ]);
+        //// 这个方法是为了在同一笔交易中转账并充值
+        //// 当然你也可以分为两笔交易
+        //// 插入下述两条语句，能得到txid
+        sb.EmitSysCall("System.ExecutionEngine.GetScriptContainer");
+        sb.EmitSysCall("Neo.Transaction.GetHash");
+        // 把TXID包进Array里
+        sb.EmitPushNumber(Neo.BigInteger.fromString("1"));
+        sb.Emit(ThinNeo.OpCode.PACK);
+        sb.EmitPushString("setMoneyIn");
+        sb.EmitAppCall(register);
+        const script = sb.ToArray();
+        try
+        {
+            const res = await Contract.contractInvokeTrans_attributes(script);
+            if (res)
+            {
+                return res;
+            }
+            else
+            {
+                throw new Error("交易发送异常");
+            }
+        } catch (error)
+        {
+            // alert(JSON.stringify(error));
+            throw new Error(error);
+        }
+    }
+    /**
+     * 购买域名
+     * @param domain 域名
+     * @param address 购买者
+     */
+    public static async buyDomain(domain: string)
+    {
+        const who = new Neo.Uint160(ThinNeo.Helper.GetPublicKeyScriptHash_FromAddress(common.address).buffer as ArrayBuffer);
+        const domainHash = nnstools.nameHashArray(domain.split("."));
+        const scriptaddress = HASH_CONFIG.saleContract;
+        try
+        {
+            const sb = Contract.buildScript_random(
+                scriptaddress,
+                "buy",
+                [
+                    "(hex160)" + who,
+                    "(hex256)" + domainHash.toString()
+                ]
+            );
+            const res = await Contract.contractInvokeTrans_attributes(sb.ToArray());
+            return res;
+        } catch (error)
+        {
+            throw error;
+        }
+    }
+    /**
+     * 下架域名
+     * @param domain 域名
+     */
+    public static async unSaleDomain(domain: string)
+    {
+        const domainHash = nnstools.nameHashArray(domain.split("."));
+        const scriptaddress = HASH_CONFIG.saleContract;
+        try
+        {
+            const sb = Contract.buildScript_random(
+                scriptaddress,
+                "discontinue",
+                [
+                    "(hex256)" + domainHash.toString()
+                ]
+            );
+
+            const res = await Contract.contractInvokeTrans_attributes(sb.ToArray());
+            return res;
+        } catch (error)
+        {
+            throw error;
+        }
+    }
+
     /**
      * Gas兑换CGas
      * @param count 兑换数量
@@ -296,31 +490,35 @@ export class nnstools{
         {
             const utxos = await CoinTool.getAssets();
             const tran = new Transaction(); // 创建交易体
-            tran.creatInuptAndOutup(utxos[HASH_CONFIG.ID_GAS],Neo.Fixed8.fromNumber(count),cgasaddr); // 给交易体塞入输入输出 (这个我没给你弄手续费)
+            tran.creatInuptAndOutup(utxos[HASH_CONFIG.ID_GAS], Neo.Fixed8.fromNumber(count), cgasaddr); // 给交易体塞入输入输出 (这个我没给你弄手续费)
             if (tran.inputs.length + tran.outputs.length > 60)
             {
                 throw new Error("Don't have enough change")
             }
             else
             {
-                const promise = new Promise((resolve, reject) =>{
+                const promise = new Promise((resolve, reject) =>
+                {
                     // Parameter inversion 
                     tran.setScript(script.ToArray());   // 塞入执行合约用的脚本 hash
                     const msg = tran.GetMessage().clone();
-                    o3tools.sign(msg.toHexString(),res =>{                            
+                    o3tools.sign(msg.toHexString(), res =>
+                    {
                         tran.AddWitness((res as string).hexToBytes(), common.publicKey.hexToBytes(), common.address);
-                        const data: Uint8Array = tran.GetRawData();                        
+                        const data: Uint8Array = tran.GetRawData();
                         common.sendrawtransaction(data.toHexString())
-                        .then(value=>{
-                            if(!value)
+                            .then(value =>
                             {
-                                reject("Transaction send failed");
-                            }
-                            resolve(value)
-                        })
-                        .catch(error=>{
-                            reject(error)
-                        })
+                                if (!value)
+                                {
+                                    reject("Transaction send failed");
+                                }
+                                resolve(value)
+                            })
+                            .catch(error =>
+                            {
+                                reject(error)
+                            })
                     }
                     )
                 })
@@ -333,4 +531,6 @@ export class nnstools{
             throw error;
         }
     }
+
+
 }

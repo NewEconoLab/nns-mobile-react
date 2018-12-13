@@ -136,3 +136,16 @@ export const rechargeAndTransfer=(data1:string,data2:string)=>{
   }
   return request(opts);
 }
+/**
+ * @method 获得nep5资产信息
+ * @param asset 资产id
+ */
+export const getnep5asset=(asset: string)=>{
+  const opts={
+    method:"getnep5asset",
+    params:[
+      asset
+    ]
+  }
+  return request(opts);
+}

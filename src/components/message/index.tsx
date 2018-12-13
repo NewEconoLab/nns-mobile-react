@@ -5,6 +5,7 @@ import './index.less';
 interface Iprops {
   intl: any,
   title: string,
+  btnText?:string,
   onClose: () => void,
   onConfirm: () => void
 }
@@ -37,7 +38,7 @@ class Message extends React.Component<Iprops> {
             <Button
               type="primary"
               onClick={this.onConfirm}
-            >{this.props.intl.messages.btn.confirm}</Button>
+            >{this.props.btnText?this.props.btnText:this.props.intl.messages.btn.confirm}</Button>
           </div>
         </div>
       </div>

@@ -11,3 +11,16 @@ export const getdomainbyaddress = (address:string)=>{
   }
   return request(opts);
 }
+/**
+ * 出售域名获取NNC的收益
+ * @param address 当前地址
+ */
+export const getNNCfromSellingHash = (address:string)=>{
+  const opts = {
+    method:"getNNCfromSellingHash",
+    params:[
+      address
+    ]
+  }
+  return request(opts);
+}

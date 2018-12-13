@@ -6,6 +6,8 @@ export interface IManagerList {
   resolver:string,    // 地址解析器
   resolverAddr:string,// 地址映射
   ttl:string          // 到期时间
+  price:string,       // 出售金额
+  state:string        // 域名状态
 }
 
 export interface IManagerListProps extends RouteComponentProps {
@@ -15,9 +17,17 @@ export interface IManagerListProps extends RouteComponentProps {
 }
 
 export interface IManagerStore {
+  chooseStatus:string,
+  clickSellStatus:string,
+  modal:boolean,
   domainList:IManagerList[],
   detail:IManagerList | null,
-  getdomainbyaddress:(address:string)=>void,
+  myNNCBalance:string,
+  showTransfer:boolean,
+  showSaleDomain:boolean,
+  showDelist:boolean,
+  getdomainbyaddress:(address:string)=>Promise<boolean>,
+  getNNCfromSellingHash:(address:string)=>Promise<boolean>,
 }
 
 export interface IManagerProps extends RouteComponentProps{

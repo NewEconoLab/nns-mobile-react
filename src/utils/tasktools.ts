@@ -18,7 +18,7 @@ export class TaskTool
         const taskarr: Task[] = [];
         for (const task of tasks) {
             let tasknew: Task;
-            if (task.state === TaskState.watting)
+            if (task.state === TaskState.watting) 
             {
                 tasknew = call(task);
             } 

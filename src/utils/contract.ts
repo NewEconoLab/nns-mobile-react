@@ -108,8 +108,9 @@ export class Contract
     // }
     // return res;
     const msg = tran.GetMessage().clone();
+    const txidvalue = tran.getTxid();
     const promise = new Promise<{txid:string}>((resolve, reject) =>{
-      o3tools.sign(msg.toHexString(),res =>{        
+      o3tools.sign(msg.toHexString(),res =>{   
         tran.AddWitness((res as string).hexToBytes(),common.publicKey.hexToBytes(), common.address);
         const data: Uint8Array = tran.GetRawData();   
         common.sendrawtransaction(data.toHexString())
@@ -121,7 +122,8 @@ export class Contract
           resolve(value)
         })
         .catch(error=>{
-          reject(error)
+          // reject(error)
+          return {txid:txidvalue};
         })
       })
     })

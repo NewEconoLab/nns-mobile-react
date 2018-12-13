@@ -91,4 +91,9 @@ export class Transaction extends ThinNeo.Transaction
             throw new Error("You don't have enough utxo;");            
         }
     }
+
+    public getTxid()
+    {
+        return this.GetHash().clone().reverse().toHexString();
+    }
 }

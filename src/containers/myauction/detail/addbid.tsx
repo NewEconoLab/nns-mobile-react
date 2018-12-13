@@ -13,7 +13,7 @@ import { injectIntl } from 'react-intl'
 import Alert from '@/components/alert';
 import taskmanager from '@/store/taskmanager';
 import { Task, ConfirmType, TaskType } from '@/store/interface/taskmanager.interface';
-import { accAdd } from '@/utils/alculator';
+// import { accAdd } from '@/utils/alculator';
 import { toNumFixed } from '@/utils/function';
 
 interface Istate {
@@ -52,7 +52,8 @@ class Addbid extends React.Component<IAuctionAddbidProps&IAuctionDetailProps, Is
         }
         const currentPrice = this.props.myauction.detail?this.props.myauction.detail.addWho.totalValue:0;
         const heightPrice = this.props.myauction.detail?this.props.myauction.detail.maxPrice:0;
-        const myBidPrice = value?(accAdd(value,currentPrice)):currentPrice;
+        // const myBidPrice = value?(accAdd(value,currentPrice)):currentPrice;
+        const myBidPrice = value ? parseFloat(value) + parseFloat(currentPrice.toString()) : currentPrice;
         state.inputMessage = this.prop.myauction.info.msg2+myBidPrice+' CGAS';
         state.inputColor = '';
         if(this.props.myauction.detail)
