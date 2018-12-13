@@ -18,47 +18,43 @@ class ManagerList extends React.Component<IManagerListProps, any>
     isShowTransfer: false // 转让
   }
   public prop = this.props.intl.messages;
- 
+
   // 校验是否添加提示
-  public dateComputed = (time: string) =>
-  {
+  public dateComputed = (time: string) => {
     // 过期
-    if (new Date().getTime() > formatTime.formatUnixTime(time))
-    {
+    if (new Date().getTime() > formatTime.formatUnixTime(time)) {
       return <span className="text-red">{this.prop.manager.msg2}</span>;
     }
     // 即将过期
-    if (formatTime.formatUnixTime(time) - new Date().getTime() <= (DomainSelling.day * 60))
-    {
+    if (formatTime.formatUnixTime(time) - new Date().getTime() <= (DomainSelling.day * 60)) {
       return <span className="text-orange">{this.prop.manager.msg}</span>;
     }
     return <span />;
   }
   // 校验是否可对域名编辑
-  public isExpire = (time: string) =>
-  {
+  public isExpire = (time: string) => {
     // 过期
-    if (new Date().getTime() > formatTime.formatUnixTime(time))
-    {
+    if (new Date().getTime() > formatTime.formatUnixTime(time)) {
       return false;
     }
     return true
   }
   // 跳转到域名编辑功能
-  public onGoToDetail = (domain: string) =>
-  {
+  public onGoToDetail = (domain: string) => {
     this.props.manager.detail = this.props.item;
     this.props.history.push('/manager/detail/' + domain);
   }
   // 域名转让弹筐--打开
-  public onOpenTransfer = () =>
-  {
+  public onOpenTransfer = () => {
     console.log("open transfer");
-    console.log(this.props.manager.showTransfer);
+    // console.log(this.props.manager.showTransfer);
 
-    this.props.manager.showTransfer = true;
+    // this.props.manager.showTransfer = true;
+    this.setState({
+      isShowTransfer: true
+    });
     console.log("after");
-    console.log(this.props.manager.showTransfer);
+    // console.log(this.props.manager.showTransfer);
   }
   // 域名出售弹筐--打开
   // public onOpenSellDomain = () =>
@@ -84,8 +80,12 @@ class ManagerList extends React.Component<IManagerListProps, any>
   //   console.log("sell domain");
   //   this.onCloseSellDomain();
   // }
-  public render()
-  {
+  public onCloseTransfer = () => {
+    this.setState({
+      isShowTransfer: false
+    });
+  }
+  public render() {
     return (
       <React.Fragment>
         <div className="">
@@ -96,7 +96,7 @@ class ManagerList extends React.Component<IManagerListProps, any>
               this.props.item.state !== '0901' && (
                 <div className="manager-normal">{this.prop.manager.mapping}：<br />{this.props.item.resolverAddr ? this.props.item.resolverAddr : this.prop.manager.noset}</div>
               )
-            }            
+            }
             <div className="manager-normal">{this.prop.manager.expirationtime}：<br />{formatTime.format('yyyy/MM/dd hh:mm:ss', this.props.item.ttl, this.props.intl.locale)} {this.dateComputed(this.props.item.ttl)} </div>
             {
               this.props.item.state === '0901' && (
@@ -150,7 +150,11 @@ class ManagerList extends React.Component<IManagerListProps, any>
               )
             }
           </div>
-          <TransferDomain domain={this.props.item.domain} {...this.props} />
+          <TransferDomain
+            domain={this.props.item.domain}
+            {...this.props}
+            showTransfer={this.state.isShowTransfer}
+            onClose={this.onCloseTransfer} />
           {/* {
             this.props.manager.showSaleDomain && (
               <Message 

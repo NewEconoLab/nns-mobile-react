@@ -1,4 +1,5 @@
 import * as React from 'react';
+import { observer } from 'mobx-react';
 import { injectIntl } from 'react-intl';
 // import { IManagerListProps } from './interface/index.interface';
 // import * as formatTime from 'utils/formatTime';
@@ -8,12 +9,15 @@ import '../index.less'
 import Message from '@/components/message';
 import Input from '@/components/Input/Input';
 import { IManagerStore } from '../interface/index.interface';
-interface ITransferDomainProps
-{
+interface ITransferDomainProps {
     intl: any,
     domain: string,
     manager: IManagerStore,
+    showTransfer: boolean,
+    onClose: () => void
 }
+
+@observer
 class TransferDomain extends React.Component<ITransferDomainProps, any>
 {
     public state = {
@@ -22,41 +26,38 @@ class TransferDomain extends React.Component<ITransferDomainProps, any>
     }
     public prop = this.props.intl.messages;
 
-    
+
     // 域名转让弹筐--关闭
-    public onCloseTransfer = () =>
-    {
-        this.props.manager.showTransfer = false;
-        console.log("close transfer");
-        console.log(this.props.manager.showTransfer);
+    public onCloseTransfer = () => {
+        // this.props.manager.showTransfer = false;
+        // console.log("close transfer");
+        // console.log(this.props.manager.showTransfer);
         this.setState({
             checkAgain: 0
+        }, () => {
+            this.props.onClose();
         })
     }
     // 域名转让地址的输入 --todo
-    public changeTransferAddress = (value: string) =>
-    {
+    public changeTransferAddress = (value: string) => {
         console.log(value);
 
     }
     // 域名转让发送交易
-    public toTransferOwner = () =>
-    {
+    public toTransferOwner = () => {
         console.log("send transfer");
         this.onCloseTransfer();
     }
-    public toCheckAgain = () =>
-    {
+    public toCheckAgain = () => {
         this.setState({
             checkAgain: 1
         })
     }
-    public render()
-    {
+    public render() {
         return (
             <React.Fragment>
                 {
-                    (this.state.checkAgain === 0 && this.props.manager.showTransfer) && (
+                    (this.state.checkAgain === 0 && this.props.showTransfer) && (
                         <Message
                             title="转让域名"
                             onClose={this.onCloseTransfer}
@@ -78,7 +79,7 @@ class TransferDomain extends React.Component<ITransferDomainProps, any>
                     )
                 }
                 {
-                    (this.state.checkAgain === 1 && this.props.manager.showTransfer) && (
+                    (this.state.checkAgain === 1 && this.props.showTransfer) && (
                         <Message
                             title="转让域名"
                             onClose={this.onCloseTransfer}

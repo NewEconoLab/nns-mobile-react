@@ -23,7 +23,11 @@ class NNS extends React.Component<IHomeProps, any> {
         <Action {...this.props} />
         <Account {...this.props} />
         <Auction {...this.props} />
-        {/* <BuyDomain {...this.props}/> */}
+        {/* {
+          this.props.home.xx && (
+            <BuyDomain {...this.props} />
+          )
+        } */}
       </div>
     );
   }
