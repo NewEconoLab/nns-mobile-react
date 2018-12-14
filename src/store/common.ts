@@ -5,10 +5,10 @@ import { observable, action } from 'mobx';
 import { $_GET } from '@/utils/paramstool';
 class Common{
   @observable public title:string = ''; // 标题
-  @observable public language:string = 'zh';  // 当前语言
-  @observable public address:string = 'ATBTRWX8v8teMHCvPXovir3Hy92RPnwdEi'; // 当前地址
+  @observable public language:string = '';  // 当前语言
+  @observable public address:string = ''; // 当前地址
   @observable public publicKey:string='';
-  @observable public network:string = 'testnet';  // 当前网络
+  @observable public network:string = '';  // 当前网络
   @observable public accountBalance:string = '';    // 账户中的cgas
   @observable public cgasBalance:string = '';       // CGAS余额
   @observable public fee:Neo.Fixed8 = Neo.Fixed8.Zero;

@@ -7,10 +7,10 @@ import { IManagerListProps } from './interface/index.interface';
 import * as formatTime from 'utils/formatTime';
 import './index.less'
 import DomainSelling from '@/store/DomainSelling';
-import { Button } from 'antd-mobile';
+// import { Button } from 'antd-mobile';
 // import Message from '@/components/message';
 // import Input from '@/components/Input/Input';
-import TransferDomain from './message/transfer';
+// import TransferDomain from './message/transfer';
 
 class ManagerList extends React.Component<IManagerListProps, any>
 {
@@ -45,65 +45,42 @@ class ManagerList extends React.Component<IManagerListProps, any>
     this.props.history.push('/manager/detail/' + domain);
   }
   // 域名转让弹筐--打开
-  public onOpenTransfer = () => {
-    console.log("open transfer");
-    // console.log(this.props.manager.showTransfer);
+  // public onOpenTransfer = () => {
+  //   console.log("open transfer");
+  //   // console.log(this.props.manager.showTransfer);
 
-    // this.props.manager.showTransfer = true;
-    this.setState({
-      isShowTransfer: true
-    });
-    console.log("after");
-    // console.log(this.props.manager.showTransfer);
-  }
-  // 域名出售弹筐--打开
-  // public onOpenSellDomain = () =>
-  // {
-  //   this.props.manager.showSaleDomain = true;
-  // }
-  // // 域名出售弹筐--关闭
-  // public onCloseSellDomain = () =>
-  // {
+  //   // this.props.manager.showTransfer = true;
   //   this.setState({
-  //     showSaleDomain: false
-  //   })
+  //     isShowTransfer: true
+  //   });
+  //   console.log("after");
+  //   // console.log(this.props.manager.showTransfer);
   // }
-  // // 域名出售金额的输入 --todo
-  // public changeSellingPrice = (value: string) =>
-  // {
-  //   console.log(value);
-
+  
+  // public onCloseTransfer = () => {
+  //   this.setState({
+  //     isShowTransfer: false
+  //   });
   // }
-  // // 域名出售发送交易
-  // public toSellDomain = () =>
-  // {
-  //   console.log("sell domain");
-  //   this.onCloseSellDomain();
-  // }
-  public onCloseTransfer = () => {
-    this.setState({
-      isShowTransfer: false
-    });
-  }
   public render() {
     return (
       <React.Fragment>
         <div className="">
-          <div className="list-wrapper">
+          <div className="list-wrapper" onClick={this.onGoToDetail.bind(this, this.props.item.domain)}>
             <div className="manager-name">{this.props.item.domain}</div>
             <div className="manager-normal">{this.prop.manager.resolver}：<br />{this.props.item.resolver ? this.props.item.resolver : this.prop.manager.noset}</div>
-            {
-              this.props.item.state !== '0901' && (
+            {/* {
+              this.props.item.state !== '0901' && ( */}
                 <div className="manager-normal">{this.prop.manager.mapping}：<br />{this.props.item.resolverAddr ? this.props.item.resolverAddr : this.prop.manager.noset}</div>
-              )
-            }
+              {/* )
+            } */}
             <div className="manager-normal">{this.prop.manager.expirationtime}：<br />{formatTime.format('yyyy/MM/dd hh:mm:ss', this.props.item.ttl, this.props.intl.locale)} {this.dateComputed(this.props.item.ttl)} </div>
-            {
+            {/* {
               this.props.item.state === '0901' && (
                 <div className="manager-normal">出售价格：<br />{this.props.item.price ? this.props.item.price : '0'} NNC</div>
               )
-            }
-            {
+            } */}
+            {/* {
               !!this.isExpire(this.props.item.ttl) && (
                 <div className="manager-btn">
                   {
@@ -148,13 +125,13 @@ class ManagerList extends React.Component<IManagerListProps, any>
                   }
                 </div>
               )
-            }
+            } */}
           </div>
-          <TransferDomain
+          {/* <TransferDomain
             domain={this.props.item.domain}
             {...this.props}
             showTransfer={this.state.isShowTransfer}
-            onClose={this.onCloseTransfer} />
+            onClose={this.onCloseTransfer} /> */}
           {/* {
             this.props.manager.showSaleDomain && (
               <Message 

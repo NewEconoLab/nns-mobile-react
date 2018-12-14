@@ -128,12 +128,12 @@ class Auction extends React.Component<IHomeProps>
               this.props.home.isStatus === 2 &&
               <Link to="/auction/detail"><Button type="primary" onClick={this.onRaiseAuction}>{this.prop.btn.join}</Button></Link>
             }
-            {
+            {/* {
               this.props.home.isStatus === 3 &&
               (
                 <Button type="primary" onClick={this.onLookDomain}>查看详情</Button>
               )
-            }     
+            }      */}
             {
               this.props.home.isStatus === 4 &&
               (

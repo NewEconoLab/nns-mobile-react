@@ -2,15 +2,16 @@
  * 域名管理
  */
 import * as React from 'react';
-import TitleText from '@/components/titletext';
+// import TitleText from '@/components/titletext';
 import ManagerList from './managerlist'
 import { IManagerList, IManagerProps } from './interface/index.interface';
 import { observer, inject } from 'mobx-react'
 import './index.less';
-import ClaimNNC from './claimnnc';
+// import ClaimNNC from './claimnnc';
 // import { ActivityIndicator } from 'antd-mobile';
 import { injectIntl } from 'react-intl';
-import { Modal, Button, SearchBar } from 'antd-mobile';
+import { ActivityIndicator } from 'antd-mobile';
+// import { Modal, Button, SearchBar } from 'antd-mobile';
 
 // 接口"getdomainbyaddress", 参数："ATBTRWX8v8teMHCvPXovir3Hy92RPnwdEi",".neo"
 @inject('manager', 'common')
@@ -88,11 +89,28 @@ class Manager extends React.Component<IManagerProps, any>
   public render()
   {
     // const srcImg = (this.props.myauction.statusValue === '0' && this.props.myauction.peopleValue === '0') ? require('@/img/noselect.png') : require('@/img/yesselect.png');
-    const srcImg = require('@/img/noselect.png');
+    // const srcImg = require('@/img/noselect.png');
     return (
       <div className="manager-wrap">
+      {
+          !!!Object.keys(this.props.manager.domainList) &&
+          <div className="nodata-page">
+            <div className="nodata-wrap">
+              <ActivityIndicator animating={true} />
+            </div>
+          </div>
+        }
+        {
+          Object.keys(this.props.manager.domainList).length === 0 &&
+          <div className="nodata-page">
+            <div className="nodata-wrap">
+              <img src={require('@/img/nodata.png')} alt="" />
+              <p>{this.prop.message.empty}</p>
+            </div>
+          </div>
+        }
         {/* 搜索功能 */}
-        <React.Fragment>
+        {/* <React.Fragment>
           <div className="search-box">
             <SearchBar
               placeholder={this.prop.myauction.search}
@@ -120,17 +138,17 @@ class Manager extends React.Component<IManagerProps, any>
             </div>
             <Button type="primary" onClick={this.applyChoose} style={{ borderRadius: '0' }}>{this.prop.btn.select}</Button>
           </Modal>
-        </React.Fragment>
+        </React.Fragment> */}
         {/* 提取nnc */}
-        <ClaimNNC {...this.props}/>
+        {/* <ClaimNNC {...this.props}/> */}
         {/* 域名列表 */}
         {
           this.props.manager.domainList.length !== 0 &&
           <React.Fragment>
-            <div className="hastips-title">
+            {/* <div className="hastips-title">
                 <h3>{this.prop.manager.title}</h3>
                 <p>注意：如果您要出售您的地址，请确保域名的地址映射栏处于未配置的状态（设置过的域名请在在编辑页中使用重置功能。）</p>
-            </div>
+            </div> */}
             <div className="manager-list">
               {
                 this.props.manager.domainList.map((item: IManagerList, index: number) =>

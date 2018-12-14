@@ -8,7 +8,7 @@ import './index.less'
 // 引入图片
 // import tutorial from '@/img/tutorial.png'
 // import cgas from '@/img/cgasex.png'
-import trade from '@/img/trading.png'
+// import trade from '@/img/trading.png'
 import myauction from '@/img/myauction.png'
 import domainmanager from '@/img/domainmanage.png'
 import bonus from '@/img/bonus.png'
@@ -64,12 +64,12 @@ class Action extends React.Component<IHomeProps,any> {
                 icon: record,
                 text: this.home.action.record,
                 page:'record'
-            },
-            {
-                icon: trade,
-                text: this.home.action.traderecord,
-                page:'traderecord'
             }
+            // {
+            //     icon: trade,
+            //     text: this.home.action.traderecord,
+            //     page:'traderecord'
+            // }
             // {
             //     icon: tutorial,
             //     text: this.home.action.tutorial,

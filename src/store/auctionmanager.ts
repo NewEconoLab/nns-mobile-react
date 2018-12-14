@@ -33,21 +33,21 @@ class AuctionManager implements IAuctionListStore {
     let list:IAuction[]=[];
     try 
     {
-      const res = await Api.getAuctionInfoCount(address,'test');
+      const res = await Api.getAuctionInfoCount(address,DomainSelling.RootNeo.root);
       const count = res[0]['count'];
       let count2=count;
       if(count>100)
       {
         for(;count2>0;)
         {
-          const result = await Api.getauctioninfobyaddress(address, 1, count2<100?count2:100,'test');
+          const result = await Api.getauctioninfobyaddress(address, 1, count2<100?count2:100,DomainSelling.RootNeo.root);
           list = list.concat(result?result[0].list:[]);
           count2 -= 100;
         }
       }
       else
       {
-        const result = await Api.getauctioninfobyaddress(address, 1, count,'test');
+        const result = await Api.getauctioninfobyaddress(address, 1, count,DomainSelling.RootNeo.root);
         list = list.concat(result?result[0].list:[]);
       }
     }
