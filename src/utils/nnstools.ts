@@ -89,6 +89,10 @@ export class nnstools
         const script = sb.ToArray();
         try
         {
+            console.log("------------script");
+            
+            console.log(script.toHexString());
+            
             const res = await Contract.contractInvokeTrans_attributes(script);
             if (res)
             {

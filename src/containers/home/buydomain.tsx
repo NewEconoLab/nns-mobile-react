@@ -25,7 +25,10 @@ class BuyDomain extends React.Component<IHomeProps>{
     }
 
     public onClose = () => {
-        console.log("close buy")
+        console.log("close buy");
+        this.props.home.isShowSaleBox = false;
+        this.props.home.isStatus = 0;
+        this.props.home.inputModule.inputValue = '';
     }
     public render() {
         const time = this.props.home.sellingDomain ? this.props.home.sellingDomain.ttl : 0;

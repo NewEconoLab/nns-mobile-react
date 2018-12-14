@@ -7,6 +7,7 @@ import { observer, inject } from 'mobx-react';
 import { ITradeProps } from './interface/traderecord.interface';
 import * as formatTime from 'utils/formatTime';
 import { injectIntl } from 'react-intl';
+import DomainSelling from '@/store/DomainSelling';
 
 @inject('common', 'traderecord')
 @observer
@@ -54,7 +55,7 @@ class TradeRecord extends React.Component<ITradeProps, any> {
     }
     public toGetList = () =>
     {
-        this.props.traderecord.getSaleOrBuyList(this.props.common.address, '.test', this.state.showListType, this.state.page, this.state.pageSize)
+        this.props.traderecord.getSaleOrBuyList(this.props.common.address, '.' + DomainSelling.RootNeo.root, this.state.showListType, this.state.page, this.state.pageSize)
     }
     public render()
     {

@@ -5,7 +5,8 @@ import './index.less';
 interface Iprops {
   intl: any,
   title: string,
-  btnText?:string,
+  btnText?:string,// 按钮文字
+  btnStatus?:boolean,// false为不可点击，true为可点击，默认可点击
   onClose: () => void,
   onConfirm: () => void
 }
@@ -36,7 +37,8 @@ class Message extends React.Component<Iprops> {
           </div>
           <div className="message-button-group">
             <Button
-              type="primary"
+              type={(this.props.btnStatus && !this.props.btnStatus)?"ghost":"primary"}
+              disabled={this.props.btnStatus?!this.props.btnStatus:false}
               onClick={this.onConfirm}
             >{this.props.btnText?this.props.btnText:this.props.intl.messages.btn.confirm}</Button>
           </div>

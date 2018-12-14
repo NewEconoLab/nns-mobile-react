@@ -25,7 +25,8 @@ class Home implements IHomeStore
 
   @observable public auctionInfo: IAuction;
   @observable public sellingDomain: ISaleDomainInfo | null = null;
-  @observable public isOKSale: boolean = false;
+  @observable public isOKSale: boolean = false; // 购买按钮
+  @observable public isShowSaleBox:boolean = false; // 购买弹筐
   constructor()
   {
     autorun(() =>
@@ -189,7 +190,7 @@ class Home implements IHomeStore
       result = await Api.getnep5balanceofaddress(HASH_CONFIG.ID_NNC.toString(), common.address);
     } catch (error)
     {
-      this.isOKSale = false;
+      this.isOKSale = false; 
       return error;
     }
     if (this.sellingDomain && result)

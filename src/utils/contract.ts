@@ -1,5 +1,5 @@
 import { CoinTool } from "./cointools";
-import { HASH_CONFIG, WALLET_CONFIG } from "@/config";
+import { HASH_CONFIG } from "@/config";
 import { Transaction } from "./transaction";
 import o3tools from './o3tools'
 import common from '@/store/common'
@@ -54,8 +54,10 @@ export class Contract
     const gass = utxos[HASH_CONFIG.ID_GAS];
     const tran: Transaction = new Transaction()
     tran.setScript(script)
-    if (gass) {
-      tran.creatInuptAndOutup(gass, WALLET_CONFIG.netfee)
+    console.log(common.fee.toString());
+    
+    if (gass && common.fee.compareTo(Neo.Fixed8.Zero)>0) {
+      tran.creatInuptAndOutup(gass,common.fee)
     }
     const msg = tran.GetMessage().clone();
     // const WIF = "KyKtTeuYN41h3z6T3rzrqGYZXturhsDAazjvUFzntjuXpCTzrhNc";
@@ -87,30 +89,31 @@ export class Contract
    * @param script 合约的script
    */
   public static async contractInvokeTrans_attributes(script: Uint8Array) {
+    
     const utxos = await CoinTool.getAssets()
     const gass = utxos[HASH_CONFIG.ID_GAS];
     const tran: Transaction = new Transaction()
-    tran.setScript(script)
-    if (gass) {
-      tran.creatInuptAndOutup(gass, WALLET_CONFIG.netfee)
+    tran.setScript(script)    
+    if (gass && common.fee.compareTo(Neo.Fixed8.Zero)>0) {
+      tran.creatInuptAndOutup(gass, common.fee)
     }
-    // const WIF = "KyKtTeuYN41h3z6T3rzrqGYZXturhsDAazjvUFzntjuXpCTzrhNc";
-    // const prekey = ThinNeo.Helper.GetPrivateKeyFromWIF(WIF);
-    // const pubkey = ThinNeo.Helper.GetPublicKeyFromPrivateKey(prekey)
-    // const addr = ThinNeo.Helper.GetAddressFromPublicKey(pubkey);
-    // const signdata = ThinNeo.Helper.Sign(tran.GetMessage().clone(), prekey);
-    // tran.AddWitness(signdata, pubkey, addr);
-    // const data: Uint8Array = tran.GetRawData();
-    // const res = await common.sendrawtransaction(data.toHexString());
-    // if(res)
-    // {
-    //   MarkUtxo.setMark(tran.marks);
-    // }
-    // return res;
+    // tran.creatInuptAndOutup(gass,Neo.Fixed8.fromNumber(0.00000001))
     const msg = tran.GetMessage().clone();
     const txidvalue = tran.getTxid();
+    // console.log(txidvalue);
+    // console.log("-----------------msg to hex");
+    
+    // console.log(msg.toHexString());
+    
     const promise = new Promise<{txid:string}>((resolve, reject) =>{
-      o3tools.sign(msg.toHexString(),res =>{   
+      o3tools.sign(msg.toHexString(),res =>{
+        console.log("---------------------------------------msg hex");
+        
+        console.log(msg.toHexString());
+        console.log('--------------------------- sign result');
+        
+        console.log(res);
+        
         tran.AddWitness((res as string).hexToBytes(),common.publicKey.hexToBytes(), common.address);
         const data: Uint8Array = tran.GetRawData();   
         common.sendrawtransaction(data.toHexString())

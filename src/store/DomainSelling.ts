@@ -1,11 +1,12 @@
 import { observable, action } from 'mobx';
 import * as Api from '@/store/api/common.api';
 import { DomainInfo, IDomainSelling } from './interface/domain.interface';
+import common from './common';
 class DomainSelling implements IDomainSelling {
     @observable
-    public RootNeo: DomainInfo = new DomainInfo("test");
+    public RootNeo: DomainInfo = new DomainInfo("testnet"===common.network?'test':'neo');
     @observable
-    public day:number = 5*60*1000;
+    public day:number = (common.network==="testnet"? 5*60*1000:24*60*60*1000);
     @action
     public async initRoot() {
         try {            

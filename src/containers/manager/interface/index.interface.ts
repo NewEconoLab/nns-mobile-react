@@ -23,8 +23,6 @@ export interface IManagerStore {
   domainList: IManagerList[],
   detail: IManagerList | null,
   myNNCBalance: string,
-  showSaleDomain: boolean,
-  showDelist: boolean,
   getdomainbyaddress: (address: string) => Promise<boolean>,
   getNNCfromSellingHash: (address: string) => Promise<boolean>,
 }

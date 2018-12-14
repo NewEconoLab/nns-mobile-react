@@ -42,7 +42,7 @@ export default {
     gotit:"OK，got it",
     select:"Filter",
     apply:"Apply",
-    applying:"Applying",
+    applying:"Applyed",
     applyed:"Distributed"
   },
   home:{

@@ -53,7 +53,7 @@ class Addbid extends React.Component<IAuctionAddbidProps&IAuctionDetailProps, Is
         const currentPrice = this.props.myauction.detail?this.props.myauction.detail.addWho.totalValue:0;
         const heightPrice = this.props.myauction.detail?this.props.myauction.detail.maxPrice:0;
         // const myBidPrice = value?(accAdd(value,currentPrice)):currentPrice;
-        const myBidPrice = value ? parseFloat(value) + parseFloat(currentPrice.toString()) : currentPrice;
+        const myBidPrice = value ? parseFloat(value) + parseFloat(currentPrice.toString()) : currentPrice; 
         state.inputMessage = this.prop.myauction.info.msg2+myBidPrice+' CGAS';
         state.inputColor = '';
         if(this.props.myauction.detail)

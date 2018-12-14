@@ -11,8 +11,8 @@ class manager implements IManagerStore {
   @observable public myNNCBalance: string = '0';// 可提取的NNC
   @observable public filterDomainList: IManagerList[] = [];
   // @observable public showTransfer:boolean = false; // 显示转让的弹框
-  @observable public showSaleDomain: boolean = false; // 显示出售的弹框
-  @observable public showDelist: boolean = false; // 显示下架的弹筐
+  // @observable public showSaleDomain: boolean = false; // 显示出售的弹框
+  // @observable public showDelist: boolean = false; // 显示下架的弹筐
 
   @action public getdomainbyaddress = async (address: string) => {
     let result: any = null;

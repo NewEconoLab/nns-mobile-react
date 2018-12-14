@@ -81,7 +81,7 @@ class Bonus extends React.Component<IBonusProps, any>
             this.props.bonus.applyState === 1 && <Button type="primary" style={{ borderRadius: '0' }} className="detail-btn" onClick={this.toApplyBonus}>{this.prop.btn.apply}</Button>
           }
           {
-            this.props.bonus.applyState === 2 && <Button type="primary" style={{ borderRadius: '0' }} className="detail-btn" loading={true}>{this.prop.btn.applying}</Button>
+            this.props.bonus.applyState === 2 && <Button type="primary" style={{ borderRadius: '0' }} className="detail-btn" disabled={true}>{this.prop.btn.applying}</Button>
           }
           {
             this.props.bonus.applyState === 3 && <Button type="primary" style={{ borderRadius: '0' }} className="detail-btn" disabled={true} >{this.prop.btn.applyed}</Button>

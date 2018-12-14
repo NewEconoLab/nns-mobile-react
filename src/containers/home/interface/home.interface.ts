@@ -30,7 +30,10 @@ export interface IHomeStore {
   auctionInfo:IAuction,
   sellingDomain:ISaleDomainInfo|null,
   isOKSale:boolean,
-  getAuctionInfo:() => Promise<boolean>
+  isShowSaleBox:boolean,
+  getAuctionInfo:() => Promise<boolean>,
+  getSaleDomainInfo:() => Promise<boolean>,
+  getnep5balanceofaddress:() => Promise<boolean>
 }
 
 
