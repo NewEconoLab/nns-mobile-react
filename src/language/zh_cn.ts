@@ -42,7 +42,7 @@ export default {
     gotit: "我知道了",
     select:"筛选",
     apply:"申请",
-    applying:"申请中",
+    applying:"已申请",
     applyed:"已发放"
   },
   home: {
