@@ -23,8 +23,11 @@ export interface IManagerStore {
   domainList: IManagerList[],
   detail: IManagerList | null,
   myNNCBalance: string,
+  pageIndex: number,
+  pageSize: number,
   getdomainbyaddress: (address: string) => Promise<boolean>,
   getNNCfromSellingHash: (address: string) => Promise<boolean>,
+  domainListFroPage: IManagerList[]
 }
 
 export interface IManagerProps extends RouteComponentProps {

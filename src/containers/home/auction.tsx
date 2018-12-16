@@ -30,8 +30,7 @@ class Auction extends React.Component<IHomeProps>
   public state = {
     btnWait: false
   }
-  public componentDidMount()
-  {
+  public componentDidMount() {
     this.props.home.messages = {
       errmsg1: this.prop.home.auction.errmsg1,
       errmsg2: this.prop.home.auction.errmsg2,
@@ -40,20 +39,17 @@ class Auction extends React.Component<IHomeProps>
       successmsg3: this.prop.home.auction.successmsg3,
     }
   }
-  public change = (value: string) =>
-  {
+  public change = (value: string) => {
     this.props.home.inputModule.inputValue = value;
   }
-  public onStartAuction = async () =>
-  {
+  public onStartAuction = async () => {
     this.setState({ btnWait: true });
     const roothash = nnstools.nameHash(DomainSelling.RootNeo.root);
     const res = await nnstools.startAuciton(DomainSelling.RootNeo.register, roothash, this.props.home.inputModule.inputValue);
-    console.log("open");    
+    console.log("open");
     console.log(res);
-    
-    if (res['txid'])
-    {
+
+    if (res['txid']) {
       const auction = {} as IAuction;
       auction["auctionId"] = res["txid"];
       auction["domain"] = this.props.home.inputModule.inputValue
@@ -65,22 +61,18 @@ class Auction extends React.Component<IHomeProps>
       auction["addWho"] = who
       auctionmanager.addAuction(auction);
       taskmanager.addTask(new Task(TaskType.startAuction, ConfirmType.contract, res['txid'], { domain: auction["fulldomain"] }))
-      Alert(this.prop.message.successmsg, this.prop.message.waitmsg, this.prop.btn.confirm, function ()
-      {
+      Alert(this.prop.message.successmsg, this.prop.message.waitmsg, this.prop.btn.confirm, function () {
         return;
       });
     }
-    else
-    {
-      Alert(this.prop.message.errmsg, this.prop.message.errmsgtip1, this.prop.btn.confirm, () =>
-      {
+    else {
+      Alert(this.prop.message.errmsg, this.prop.message.errmsgtip1, this.prop.btn.confirm, () => {
         return;
       });
     }
     this.setState({ btnWait: false });
   }
-  public onRaiseAuction = async () => 
-  {
+  public onRaiseAuction = async () => {
     await this.props.home.getAuctionInfo();
     this.props.myauction.detail = this.props.home.auctionInfo;
   }
@@ -88,15 +80,13 @@ class Auction extends React.Component<IHomeProps>
     await this.props.home.getSaleDomainInfo();
     this.props.home.isShowSaleBox = true;
   }
-  public componentWillUnmount()
-  {
+  public componentWillUnmount() {
     this.props.home.inputModule.inputValue = '';
     this.props.home.inputModule.status = '';
     this.props.home.inputModule.message = '';
     this.props.home.inputModule.color = '';
   }
-  public render()
-  {
+  public render() {
     return (
       <div className="auction-wrap box-wrap">
         <TitleText text={this.prop.home.auction.title} />
@@ -116,7 +106,7 @@ class Auction extends React.Component<IHomeProps>
         {
           this.props.home.inputModule.status !== 'error' &&
           <WingBlank>
-            {/* 0 默认活着不可用(已结束)，1 未使用（可开拍），2 正在竞拍(可加价),3 可购买,4为开标中 */}            
+            {/* 0 默认活着不可用(已结束)，1 未使用（可开拍），2 正在竞拍(可加价),3 可购买,4为开标中 */}
             {
               this.props.home.isStatus === 1 &&
               (
@@ -129,18 +119,18 @@ class Auction extends React.Component<IHomeProps>
               this.props.home.isStatus === 2 &&
               <Link to="/auction/detail"><Button type="primary" onClick={this.onRaiseAuction}>{this.prop.btn.join}</Button></Link>
             }
-            {/* {
+            {
               this.props.home.isStatus === 3 &&
               (
                 <Button type="primary" onClick={this.onLookDomain}>查看详情</Button>
               )
-            }      */}
+            }
             {
               this.props.home.isStatus === 4 &&
               (
                 <Button type="primary" loading={true}>{this.prop.btn.startauction}</Button>
               )
-            }        
+            }
           </WingBlank>
         }
       </div>

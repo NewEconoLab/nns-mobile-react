@@ -1,4 +1,4 @@
-import { observable, action } from 'mobx';
+import { observable, action, computed } from 'mobx';
 import * as Api from '../api/manager.api';
 import { IManagerList, IManagerStore } from '../interface/index.interface';
 
@@ -7,12 +7,18 @@ class manager implements IManagerStore {
   @observable public clickSellStatus: string = '0'; // 点击筛选的值
   @observable public modal: boolean = false; // 是否显示筛选
   @observable public domainList: IManagerList[] = [];
+  @observable public pageIndex: number = 0;
+  @observable public pageSize: number = 10;
   @observable public detail: IManagerList | null = null;
   @observable public myNNCBalance: string = '0';// 可提取的NNC
   @observable public filterDomainList: IManagerList[] = [];
   // @observable public showTransfer:boolean = false; // 显示转让的弹框
   // @observable public showSaleDomain: boolean = false; // 显示出售的弹框
   // @observable public showDelist: boolean = false; // 显示下架的弹筐
+
+  @computed get domainListFroPage() {
+    return this.domainList.slice(0, (this.pageIndex + 1) * this.pageSize)
+  }
 
   @action public getdomainbyaddress = async (address: string) => {
     let result: any = null;

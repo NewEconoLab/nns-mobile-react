@@ -23,7 +23,7 @@ class TransferDomain extends React.Component<ITransferDomainProps, any>
     public state = {
         inputAddress: '', // 转让的地址
         checkAgain: 0, // 再次确认,0为第一次确认，1为第二次确认，2为确认完毕
-        isOkTransfer:true, // 转让按钮确认，true为不可点击，false为可点击
+        isOkTransfer: true, // 转让按钮确认，true为不可点击，false为可点击
     }
     public prop = this.props.intl.messages;
 

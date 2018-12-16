@@ -10,28 +10,28 @@ import Layout from './containers/layout/index';
 import routes from './routers';
 import store from "./store";
 import commonStore from './store/common';
-import auctionmanagerStore from './store/auctionmanager';
+// import auctionmanagerStore from './store/auctionmanager';
 import { en_US, zh_CN } from '@/language';
-import o3tools from '@/utils/o3tools';
+// import o3tools from '@/utils/o3tools';
 import DomainSelling from './store/DomainSelling';
-import { TaskTool } from './utils/tasktools';
+// import { TaskTool } from './utils/tasktools';
 addLocaleData([...en, ...zh]);
 
 commonStore.initWalletConfig();
 DomainSelling.initRoot();
 // 初始化请求
-o3tools.init(res => {
-  if (res) {
-    commonStore.getregisteraddressbalance();
-    commonStore.getnep5balanceofaddress();
-    auctionmanagerStore.initFilterAuctionList();
-    TaskTool.start();
-//     console.log("Address:   "+commonStore.address );
-    return true
-  } else {
-    return false
-  }
-});
+// o3tools.init(res => {
+//   if (res) {
+//     commonStore.getregisteraddressbalance();
+//     commonStore.getnep5balanceofaddress();
+//     auctionmanagerStore.initFilterAuctionList();
+//     TaskTool.start();
+// //     console.log("Address:   "+commonStore.address );
+//     return true
+//   } else {
+//     return false
+//   }
+// });
 
 
 // 初始化鼠标随机方法
@@ -52,10 +52,10 @@ const ObserverRender = observer(() => {
       messages={messages}
     >
       {
-        (commonStore.accountBalance && commonStore.cgasBalance) ?
-          renderRoutes(routes) :
-          <div />
-          // renderRoutes(routes)
+        // (commonStore.accountBalance && commonStore.cgasBalance) ?
+        //   renderRoutes(routes) :
+        //   <div />
+        renderRoutes(routes)
       }
     </IntlProvider>
   )

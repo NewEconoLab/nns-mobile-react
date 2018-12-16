@@ -17,31 +17,46 @@ import './index.less'
 class Bonus extends React.Component<IBonusProps, any>
 {
   public prop = this.props.intl.messages;
-  public async componentDidMount()
-  {
+  public listRef: React.RefObject<HTMLDivElement> = React.createRef();
+  public async componentDidMount() {
     this.props.bonus.getCurrentBonus();
     await this.props.bonus.getBonusListByAddress();
+    window.addEventListener('scroll', this.onScroll, false);
   }
-  public componentWillUnmount(){
+  public onScroll = () => {
+    if (this.props.bonus.bonusList.length === 0) {
+      return;
+    }
+    if (!this.listRef || !this.listRef.current) {
+      return;
+    }
+
+    const winScroll = window.pageYOffset || (document.documentElement && document.documentElement.scrollTop) || (document.body && document.body.scrollTop);
+    if (winScroll + (document.documentElement ? document.documentElement.clientHeight : 0) >= this.listRef.current.offsetHeight + this.listRef.current.offsetTop + 46) {
+      this.props.bonus.pageIndex++;
+      this.props.bonus.getBonusListByAddress();
+    }
+
+  }
+  public componentWillUnmount() {
     this.props.bonus.myBonusInfo = null;
     this.props.bonus.bonusList = [];
     this.props.bonus.applyState = 0;
+    window.removeEventListener('scroll', this.onScroll);
+    this.props.bonus.pageIndex = 1;
+    this.props.bonus.isLast = false;
   }
-  public toApplyBonus = async () =>
-  {
+  public toApplyBonus = async () => {
     const res = await this.props.bonus.applyBonus();
-    if (res)
-    {
-      Alert(this.prop.message.successmsg, this.prop.message.waitmsg, this.prop.btn.confirm, function ()
-      {
+    if (res) {
+      Alert(this.prop.message.successmsg, this.prop.message.waitmsg, this.prop.btn.confirm, function () {
         return;
       });
     }
   }
-  public render()
-  {
+  public render() {
     return (
-      <div className="bonus-wrap">        
+      <div className="bonus-wrap" ref={this.listRef}>
         <div className="mybonus-box">
           <div className="title-bonus">
             <div className="title-bonusname">{this.prop.bonus.bonus}</div>
@@ -65,8 +80,7 @@ class Bonus extends React.Component<IBonusProps, any>
             <TitleText text={this.prop.bonus.title} />
             <div className="bonus-list">
               {
-                this.props.bonus.bonusList.map((item: IBonuseInfo, index: number) =>
-                {
+                this.props.bonus.bonusList.map((item: IBonuseInfo, index: number) => {
                   return <BonusList item={item} key={index} />
                 })
               }
