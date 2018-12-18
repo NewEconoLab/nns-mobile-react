@@ -101,7 +101,7 @@ class ManagerList extends React.Component<IManagerListProps, any>
     return (
       <React.Fragment>
         <div className="">
-          <div className="list-wrapper" onClick={this.onGoToDetail.bind(this, this.props.item.domain)}>
+          <div className="list-wrapper">
             <div className="manager-name">{this.props.item.domain}</div>
             <div className="manager-normal">{this.prop.manager.resolver}：<br />{this.props.item.resolver ? this.props.item.resolver : this.prop.manager.noset}</div>
             {

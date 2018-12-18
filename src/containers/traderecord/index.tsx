@@ -15,7 +15,7 @@ class TradeRecord extends React.Component<ITradeProps, any> {
   public state = {
     page: 1,
     pageSize: 15,
-    showListType: 'sale'
+    showListType: 'sell'
   }
   public prop = this.props.intl.messages;
   public listRef: React.RefObject<HTMLDivElement> = React.createRef();
@@ -46,12 +46,12 @@ class TradeRecord extends React.Component<ITradeProps, any> {
     this.props.traderecord.isLast = false;
   }
   public toShowMySellDomain = () => {
-    if (this.state.showListType === 'sale') {
+    if (this.state.showListType === 'sell') {
       return
     }
     this.setState({
       page: 1,
-      showListType: 'sale'
+      showListType: 'sell'
     }, () => {
       this.props.traderecord.pageIndex = 1;
       this.props.traderecord.isLast = false;
@@ -81,7 +81,7 @@ class TradeRecord extends React.Component<ITradeProps, any> {
       <div className="trade-page" ref={this.listRef}>
         <div className="trade-title">
           <span
-            className={this.state.showListType === 'sale' ? 'active' : ''}
+            className={this.state.showListType === 'sell' ? 'active' : ''}
             onClick={this.toShowMySellDomain}>我出售的</span>
           <span
             className={this.state.showListType === 'buy' ? 'active' : ''}

@@ -28,7 +28,7 @@ class ClaimNNC extends React.Component<IManagerProps, any>
                 <div className="mynnc-content">
                     <div className="mynnc-text">
                         <strong>未提取的NNC</strong>
-                        <strong className="mynnc-number">{this.props.manager.myNNCBalance}</strong>
+                        <strong className="mynnc-number">{this.props.manager.myNNCBalance === '-0' ? '0':this.props.manager.myNNCBalance}</strong>
                     </div>
                     <div className="mynnc-btn">
                         <Button 

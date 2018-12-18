@@ -7,7 +7,8 @@ export interface IManagerList {
   resolverAddr: string,// 地址映射
   ttl: string          // 到期时间
   price: string,       // 出售金额
-  state: string        // 域名状态
+  state: string,       // 域名状态
+  blockindex:number,   // 区块高度
 }
 
 export interface IManagerListProps extends RouteComponentProps {

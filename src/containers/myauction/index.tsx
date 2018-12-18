@@ -128,7 +128,7 @@ class MyAuction extends React.Component<IAuctionProps, IAuctionState>
     })
     const list = this.props.auctionmanager.auctionList;
     const newList = {};
-    const keysArr: string[] = Object.keys(list);
+    const keysArr: string[] = Object.keys(list);    
     keysArr.forEach((key: string, index: number) =>
     {
       if (list[key].domain.indexOf(value) !== -1)

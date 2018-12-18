@@ -45,7 +45,7 @@ class manager implements IManagerStore {
       this.myNNCBalance = '0';
       return false;
     }
-    console.log(result);
+    // console.log(result);
 
     this.myNNCBalance = result ? result[0].balance : '0';
     return true;

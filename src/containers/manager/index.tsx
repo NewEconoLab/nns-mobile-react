@@ -78,15 +78,15 @@ class Manager extends React.Component<IManagerProps, any>
     this.setState({
       searchValue: value
     })
-    const list = this.props.manager.domainList;
+    const list = this.props.manager.domainList;    
     const newList = {};
     const keysArr: string[] = Object.keys(list);
-    keysArr.forEach((key: string, index: number) => {
+    console.log(keysArr);
+    // 输入筛选
+    keysArr.forEach((key: string, index: number) => { 
       if (list[key].domain.indexOf(value) !== -1) {
-        // if(list[key].auctionState!==AuctionState.open)
-        // {
+        console.log(list[key]);
         newList[key] = list[key];
-        // }
       }
     })
 
