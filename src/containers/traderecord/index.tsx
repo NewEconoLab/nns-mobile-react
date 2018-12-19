@@ -4,7 +4,7 @@
 import * as React from 'react';
 import './index.less'
 import { observer, inject } from 'mobx-react';
-import { ITradeProps } from './interface/traderecord.interface';
+import { ITradeProps, ITradeList } from './interface/traderecord.interface';
 import * as formatTime from 'utils/formatTime';
 import { injectIntl } from 'react-intl';
 import DomainSelling from '@/store/DomainSelling';
@@ -91,13 +91,13 @@ class TradeRecord extends React.Component<ITradeProps, any> {
           this.props.traderecord.tradeCount !== 0 && (
             <div className="trade-content">
               {
-                Object.keys(this.props.traderecord.tradeList).map((item: string, index: number) => {
+                this.props.traderecord.tradeList.map((item: ITradeList, index: number) => {
                   return (
-                    <div className="trade-list" key={item}>
-                      <strong>{this.props.traderecord.tradeList[index].fullDomain}</strong>
-                      <p>{this.prop.traderecord.selltime}{this.props.traderecord.tradeList[index].price} NNC</p>
+                    <div className="trade-list" key={index}>
+                      <strong>{item.fullDomain}</strong>
+                      <p>{this.prop.traderecord.selltime}{item.price} NNC</p>
                       <p>{this.prop.traderecord.sellprice}
-                                 {formatTime.format('yyyy/MM/dd hh:mm:ss', this.props.traderecord.tradeList[index].time.toString(), this.props.intl.locale)}
+                        {formatTime.format('yyyy/MM/dd hh:mm:ss', item.time.toString(), this.props.intl.locale)}
                       </p>
                     </div>
                   )

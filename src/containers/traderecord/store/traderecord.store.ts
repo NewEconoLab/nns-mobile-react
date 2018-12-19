@@ -38,6 +38,7 @@ class TradeRecord implements ITradeStore {
     // 每次都往里面push
     this.tradeList.push(...list);
     this.tradeCount = this.tradeList.length || 0;
+    console.log(this.tradeCount);
     return true;
   }
 }
