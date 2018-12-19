@@ -10,12 +10,16 @@ import DomainSelling from '@/store/DomainSelling';
 // import { Button } from 'antd-mobile';
 // import Message from '@/components/message';
 // import Input from '@/components/Input/Input';
-// import TransferDomain from './message/transfer';
+import TransferDomain from './message/transfer';
+import SaleDomain from './message/sale';
+import DelistDomain from './message/delist';
 
 class ManagerList extends React.Component<IManagerListProps, any>
 {
   public state = {
-    isShowTransfer: false // 转让
+    isShowTransfer: false, // 转让
+    isShowSaleDomain:false, // 出售
+    isShowDelist:false, // 下架
   }
   public prop = this.props.intl.messages;
 
@@ -45,16 +49,50 @@ class ManagerList extends React.Component<IManagerListProps, any>
     this.props.history.push('/manager/detail/' + domain);
   }
   // 域名转让弹筐--打开
-  // public onOpenTransfer = () => {
-  //   console.log("open transfer");
-  //   // console.log(this.props.manager.showTransfer);
+  public onOpenTransfer = () => {
+    this.setState({
+      isShowTransfer: true
+    });
+  }
+  // 域名转让弹筐--关闭
+  public onCloseTransfer = () => {
+    this.setState({
+      isShowTransfer: false
+    });
+  }
+  // 域名出售弹筐--打开
+  public onOpenSellDomain = () =>
+  {
+    this.setState({
+      isShowSaleDomain: true
+    });
+  }
+  // 域名出售弹筐--关闭
+  public onCloseSellDomain = () =>
+  {
+    this.setState({
+      isShowSaleDomain: false
+    })
+  }
+  // 域名下架弹筐--打开
+  public onOpenDelistDomain = () =>
+  {
+    this.setState({
+      isShowDelist: true
+    });
+  }
+  // 域名下架弹筐--关闭
+  public onCloseDelistDomain = () =>
+  {
+    this.setState({
+      isShowDelist: false
+    })
+  }
+  // // 域名出售金额的输入 --todo
+  // public changeSellingPrice = (value: string) =>
+  // {
+  //   console.log(value);
 
-  //   // this.props.manager.showTransfer = true;
-  //   this.setState({
-  //     isShowTransfer: true
-  //   });
-  //   console.log("after");
-  //   // console.log(this.props.manager.showTransfer);
   // }
   
   // public onCloseTransfer = () => {
@@ -62,6 +100,7 @@ class ManagerList extends React.Component<IManagerListProps, any>
   //     isShowTransfer: false
   //   });
   // }
+  
   public render() {
     return (
       <React.Fragment>
@@ -106,7 +145,7 @@ class ManagerList extends React.Component<IManagerListProps, any>
                           size="small"
                           style={{ width: '105px' }}
                           disabled={!!this.props.item.resolverAddr}
-                        // onClick={this.onOpenSellDomain}
+                          onClick={this.onOpenSellDomain}
                         >出售</Button>
                       </div>
                     )
@@ -119,6 +158,7 @@ class ManagerList extends React.Component<IManagerListProps, any>
                           inline={true}
                           size="small"
                           style={{ width: '105px' }}
+                          onClick={this.onOpenDelistDomain}
                         >下架</Button>
                       </div>
                     )
@@ -127,34 +167,24 @@ class ManagerList extends React.Component<IManagerListProps, any>
               )
             } */}
           </div>
-          {/* <TransferDomain
+          {/* 转让功能 */}
+          <TransferDomain
             domain={this.props.item.domain}
             {...this.props}
             showTransfer={this.state.isShowTransfer}
-            onClose={this.onCloseTransfer} /> */}
-          {/* {
-            this.props.manager.showSaleDomain && (
-              <Message 
-                title="出售域名"
-                onClose={this.onCloseSellDomain}
-                onConfirm={this.toSellDomain}
-                btnText="出售"
-              >
-                <div className="message-domainname-box">
-                  <div className="content-title">域名</div>
-                  <div className="domain-name">{this.props.item.domain}</div>
-                  <div className="content-title">出售金额（NNC）</div>
-                  <Input 
-                    type="number" 
-                    placeholder="" 
-                    value={this.state.inputAddress} 
-                    onChange={this.changeSellingPrice}
-                    style={{width:'3.15rem'}}
-                  />
-                </div>
-              </Message>
-            )
-          } */}
+            onClose={this.onCloseTransfer} />
+          {/* 出售功能 */}
+          <SaleDomain
+            domain={this.props.item.domain}
+            {...this.props}
+            showSale={this.state.isShowSaleDomain}
+            onClose={this.onCloseSellDomain} />
+          {/* 下架功能 */}
+          <DelistDomain
+            domain={this.props.item.domain}
+            {...this.props}
+            showDelist={this.state.isShowDelist}
+            onClose={this.onCloseDelistDomain} />
         </div>
       </React.Fragment>
     )

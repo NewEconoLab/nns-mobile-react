@@ -85,7 +85,8 @@ class Auction extends React.Component<IHomeProps>
     this.props.myauction.detail = this.props.home.auctionInfo;
   }
   public onLookDomain = async () => {
-    await this.props.home
+    await this.props.home.getSaleDomainInfo();
+    this.props.home.isShowSaleBox = true;
   }
   public componentWillUnmount()
   {

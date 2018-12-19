@@ -5,7 +5,7 @@ import * as React from 'react';
 import Action from '@/containers/home/action';
 import Account from '@/containers/home/account';
 import Auction from '@/containers/home/auction';
-// import BuyDomain from '@/containers/home/buydomain';
+import BuyDomain from '@/containers/home/buydomain';
 import { IHomeProps } from '@/containers/home/interface/home.interface';
 import './index.less'
 
@@ -23,11 +23,11 @@ class NNS extends React.Component<IHomeProps, any> {
         <Action {...this.props} />
         <Account {...this.props} />
         <Auction {...this.props} />
-        {/* {
-          this.props.home.xx && (
+        {
+          this.props.home.isShowSaleBox && (
             <BuyDomain {...this.props} />
           )
-        } */}
+        }
       </div>
     );
   }
