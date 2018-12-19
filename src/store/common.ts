@@ -23,6 +23,8 @@ class Common{
       const network = params[`net`];
       const language = params[`lang`];
       this.fee = Neo.Fixed8.fromNumber(fee);
+      // alert(JSON.stringify(params))
+      // alert(network);
       this.network = network;
       this.language = language;
       console.log(wallet); 
@@ -55,7 +57,7 @@ class Common{
   @action public async getregisteraddressbalance() {
     let result:any = [];
     try {
-      result = await Api.getregisteraddressbalance(this.address);
+      result = await Api.getregisteraddressbalance(this.address);      
       if(!result)
       {
         this.accountBalance = '0';

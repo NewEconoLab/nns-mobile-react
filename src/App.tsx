@@ -17,22 +17,25 @@ import DomainSelling from './store/DomainSelling';
 import { TaskTool } from './utils/tasktools';
 addLocaleData([...en, ...zh]);
 
-commonStore.initWalletConfig();
-DomainSelling.initRoot();
-// 初始化请求
-o3tools.init(res => {
-  if (res) {
-    commonStore.getregisteraddressbalance();
-    commonStore.getnep5balanceofaddress();
-    auctionmanagerStore.initFilterAuctionList();
-    TaskTool.start();
-//     console.log("Address:   "+commonStore.address );
-    return true
-  } else {
-    return false
-  }
-});
+const initPage= async()=>
+{
+  await commonStore.initWalletConfig();
+  await DomainSelling.initRoot();
+  // 初始化请求
+  o3tools.init(res => {
+    if (res) {
+      commonStore.getregisteraddressbalance();
+      commonStore.getnep5balanceofaddress();
+      auctionmanagerStore.initFilterAuctionList();
+      TaskTool.start();
+      return true
+    } else {
+      return false
+    }
+  });
+}
 
+initPage()
 
 // 初始化鼠标随机方法
 Neo.Cryptography.RandomNumberGenerator.startCollectors();

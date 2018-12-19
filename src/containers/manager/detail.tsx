@@ -147,7 +147,7 @@ class DomainMap extends React.Component<IProps, IState>
 		if(res && res["txid"])
 		{
 			const txid = res[ "txid" ];
-			alert(this.state.resolverAddr)
+			// alert(this.state.resolverAddr)
 			taskmanager.addTask(
 				new Task(TaskType.domainMapping,ConfirmType.contract, txid, { domain: this.state.detail.domain, address: this.state.resolverAddr })
 			);

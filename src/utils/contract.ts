@@ -101,12 +101,16 @@ export class Contract
     const msg = tran.GetMessage().clone();
     const txidvalue = tran.getTxid();
     // console.log(txidvalue);
-    // console.log("-----------------msg to hex");
+    console.log("-----------------msg to hex");
     
-    // console.log(msg.toHexString());
+    console.log(msg.toHexString());
     
     const promise = new Promise<{txid:string}>((resolve, reject) =>{
       o3tools.sign(msg.toHexString(),res =>{
+        console.log("-----------o3 result");
+        
+        console.log(res);
+        
         console.log("---------------------------------------msg hex");
         
         console.log(msg.toHexString());

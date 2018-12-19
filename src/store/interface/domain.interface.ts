@@ -7,12 +7,12 @@ export class DomainInfo
     public root:string;// 根域名
     public parentOwner:string;// 父域名所有者
 
-    constructor(root:string)
+    constructor()
     {
         this.owner = "";
         this.register = Neo.Uint160.Zero;
         this.ttl = "";
-        this.root = root;
+        this.root = "";
         this.parentOwner="";
     }
 }
