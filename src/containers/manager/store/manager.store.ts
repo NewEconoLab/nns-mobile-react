@@ -17,19 +17,22 @@ class manager implements IManagerStore {
   // @observable public showDelist: boolean = false; // 显示下架的弹筐
 
   @computed get domainListFroPage() {
-    return this.domainList.slice(0, (this.pageIndex + 1) * this.pageSize)
+    return this.filterDomainList.slice(0, (this.pageIndex + 1) * this.pageSize)
   }
 
   @action public getdomainbyaddress = async (address: string) => {
     let result: any = null;
     try {
-      result = await Api.getdomainbyaddress(address);
-
+      result = await Api.getdomainbyaddress("ATBTRWX8v8teMHCvPXovir3Hy92RPnwdEi");
     } catch (error) {
+      this.domainList = [];
+      this.filterDomainList = [];
       return false;
     }
+    console.log("domain by address");    
     console.log(result);
-    this.domainList = result ? result : [];
+    this.domainList = result || [];
+    this.filterDomainList = result || [];
     return true;
   }
   /**

@@ -84,18 +84,6 @@ class ManagerList extends React.Component<IManagerListProps, any>
       isShowDelist: false
     })
   }
-  // // 域名出售金额的输入 --todo
-  // public changeSellingPrice = (value: string) =>
-  // {
-  //   console.log(value);
-
-  // }
-
-  // public onCloseTransfer = () => {
-  //   this.setState({
-  //     isShowTransfer: false
-  //   });
-  // }
 
   public render() {
     return (
@@ -127,14 +115,14 @@ class ManagerList extends React.Component<IManagerListProps, any>
                           size="small"
                           style={{ width: '105px' }}
                           onClick={this.onGoToDetail.bind(this, this.props.item.domain)}
-                        >编辑</Button>
+                        >{this.prop.btn.edit}</Button>
                         <Button
                           type="primary"
                           inline={true}
                           size="small"
                           style={{ width: '105px' }}
                           onClick={this.onOpenTransfer}
-                        >转让</Button>
+                        >{this.prop.btn.transfer}</Button>
                         <Button
                           type={!this.props.item.resolverAddr ? 'primary' : 'ghost'}
                           inline={true}
@@ -142,7 +130,7 @@ class ManagerList extends React.Component<IManagerListProps, any>
                           style={{ width: '105px' }}
                           disabled={!!this.props.item.resolverAddr}
                           onClick={this.onOpenSellDomain}
-                        >出售</Button>
+                        >{this.prop.btn.sell}</Button>
                       </div>
                     )
                   }
@@ -155,7 +143,7 @@ class ManagerList extends React.Component<IManagerListProps, any>
                           size="small"
                           style={{ width: '105px' }}
                           onClick={this.onOpenDelistDomain}
-                        >下架</Button>
+                        >{this.prop.btn.delist}</Button>
                       </div>
                     )
                   }

@@ -44,13 +44,13 @@ class DelistDomain extends React.Component<IDelistDomainProps, any>
                 {
                     (this.props.showDelist) && (
                         <Message
-                            title="域名下架"
+                            title={this.prop.manager.delistdomain}
                             onClose={this.onCloseDelist}
                             onConfirm={this.toDelistOwner}
                         >
                             <div className="message-checkagain-box">
                                 <span>
-                                    您确定要将 " {this.props.domain} "下架吗？
+                                    {this.prop.manager.delistcheck1} " {this.props.domain} "{this.prop.manager.delistcheck2}
                                 </span>
                             </div>
                         </Message>

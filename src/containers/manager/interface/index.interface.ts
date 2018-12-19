@@ -28,7 +28,8 @@ export interface IManagerStore {
   pageSize: number,
   getdomainbyaddress: (address: string) => Promise<boolean>,
   getNNCfromSellingHash: (address: string) => Promise<boolean>,
-  domainListFroPage: IManagerList[]
+  domainListFroPage: IManagerList[],
+  filterDomainList:IManagerList[]
 }
 
 export interface IManagerProps extends RouteComponentProps {

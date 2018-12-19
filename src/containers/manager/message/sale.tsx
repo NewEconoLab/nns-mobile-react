@@ -63,15 +63,15 @@ class SaleDomain extends React.Component<ISaleDomainProps, any>
                 {
                     (this.state.checkAgain === 0 && this.props.showSale) && (
                         <Message
-                            title="出售域名"
+                            title={this.prop.manager.selldomain}
                             onClose={this.onCloseSale}
                             onConfirm={this.toCheckAgain}
-                            btnText="出售"
+                            btnText={this.prop.btn.sell}
                         >
                             <div className="message-domainname-box">
-                                <div className="content-title">域名</div>
+                                <div className="content-title">{this.prop.manager.domainname}</div>
                                 <div className="domain-name">{this.props.domain}</div>
-                                <div className="content-title">出售金额（NNC）</div>
+                                <div className="content-title">{this.prop.manager.setprice}</div>
                                 <Input
                                     type="number"
                                     placeholder=""
@@ -86,13 +86,13 @@ class SaleDomain extends React.Component<ISaleDomainProps, any>
                 {
                     (this.state.checkAgain === 1 && this.props.showSale) && (
                         <Message
-                            title="转让域名"
+                            title={this.prop.manager.selldomain}
                             onClose={this.onCloseSale}
                             onConfirm={this.toSellDomain}
                         >
                             <div className="message-checkagain-box">
                                 <span>
-                                    您确定要将 " {this.props.domain} " 以 " {this.state.salePrice} NNC " 的价格出售吗？
+                                {this.prop.manager.sellcheck1}" {this.props.domain} "{this.prop.manager.sellcheck2} " {this.state.salePrice} NNC " {this.prop.manager.sellcheck3}
                                 </span>
                             </div>
                         </Message>

@@ -10,6 +10,7 @@ import './index.less';
 import ClaimNNC from './claimnnc';
 import { injectIntl } from 'react-intl';
 import { Modal, Button, SearchBar } from 'antd-mobile';
+import { AuctionState } from '@/store/interface/auction.interface';
 
 // 接口"getdomainbyaddress", 参数："ATBTRWX8v8teMHCvPXovir3Hy92RPnwdEi",".neo"
 @inject('manager', 'common')
@@ -27,89 +28,130 @@ class Manager extends React.Component<IManagerProps, any>
       isLoadingMore: false,
       wrapper: null
     }
-  public componentDidMount() {
+  public componentDidMount()
+  {
     this.props.manager.getdomainbyaddress(this.props.common.address);
     window.addEventListener('scroll', this.onScroll, false);
   }
 
-  public onScroll = () => {
-    if (this.props.manager.domainList.length === 0) {
+  public onScroll = () =>
+  {
+    if (this.props.manager.domainList.length === 0)
+    {
       return;
     }
-    if (!this.listRef || !this.listRef.current) {
+    if (!this.listRef || !this.listRef.current)
+    {
       return;
     }
 
     const winScroll = window.pageYOffset || (document.documentElement && document.documentElement.scrollTop) || (document.body && document.body.scrollTop);
-    if (winScroll + (document.documentElement ? document.documentElement.clientHeight : 0) >= this.listRef.current.offsetHeight + this.listRef.current.offsetTop + 46) {
+    if (winScroll + (document.documentElement ? document.documentElement.clientHeight : 0) >= this.listRef.current.offsetHeight + this.listRef.current.offsetTop + 46)
+    {
       this.props.manager.pageIndex++;
     }
 
   }
 
-  public componentWillUnmount() {
+  public componentWillUnmount()
+  {
     window.removeEventListener('scroll', this.onScroll);
     this.props.manager.pageIndex = 0;
+    this.props.manager.filterDomainList = [];
+    this.props.manager.domainList = [];
+    this.props.manager.chooseStatus = "0";
+    this.props.manager.clickSellStatus = "0"; 
   }
 
   // 显示选项框
-  public showModal = (e) => {
+  public showModal = (e) =>
+  {
     e.preventDefault(); // 修复 Android 上点击穿透
     this.props.manager.modal = true;
   }
   // 关闭选项框
-  public onClose = () => {
+  public onClose = () =>
+  {
     this.props.manager.modal = false;
-    this.props.manager.clickSellStatus = this.props.manager.clickSellStatus;
+    this.props.manager.clickSellStatus = this.props.manager.chooseStatus;
     console.log("close");
-
   }
   // 筛选域名状态
-  public chooseSellStatus = (event: any) => {
+  public chooseSellStatus = (event: any) =>
+  {
     const item = event.target.value;
     this.props.manager.clickSellStatus = item;
   }
   // 提交筛选
-  public applyChoose = () => {
+  public applyChoose = () =>
+  {
     this.props.manager.modal = false;
-
+    this.props.manager.chooseStatus = this.props.manager.clickSellStatus;
+    const list = this.props.manager.domainList;
+    const newList: IManagerList[] = [];
+    
+    if (this.props.manager.chooseStatus.toString() === "0")// 全部
+    {
+      this.props.manager.filterDomainList = list;
+    }
+    else if(this.props.manager.chooseStatus.toString() === "1")// 已出售
+    {
+      list.forEach((item: IManagerList, index: number) =>
+      {
+        if (list[index].state === AuctionState.sale)
+        {
+          newList.push(list[index]);
+        }
+      })      
+    }else{ // 未出售
+      list.forEach((item: IManagerList, index: number) =>
+      {
+        if (list[index].state !== AuctionState.sale)
+        {
+          newList.push(list[index]);
+        }
+      })  
+    }
+    // 输入搜索置空
+    this.setState({
+      searchValue: ''
+    })    
+    this.props.manager.filterDomainList = newList;
   }
-  public onSearchChange = (value: string) => {
+  public onSearchChange = (value: string) =>
+  {
     this.setState({
       searchValue: value
     })
-    const list = this.props.manager.domainList;    
-    const newList = {};
-    const keysArr: string[] = Object.keys(list);
-    console.log(keysArr);
+    const list = this.props.manager.domainList;
+    const newList: IManagerList[] = [];
     // 输入筛选
-    keysArr.forEach((key: string, index: number) => { 
-      if (list[key].domain.indexOf(value) !== -1) {
-        console.log(list[key]);
-        newList[key] = list[key];
+    list.forEach((item: IManagerList, index: number) =>
+    {
+      if (list[index].domain.indexOf(value) !== -1)
+      {
+        console.log(list[index]);
+        newList.push(list[index]);
       }
     })
-
-    // if (this.props.myauction.statusValue !== "0")
-    // {
-    //   this.props.myauction.statusValue = "0";
-    //   this.props.myauction.peopleValue = "0";
-    //   this.props.myauction.clickStatus = "0";
-    //   this.props.myauction.clickPeople = "0";
-    // }
-    // this.props.manager.filterAuctionList = newList;
-    // this.props.manager.sortFilterAuctionList();
+    // 筛选置空
+    if (this.props.manager.chooseStatus !== "0")
+    {
+      this.props.manager.chooseStatus = "0";
+      this.props.manager.clickSellStatus = "0";      
+    }
+    this.props.manager.filterDomainList = newList;
   }
-  public render() {
-    // const srcImg = (this.props.myauction.statusValue === '0' && this.props.myauction.peopleValue === '0') ? require('@/img/noselect.png') : require('@/img/yesselect.png');
-    const srcImg = require('@/img/noselect.png');
+  public render()
+  {
+    const srcImg = (this.props.manager.chooseStatus === '0') ? require('@/img/noselect.png') : require('@/img/yesselect.png');
     return (
       <div className="manager-wrap" ref={this.listRef}>
         {/* 搜索功能 */}
         <React.Fragment>
           <div className="search-box">
             <SearchBar
-              placeholder={this.prop.myauction.search}
+              placeholder={this.prop.manager.search}
               style={{ "width": "3rem" }}
               value={this.state.searchValue}
               onChange={this.onSearchChange}
@@ -125,11 +167,11 @@ class Manager extends React.Component<IManagerProps, any>
             animationType="slide-up"
           >
             <div className="select-box">
-              <TitleText text={this.prop.myauction.selecttype2} />
+              <TitleText text={this.prop.manager.selecttype} />
               <div className="select-wrap">
-                <label className={this.props.manager.clickSellStatus === '0' ? 'checked-input' : ''}>{this.prop.myauction.all}<input type="radio" name='people' value="0" onChange={this.chooseSellStatus} /></label>
-                <label className={this.props.manager.clickSellStatus === '1' ? 'checked-input' : ''} >上架中<input type="radio" name='people' value="1" onChange={this.chooseSellStatus} /></label>
-                <label className={this.props.manager.clickSellStatus === '2' ? 'checked-input' : ''}>出售中<input type="radio" name='people' value="2" onChange={this.chooseSellStatus} /></label>
+                <label className={this.props.manager.clickSellStatus === '0' ? 'checked-input' : ''}>{this.prop.manager.all}<input type="radio" name='people' value="0" onChange={this.chooseSellStatus} /></label>
+                <label className={this.props.manager.clickSellStatus === '1' ? 'checked-input' : ''} >{this.prop.manager.selltype}<input type="radio" name='people' value="1" onChange={this.chooseSellStatus} /></label>
+                <label className={this.props.manager.clickSellStatus === '2' ? 'checked-input' : ''}>{this.prop.manager.unselltype}<input type="radio" name='people' value="2" onChange={this.chooseSellStatus} /></label>
               </div>
             </div>
             <Button type="primary" onClick={this.applyChoose} style={{ borderRadius: '0' }}>{this.prop.btn.select}</Button>
@@ -143,11 +185,12 @@ class Manager extends React.Component<IManagerProps, any>
           <React.Fragment>
             <div className="hastips-title">
               <h3>{this.prop.manager.title}</h3>
-              <p>注意：如果您要出售您的地址，请确保域名的地址映射栏处于未配置的状态（设置过的域名请在在编辑页中使用重置功能。）</p>
+              <p>{this.prop.manager.note2}</p>
             </div>
             <div className="manager-list">
               {
-                this.props.manager.domainListFroPage.map((item: IManagerList, index: number) => {
+                this.props.manager.domainListFroPage.map((item: IManagerList, index: number) =>
+                {
                   return <ManagerList item={item} key={index} {...this.props} />;
                 })
               }

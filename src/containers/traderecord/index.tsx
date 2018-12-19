@@ -82,10 +82,10 @@ class TradeRecord extends React.Component<ITradeProps, any> {
         <div className="trade-title">
           <span
             className={this.state.showListType === 'sell' ? 'active' : ''}
-            onClick={this.toShowMySellDomain}>我出售的</span>
+            onClick={this.toShowMySellDomain}>{this.prop.traderecord.mysell}</span>
           <span
             className={this.state.showListType === 'buy' ? 'active' : ''}
-            onClick={this.toShowMyBuyDomain}>我购买的</span>
+            onClick={this.toShowMyBuyDomain}>{this.prop.traderecord.mybuy}</span>
         </div>
         {
           this.props.traderecord.tradeCount !== 0 && (
@@ -95,8 +95,8 @@ class TradeRecord extends React.Component<ITradeProps, any> {
                   return (
                     <div className="trade-list" key={item}>
                       <strong>{this.props.traderecord.tradeList[index].fullDomain}</strong>
-                      <p>交易金额：{this.props.traderecord.tradeList[index].price} NNC</p>
-                      <p>交易时间：
+                      <p>{this.prop.traderecord.selltime}{this.props.traderecord.tradeList[index].price} NNC</p>
+                      <p>{this.prop.traderecord.sellprice}
                                  {formatTime.format('yyyy/MM/dd hh:mm:ss', this.props.traderecord.tradeList[index].time.toString(), this.props.intl.locale)}
                       </p>
                     </div>

@@ -8,6 +8,7 @@ import { nnstools } from '@/utils/nnstools';
 @observer
 class ClaimNNC extends React.Component<IManagerProps, any>
 {
+    public prop = this.props.intl.messages;
     public componentDidMount(){
         this.props.manager.getNNCfromSellingHash(this.props.common.address)
     }
@@ -22,13 +23,13 @@ class ClaimNNC extends React.Component<IManagerProps, any>
         return (
             <div className="manager-mynnc">
                 <div className="hastips-title">
-                    <h3>竞拍账户</h3>
-                    <p>注意：出售域名所获得的NNC会显示在这里，您可以点击提取按钮，将其提取至你的钱包余额。</p>
+                    <h3>{this.prop.manager.myIncome}</h3>
+                    <p>{this.prop.manager.note}</p>
                 </div>
                 <div className="mynnc-content">
                     <div className="mynnc-text">
-                        <strong>未提取的NNC</strong>
-                        <strong className="mynnc-number">{this.props.manager.myNNCBalance === '-0' ? '0':this.props.manager.myNNCBalance}</strong>
+                        <strong>{this.prop.manager.unclaimed}</strong>
+                        <strong className="mynnc-number">{mynnc === 0 ? '0':this.props.manager.myNNCBalance}</strong>
                     </div>
                     <div className="mynnc-btn">
                         <Button 
@@ -37,7 +38,7 @@ class ClaimNNC extends React.Component<IManagerProps, any>
                             size="small" 
                             disabled={mynnc === 0}
                             onClick={this.toGetNNC}
-                        >提取</Button>
+                        >{this.prop.btn.claim}</Button>
                     </div>
                 </div>
             </div>

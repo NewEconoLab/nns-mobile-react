@@ -57,14 +57,14 @@ class TransferDomain extends React.Component<ITransferDomainProps, any>
                 {
                     (this.state.checkAgain === 0 && this.props.showTransfer) && (
                         <Message
-                            title="转让域名"
+                            title={this.prop.manager.domaintransfer}
                             onClose={this.onCloseTransfer}
                             onConfirm={this.toCheckAgain}
                         >
                             <div className="message-domainname-box">
-                                <div className="content-title">域名</div>
+                                <div className="content-title">{this.prop.manager.domainname}</div>
                                 <div className="domain-name">{this.props.domain}</div>
-                                <div className="content-title2">转让至</div>
+                                <div className="content-title2">{this.prop.manager.transferto}</div>
                                 <Input
                                     type="text"
                                     placeholder=""
@@ -79,13 +79,13 @@ class TransferDomain extends React.Component<ITransferDomainProps, any>
                 {
                     (this.state.checkAgain === 1 && this.props.showTransfer) && (
                         <Message
-                            title="转让域名"
+                            title={this.prop.manager.domaintransfer}
                             onClose={this.onCloseTransfer}
                             onConfirm={this.toTransferOwner}
                         >
                             <div className="message-checkagain-box">
                                 <span>
-                                    您确定要将 " {this.props.domain} " 转让给 " AKtKhWqRGvwwUiix6UhssVaqHTonxwpx6s " 吗？
+                                    {this.prop.manager.transfercheck1}" {this.props.domain} " {this.prop.manager.transfercheck2} " AKtKhWqRGvwwUiix6UhssVaqHTonxwpx6s "{this.prop.manager.transfercheck3}
                                 </span>
                             </div>
                         </Message>
