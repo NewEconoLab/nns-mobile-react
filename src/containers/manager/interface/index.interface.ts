@@ -29,11 +29,17 @@ export interface IManagerStore {
   getdomainbyaddress: (address: string) => Promise<boolean>,
   getNNCfromSellingHash: (address: string) => Promise<boolean>,
   domainListFroPage: IManagerList[],
-  filterDomainList:IManagerList[]
+  filterDomainList:IManagerList[],
+  domainAddress:IDomainAddress|null,
+  getResolveAddress:(domain: string) => Promise<boolean>,
 }
 
 export interface IManagerProps extends RouteComponentProps {
   manager: IManagerStore,
   common: ICommonStore,
   intl: any
+}
+export interface IDomainAddress {
+  data:string,
+  TTl:number
 }

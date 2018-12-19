@@ -1,6 +1,6 @@
 import { observable, action, computed } from 'mobx';
 import * as Api from '../api/manager.api';
-import { IManagerList, IManagerStore } from '../interface/index.interface';
+import { IManagerList, IManagerStore, IDomainAddress } from '../interface/index.interface';
 
 class manager implements IManagerStore {
   @observable public chooseStatus: string = '0'; // 记录上一个筛选
@@ -12,6 +12,7 @@ class manager implements IManagerStore {
   @observable public detail: IManagerList | null = null;
   @observable public myNNCBalance: string = '0';// 可提取的NNC
   @observable public filterDomainList: IManagerList[] = [];
+  @observable public domainAddress:IDomainAddress|null=null;// 域名映射的地址
   // @observable public showTransfer:boolean = false; // 显示转让的弹框
   // @observable public showSaleDomain: boolean = false; // 显示出售的弹框
   // @observable public showDelist: boolean = false; // 显示下架的弹筐
@@ -51,6 +52,23 @@ class manager implements IManagerStore {
     // console.log(result);
 
     this.myNNCBalance = result ? result[0].balance : '0';
+    return true;
+  }
+  /**
+   * 查询域名映射地址
+   * @param domain 域名
+   */
+  @action public getResolveAddress = async (domain:string) =>{
+    let result: any = null;
+    try {
+      result = await Api.getresolvedaddress(domain);
+
+    } catch (error) {
+      this.domainAddress = null;
+      return false;
+    }
+    console.log(result);
+    this.domainAddress = result ? result[0].data : null;
     return true;
   }
 }

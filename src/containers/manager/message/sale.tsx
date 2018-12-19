@@ -23,39 +23,62 @@ class SaleDomain extends React.Component<ISaleDomainProps, any>
 {
     public state = {
         salePrice: '', // 出售价格
-        checkAgain: 0 // 再次确认,0为第一次确认，1为第二次确认，2为确认完毕
+        checkAgain: 0, // 再次确认,0为第一次确认，1为第二次确认，2为确认完毕
+        isCanSale:true // 按钮是不可出售，false为可点击，true为不可点击
     }
     public prop = this.props.intl.messages;
 
 
-    // 域名转让弹筐--关闭
+    // 域名出售弹筐--关闭
     public onCloseSale = () =>
     {
         this.setState({
-            checkAgain: 0
+            salePrice: '',
+            checkAgain: 0,
+            isCanSale:true
         }, () =>
         {
             this.props.onClose();
         })
     }
-    // 域名转让地址的输入 --todo
+    // 域名出售金额的输入 --todo
     public changeSellingPrice = (value: string) =>
     {
-        console.log(value);
-
+        this.setState({
+            salePrice:value
+        })
+        if (/\./.test(value) && value.split('.')[1].length >= 2) {
+            this.setState({
+                isCanSale:true
+            })
+            return false;
+        }
+        if (parseFloat(value) <= 0 || value === '')
+        {
+            this.setState({
+                isCanSale:true
+            })
+            return false
+        }
+        this.setState({
+            isCanSale:false
+        })
+        return true
     }
-    // 域名转让发送交易
+    // 域名出售发送交易--todo
     public toSellDomain = () =>
     {
         console.log("send transfer");
         this.onCloseSale();
     }
+    // 再次确认
     public toCheckAgain = () =>
     {
         this.setState({
             checkAgain: 1
         })
     }
+    
     public render()
     {
         return (
@@ -67,6 +90,7 @@ class SaleDomain extends React.Component<ISaleDomainProps, any>
                             onClose={this.onCloseSale}
                             onConfirm={this.toCheckAgain}
                             btnText={this.prop.btn.sell}
+                            btnStatus={this.state.isCanSale}
                         >
                             <div className="message-domainname-box">
                                 <div className="content-title">{this.prop.manager.domainname}</div>
@@ -74,7 +98,7 @@ class SaleDomain extends React.Component<ISaleDomainProps, any>
                                 <div className="content-title">{this.prop.manager.setprice}</div>
                                 <Input
                                     type="number"
-                                    placeholder=""
+                                    placeholder={this.prop.manager.sellplaceholder}
                                     value={this.state.salePrice}
                                     onChange={this.changeSellingPrice}
                                     style={{ width: '3.15rem' }}
