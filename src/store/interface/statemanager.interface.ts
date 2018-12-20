@@ -5,7 +5,7 @@ export interface IStatemanagerStore
     setResolverState:string[];
     setResolverDataState:string[];
     renewDomainState:string[];
-    getSaleNNCState:string[];
+    getSaleNNCState:boolean;
     transferDomainState:string[];
     sellDomainState:string[];
     delistDomainState:string[];

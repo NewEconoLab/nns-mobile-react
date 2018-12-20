@@ -1,20 +1,23 @@
 import * as React from 'react';
 import { observer } from 'mobx-react';
 import { injectIntl } from 'react-intl';
-// import { IManagerListProps } from './interface/index.interface';
-// import * as formatTime from 'utils/formatTime';
 import '../index.less'
 // import DomainSelling from '@/store/DomainSelling';
-// import { Button } from 'antd-mobile';
+import Alert from '@/components/alert';
+import { Task, ConfirmType, TaskType } from '@/store/interface/taskmanager.interface'; 
+import taskmanager from '@/store/taskmanager';
+import { IStatemanagerStore } from '@/store/interface/statemanager.interface';
 import Message from '@/components/message';
 import Input from '@/components/Input/Input';
 import { IManagerStore } from '../interface/index.interface';
+import { nnstools } from '@/utils/nnstools';
 interface ISaleDomainProps
 {
     intl: any,
     domain: string,
     manager: IManagerStore,
     showSale: boolean,
+    statemanager:IStatemanagerStore,
     onClose: () => void
 }
 
@@ -66,9 +69,34 @@ class SaleDomain extends React.Component<ISaleDomainProps, any>
         return true
     }
     // 域名出售发送交易--todo
-    public toSellDomain = () =>
+    public toSellDomain = async () =>
     {
-        console.log("send transfer");
+        console.log("send selldomain");
+        this.props.statemanager.sellDomainState.push(this.props.domain);
+        const res = await nnstools.saleDomain(this.props.domain,this.state.salePrice)
+        if (res && res["txid"]){
+            const txid = res["txid"];            
+            taskmanager.addTask(
+                new Task(
+                    TaskType.saleDomain, 
+                    ConfirmType.contract, 
+                    txid, 
+                    { domain: this.props.domain,price:this.state.salePrice }
+                )
+            );
+
+            Alert(this.prop.message.successmsg, this.prop.message.waitmsg, this.prop.btn.confirm, () =>
+            {
+                console.log("成功了");
+            });
+        }else
+        {
+          Alert(this.prop.message.errmsg, this.prop.message.errmsgtip1, this.prop.btn.confirm, () =>
+          {
+            return;
+          });
+          this.props.statemanager.sellDomainStateDel(this.props.domain);
+        }
         this.onCloseSale();
     }
     // 再次确认

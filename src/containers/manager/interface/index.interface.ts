@@ -1,5 +1,6 @@
 import { RouteComponentProps } from 'react-router-dom';
 import { ICommonStore } from '@/store/interface/common.interface'
+import { IStatemanagerStore } from '@/store/interface/statemanager.interface';
 
 export interface IManagerList {
   domain: string,      // 域名
@@ -15,6 +16,7 @@ export interface IManagerListProps extends RouteComponentProps {
   item: IManagerList,
   intl: any,
   manager: IManagerStore,
+  statemanager:IStatemanagerStore,
 }
 
 export interface IManagerStore {
@@ -37,7 +39,8 @@ export interface IManagerStore {
 export interface IManagerProps extends RouteComponentProps {
   manager: IManagerStore,
   common: ICommonStore,
-  intl: any
+  intl: any,
+  statemanager:IStatemanagerStore,
 }
 export interface IDomainAddress {
   data:string,

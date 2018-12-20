@@ -13,7 +13,7 @@ import { Modal, Button, SearchBar } from 'antd-mobile';
 import { AuctionState } from '@/store/interface/auction.interface';
 
 // 接口"getdomainbyaddress", 参数："ATBTRWX8v8teMHCvPXovir3Hy92RPnwdEi",".neo"
-@inject('manager', 'common')
+@inject('manager', 'common','statemanager')
 @observer
 class Manager extends React.Component<IManagerProps, any>
 {

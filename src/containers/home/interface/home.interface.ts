@@ -2,6 +2,7 @@ import { RouteComponentProps } from 'react-router-dom';
 import {ICommonStore} from '@/store/interface/common.interface';
 import { IAuction } from '@/store/interface/auction.interface';
 import { IMyAuctionStore } from '@/containers/myauction/interface/index.interface';
+import { IStatemanagerStore } from '@/store/interface/statemanager.interface';
 export interface IGriddataItem {
   icon:string,
   text:string,
@@ -29,7 +30,7 @@ export interface IHomeStore {
   messages:IMessages,
   auctionInfo:IAuction,
   sellingDomain:ISaleDomainInfo|null,
-  isOKSale:boolean,
+  isOKBuy:boolean,
   isShowSaleBox:boolean,
   getAuctionInfo:() => Promise<boolean>,
   getSaleDomainInfo:() => Promise<boolean>,
@@ -42,6 +43,7 @@ export interface IHomeProps extends RouteComponentProps {
   common:ICommonStore,
   home:IHomeStore,
   myauction:IMyAuctionStore,
+  statemanager:IStatemanagerStore,
 }
 
 export interface ISaleDomainInfo {

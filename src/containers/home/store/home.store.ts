@@ -25,7 +25,7 @@ class Home implements IHomeStore
 
   @observable public auctionInfo: IAuction;
   @observable public sellingDomain: ISaleDomainInfo | null = null;
-  @observable public isOKSale: boolean = false; // 购买按钮
+  @observable public isOKBuy: boolean = false; // 购买按钮
   @observable public isShowSaleBox:boolean = false; // 购买弹筐
   constructor()
   {
@@ -182,6 +182,7 @@ class Home implements IHomeStore
     this.sellingDomain = result ? result[0] : null;
     return true;
   }
+
   @action public async getnep5balanceofaddress()
   {
     let result: any = null;
@@ -190,7 +191,7 @@ class Home implements IHomeStore
       result = await Api.getnep5balanceofaddress(HASH_CONFIG.ID_NNC.toString(), common.address);
     } catch (error)
     {
-      this.isOKSale = false; 
+      this.isOKBuy = false; 
       return error;
     }
     if (this.sellingDomain && result)
@@ -200,15 +201,15 @@ class Home implements IHomeStore
       const nnc = parseFloat(result.nep5balance);
       if (salePrice > nnc)
       {
-        this.isOKSale = false;
+        this.isOKBuy = false;
       } else
       {
-        this.isOKSale = true;
+        this.isOKBuy = true;
       }
     }
     else
     {
-      this.isOKSale = false;
+      this.isOKBuy = false;
     }
     return true;
   }

@@ -13,9 +13,6 @@ class manager implements IManagerStore {
   @observable public myNNCBalance: string = '0';// 可提取的NNC
   @observable public filterDomainList: IManagerList[] = [];
   @observable public domainAddress:IDomainAddress|null=null;// 域名映射的地址
-  // @observable public showTransfer:boolean = false; // 显示转让的弹框
-  // @observable public showSaleDomain: boolean = false; // 显示出售的弹框
-  // @observable public showDelist: boolean = false; // 显示下架的弹筐
 
   @computed get domainListFroPage() {
     return this.filterDomainList.slice(0, (this.pageIndex + 1) * this.pageSize)

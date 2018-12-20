@@ -14,7 +14,7 @@ class StateManager implements IStatemanagerStore
     // 退回中的域名id数组
     @observable public bidSettlementState: string[] = [];
     // 获取收益的nnc
-    @observable public getSaleNNCState:string[] = [];
+    @observable public getSaleNNCState:boolean = false;
     // 域名转让
     @observable public transferDomainState:string[] = [];
     // 出售域名
@@ -54,7 +54,7 @@ class StateManager implements IStatemanagerStore
     }
     // 更新NNC收益
     @action public getSaleNNCStateDel = () => {
-        this.getSaleNNCState = [];
+        this.getSaleNNCState = false;
     }
     // 更新转让状态
     @action public transferDomainStateDel = (domain: string) => {

@@ -4,6 +4,9 @@ import { injectIntl } from 'react-intl';
 import { Button } from 'antd-mobile';
 import { IManagerProps } from './interface/index.interface';
 import { nnstools } from '@/utils/nnstools';
+import Alert from '@/components/alert';
+import { Task, ConfirmType, TaskType } from '@/store/interface/taskmanager.interface'; 
+import taskmanager from '@/store/taskmanager';
 @inject('manager', 'common')
 @observer
 class ClaimNNC extends React.Component<IManagerProps, any>
@@ -13,9 +16,32 @@ class ClaimNNC extends React.Component<IManagerProps, any>
         this.props.manager.getNNCfromSellingHash(this.props.common.address)
     }
     public toGetNNC = async () => {
-        const res = await nnstools.getAllMyNNC();
-        console.log(res);
-        
+        console.log("send getnnc");
+        this.props.statemanager.getSaleNNCState=true;
+        const res = await nnstools.getAllMyNNC()
+        if (res && res["txid"]){
+            const txid = res["txid"];            
+            taskmanager.addTask(
+                new Task(
+                    TaskType.getMyNNC, 
+                    ConfirmType.contract, 
+                    txid, 
+                    { amount: this.props.manager.myNNCBalance }
+                )
+            );
+
+            Alert(this.prop.message.successmsg, this.prop.message.waitmsg, this.prop.btn.confirm, () =>
+            {
+                console.log("成功了");
+            });
+        }else
+        {
+          Alert(this.prop.message.errmsg, this.prop.message.errmsgtip1, this.prop.btn.confirm, () =>
+          {
+            return;
+          });
+          this.props.statemanager.getSaleNNCStateDel();
+        }
     }
     public render()
     {

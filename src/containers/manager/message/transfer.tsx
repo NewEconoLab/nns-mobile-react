@@ -1,19 +1,23 @@
 import * as React from 'react';
 import { observer } from 'mobx-react';
 import { injectIntl } from 'react-intl';
-// import { IManagerListProps } from './interface/index.interface';
 // import * as formatTime from 'utils/formatTime';
 import * as VerifyAddress from 'utils/verifyAddress';
+import taskmanager from '@/store/taskmanager';
 import '../index.less'
+import { Task, ConfirmType, TaskType } from '@/store/interface/taskmanager.interface'; 
 // import DomainSelling from '@/store/DomainSelling';
-// import { Button } from 'antd-mobile';
+import Alert from '@/components/alert';
 import Message from '@/components/message';
 import Input from '@/components/Input/Input';
 import { IManagerStore } from '../interface/index.interface';
+import { IStatemanagerStore } from '@/store/interface/statemanager.interface';
+import { nnstools } from '@/utils/nnstools';
 interface ITransferDomainProps {
     intl: any,
     domain: string,
     manager: IManagerStore,
+    statemanager:IStatemanagerStore,
     showTransfer: boolean,
     onClose: () => void
 }
@@ -25,6 +29,7 @@ class TransferDomain extends React.Component<ITransferDomainProps, any>
         inputAddress: '', // 转让的地址
         checkAgain: 0, // 再次确认,0为第一次确认，1为第二次确认，2为确认完毕
         isOkTransfer: true, // 转让按钮确认，false为可点击，true为不可点击
+        transferAddress:'',
     }
     public prop = this.props.intl.messages;
 
@@ -56,11 +61,13 @@ class TransferDomain extends React.Component<ITransferDomainProps, any>
                const res = VerifyAddress.verifyAddress(value);
                if(res){
                     this.setState({
+                        transferAddress:value,
                         isOkTransfer:false
                     })
                     return true
                 }else{
                     this.setState({
+                        transferAddress:'',
                         isOkTransfer:true
                     })
                     return false
@@ -69,11 +76,37 @@ class TransferDomain extends React.Component<ITransferDomainProps, any>
         }
         return true
     }
-    // 域名转让发送交易
-    public toTransferOwner = () => {
+    // 域名转让发送交易 --todo
+    public toTransferOwner = async () => {
         console.log("send transfer");
+        this.props.statemanager.transferDomainState.push(this.props.domain);
+        const res = await nnstools.setOwner(this.props.domain,this.state.transferAddress)
+        if (res && res["txid"]){
+            const txid = res["txid"];            
+            taskmanager.addTask(
+                new Task(
+                    TaskType.tranfer, 
+                    ConfirmType.contract, 
+                    txid, 
+                    { domain: this.props.domain,address:this.state.transferAddress }
+                )
+            );
+
+            Alert(this.prop.message.successmsg, this.prop.message.waitmsg, this.prop.btn.confirm, () =>
+            {
+                console.log("成功了");
+            });
+        }else
+        {
+          Alert(this.prop.message.errmsg, this.prop.message.errmsgtip1, this.prop.btn.confirm, () =>
+          {
+            return;
+          });
+          this.props.statemanager.transferDomainStateDel(this.props.domain);
+        }
         this.onCloseTransfer();
     }
+
     public toCheckAgain = () => {
         this.setState({
             checkAgain: 1
@@ -89,11 +122,13 @@ class TransferDomain extends React.Component<ITransferDomainProps, any>
         await this.props.manager.getResolveAddress(domainName);
         if(this.props.manager.domainAddress){
             this.setState({
+                transferAddress:this.props.manager.domainAddress.data,
                 isOkTransfer:false
             })
             return true
         }else{
             this.setState({
+                transferAddress:'',
                 isOkTransfer:true
             })
             return false

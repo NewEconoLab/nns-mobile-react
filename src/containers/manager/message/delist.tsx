@@ -1,17 +1,20 @@
 import * as React from 'react';
 import { observer } from 'mobx-react';
 import { injectIntl } from 'react-intl';
-// import { IManagerListProps } from './interface/index.interface';
-// import * as formatTime from 'utils/formatTime';
 import '../index.less'
 // import DomainSelling from '@/store/DomainSelling';
-// import { Button } from 'antd-mobile';
+import Alert from '@/components/alert';
+import { Task, ConfirmType, TaskType } from '@/store/interface/taskmanager.interface'; 
+import taskmanager from '@/store/taskmanager';
+import { IStatemanagerStore } from '@/store/interface/statemanager.interface';
 import Message from '@/components/message';
 import { IManagerStore } from '../interface/index.interface';
+import { nnstools } from '@/utils/nnstools';
 interface IDelistDomainProps {
     intl: any,
     domain: string,
     manager: IManagerStore,
+    statemanager:IStatemanagerStore,
     showDelist: boolean,
     onClose: () => void
 }
@@ -20,22 +23,38 @@ interface IDelistDomainProps {
 class DelistDomain extends React.Component<IDelistDomainProps, any>
 {
     public prop = this.props.intl.messages;
-    // 域名转让弹筐--关闭
+    // 域名下架弹筐--关闭
     public onCloseDelist = () => {
-        this.setState({
-            checkAgain: 0
-        }, () => {
-            this.props.onClose();
-        })
-    }
-    // 域名转让地址的输入 --todo
-    public changeDelistAddress = (value: string) => {
-        console.log(value);
-
+        this.props.onClose();
     }
     // 域名转让发送交易
-    public toDelistOwner = () => {
-        console.log("send transfer");
+    public toDelistOwner = async() => {
+        console.log("send delist");
+        this.props.statemanager.delistDomainState.push(this.props.domain);
+        const res = await nnstools.unSaleDomain(this.props.domain)
+        if (res && res["txid"]){
+            const txid = res["txid"];            
+            taskmanager.addTask(
+                new Task(
+                    TaskType.unSaleDomain, 
+                    ConfirmType.contract, 
+                    txid, 
+                    { domain: this.props.domain }
+                )
+            );
+
+            Alert(this.prop.message.successmsg, this.prop.message.waitmsg, this.prop.btn.confirm, () =>
+            {
+                console.log("成功了");
+            });
+        }else
+        {
+          Alert(this.prop.message.errmsg, this.prop.message.errmsgtip1, this.prop.btn.confirm, () =>
+          {
+            return;
+          });
+          this.props.statemanager.delistDomainStateDel(this.props.domain);
+        }
         this.onCloseDelist();
     }
     public render() {

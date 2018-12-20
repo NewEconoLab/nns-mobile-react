@@ -203,6 +203,12 @@ export default {
     successmsg: "confirmed",
     resolver: "Address resolver: ",
     mapping: "Address mapping: ",
+    list: "List",
+    delist: "Delist",
+    buy: "Buy",
+    claimnnc: "NNC Claim",
+    domaintransfer: "Domain transfer",
+
   },
   traderecord: {
     mysell:"Sold",
@@ -227,6 +233,11 @@ export default {
     editdomainmsg2: '"Edit domain - address mapping" ',
     editdomainmsg3: '"Edit domain - renewal" ',
     isnotok: " is unconfirmed！Please try it again！",
-    empty: "It's empty."
+    empty: "It's empty.",
+    listmsg: '"List" ',
+    delistmsg: '"Delist" ',
+    buymsg: '"Buy" ',
+    claimnncmsg: '"NNC Claim" ',
+    domaintransfermsg: '"Domain transfer" ',
   }
 }
