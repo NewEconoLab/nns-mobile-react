@@ -58,13 +58,28 @@ class ClaimNNC extends React.Component<IManagerProps, any>
                         <strong className="mynnc-number">{mynnc === 0 ? '0':this.props.manager.myNNCBalance}</strong>
                     </div>
                     <div className="mynnc-btn">
-                        <Button 
-                            type={mynnc !== 0 ? 'primary':'ghost'} 
-                            inline={true} 
-                            size="small" 
-                            disabled={mynnc === 0}
-                            onClick={this.toGetNNC}
-                        >{this.prop.btn.claim}</Button>
+                    {
+                        this.props.statemanager.getSaleNNCState&&(
+                            <Button 
+                                type='ghost' 
+                                inline={true} 
+                                size="small" 
+                                disabled={true}                          
+                            >{this.prop.btn.claimnncing}</Button>
+                        )
+                    }
+                    {
+                        !this.props.statemanager.getSaleNNCState&&(
+                            <Button 
+                                type={mynnc !== 0 ? 'primary':'ghost'} 
+                                inline={true} 
+                                size="small" 
+                                disabled={mynnc === 0}
+                                onClick={this.toGetNNC}                            
+                            >{this.prop.btn.claim}</Button>
+                        )
+                    }
+                        
                     </div>
                 </div>
             </div>

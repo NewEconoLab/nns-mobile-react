@@ -54,7 +54,8 @@ export default {
     claim: "提取",
     claimnncing: "提取中",
     edit: "编辑",
-    transfer: "转让"
+    transfer: "转让",
+    transfering: "转让中"
   },
   home: {
     action: {

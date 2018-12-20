@@ -66,7 +66,7 @@ class DomainMap extends React.Component<IProps, IState>
     {
       return (
         this.props.statemanager.renewDomainState.includes(this.state.detail.domain) ?
-          <Button type="primary" inline={true} size="small" loading={true}>{}</Button> :
+          <Button type="primary" inline={true} size="small" loading={true}>{this.prop.btn.renew}</Button> :
           <Button type="primary" inline={true} size="small" onClick={this.onReNew}>{this.prop.btn.renew}</Button>
       )
     } else

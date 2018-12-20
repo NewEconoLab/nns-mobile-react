@@ -54,7 +54,8 @@ export default {
     claim: "Claim",
     claimnncing: "Claiming",
     edit: "Edit",
-    transfer: "Transfer"
+    transfer: "Transfer",
+    transfering:"Transfering"
   },
   home: {
     action: {

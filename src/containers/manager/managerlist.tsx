@@ -20,72 +20,90 @@ class ManagerList extends React.Component<IManagerListProps, any>
     isShowTransfer: false, // 转让
     isShowSaleDomain: false, // 出售
     isShowDelist: false, // 下架
+    isCanClickButton: false, // 控制全部按钮
   }
   public prop = this.props.intl.messages;
 
   // 校验是否添加提示
-  public dateComputed = (time: string) => {
+  public dateComputed = (time: string) =>
+  {
     // 过期
-    if (new Date().getTime() > formatTime.formatUnixTime(time)) {
+    if (new Date().getTime() > formatTime.formatUnixTime(time))
+    {
       return <span className="text-red">{this.prop.manager.msg2}</span>;
     }
     // 即将过期
-    if (formatTime.formatUnixTime(time) - new Date().getTime() <= (DomainSelling.day * 60)) {
+    if (formatTime.formatUnixTime(time) - new Date().getTime() <= (DomainSelling.day * 60))
+    {
       return <span className="text-orange">{this.prop.manager.msg}</span>;
     }
     return <span />;
   }
   // 校验是否可对域名编辑
-  public isExpire = (time: string) => {
+  public isExpire = (time: string) =>
+  {
     // 过期
-    if (new Date().getTime() > formatTime.formatUnixTime(time)) {
+    if (new Date().getTime() > formatTime.formatUnixTime(time))
+    {
       return false;
     }
     return true
   }
   // 跳转到域名编辑功能
-  public onGoToDetail = (domain: string) => {
+  public onGoToDetail = (domain: string) =>
+  {
     this.props.manager.detail = this.props.item;
     this.props.history.push('/manager/detail/' + domain);
   }
   // 域名转让弹筐--打开
-  public onOpenTransfer = () => {
+  public onOpenTransfer = () =>
+  {
     this.setState({
       isShowTransfer: true
     });
   }
   // 域名转让弹筐--关闭
-  public onCloseTransfer = () => {
+  public onCloseTransfer = () =>
+  {
     this.setState({
       isShowTransfer: false
     });
   }
   // 域名出售弹筐--打开
-  public onOpenSellDomain = () => {
+  public onOpenSellDomain = () =>
+  {
     this.setState({
       isShowSaleDomain: true
     });
   }
   // 域名出售弹筐--关闭
-  public onCloseSellDomain = () => {
+  public onCloseSellDomain = () =>
+  {
     this.setState({
       isShowSaleDomain: false
     })
   }
   // 域名下架弹筐--打开
-  public onOpenDelistDomain = () => {
+  public onOpenDelistDomain = () =>
+  {
     this.setState({
       isShowDelist: true
     });
   }
   // 域名下架弹筐--关闭
-  public onCloseDelistDomain = () => {
+  public onCloseDelistDomain = () =>
+  {
     this.setState({
       isShowDelist: false
     })
   }
 
-  public render() {
+  public render()
+  {
+    const transfering = this.props.statemanager.transferDomainState.includes(this.props.item.domain);
+    const selling = this.props.statemanager.sellDomainState.includes(this.props.item.domain);
+    const delisting = this.props.statemanager.delistDomainState.includes(this.props.item.domain);
+
     return (
       <React.Fragment>
         <div className="">
@@ -110,40 +128,53 @@ class ManagerList extends React.Component<IManagerListProps, any>
                     this.props.item.state !== '0901' && (
                       <div className="edit-btn">
                         <Button
-                          type="primary"
+                          type={(transfering||selling)?"primary":"ghost"}
                           inline={true}
                           size="small"
                           style={{ width: '105px' }}
+                          disabled={transfering||selling}
                           onClick={this.onGoToDetail.bind(this, this.props.item.domain)}
                         >{this.prop.btn.edit}</Button>
-                        <Button
-                          type="primary"
-                          inline={true}
-                          size="small"
-                          style={{ width: '105px' }}
-                          onClick={this.onOpenTransfer}
-                        >{this.prop.btn.transfer}</Button>
-                        <Button
-                          type={!this.props.item.resolverAddr ? 'primary' : 'ghost'}
-                          inline={true}
-                          size="small"
-                          style={{ width: '105px' }}
-                          disabled={!!this.props.item.resolverAddr}
-                          onClick={this.onOpenSellDomain}
-                        >{this.prop.btn.sell}</Button>
+                        {
+                          transfering ?
+                            <Button type="primary" inline={true} size="small" loading={true}>{this.prop.btn.transfering}</Button> :
+                            <Button
+                              type={(transfering||selling)?"primary":"ghost"}
+                              inline={true}
+                              size="small"
+                              style={{ width: '105px' }}
+                              onClick={this.onOpenTransfer}
+                            >{this.prop.btn.transfer}</Button>
+                        }
+                        {
+                          selling ?
+                            <Button type="primary" inline={true} size="small" loading={true}>{this.prop.btn.selling}</Button> :
+                            <Button
+                              type={((!this.props.item.resolverAddr)||transfering||selling) ? 'primary' : 'ghost'}
+                              inline={true}
+                              size="small"
+                              style={{ width: '105px' }}
+                              disabled={(!this.props.item.resolverAddr)||transfering||selling}
+                              onClick={this.onOpenSellDomain}
+                            >{this.prop.btn.sell}</Button>
+                        }
                       </div>
                     )
                   }
                   {
                     this.props.item.state === '0901' && (
                       <div className="delist-btn">
-                        <Button
-                          type="primary"
-                          inline={true}
-                          size="small"
-                          style={{ width: '105px' }}
-                          onClick={this.onOpenDelistDomain}
-                        >{this.prop.btn.delist}</Button>
+                        {
+                          delisting ?
+                            <Button type="primary" inline={true} size="small" loading={true}>{this.prop.btn.delisting}</Button> :
+                            <Button
+                              type="primary"
+                              inline={true}
+                              size="small"
+                              style={{ width: '105px' }}
+                              onClick={this.onOpenDelistDomain}
+                            >{this.prop.btn.delist}</Button>
+                        }
                       </div>
                     )
                   }
