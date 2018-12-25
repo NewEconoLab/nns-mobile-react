@@ -73,11 +73,18 @@ export default {
     },
     auction: {
       title: "Domain auction",
-      errmsg1: "Domain names must be English characters or numbers, and can only be 6 to 32 characters in length",
+      errmsg1: "Domain names must be English characters or numbers, and can only be 2 to 32 characters in length",
       errmsg2: "This domain was auctioned",
       successmsg: "This domain is available",
       successmsg2: 'This domain is currently in auction.Click "Join auction" to bid for it.',
       successmsg3: 'This name is on selling'
+    },
+    buy:{
+      title:"Domain information",
+      domain:"Domain：",
+      time:"Expiration Time：",
+      price:"Selling price：",
+      unbuy:"（insufficient NNC balance）"
     }
   },
   topup: {

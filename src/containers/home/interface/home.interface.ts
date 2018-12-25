@@ -34,7 +34,8 @@ export interface IHomeStore {
   isShowSaleBox:boolean,
   getAuctionInfo:() => Promise<boolean>,
   getSaleDomainInfo:() => Promise<boolean>,
-  getnep5balanceofaddress:() => Promise<boolean>
+  getnep5balanceofaddress:() => Promise<boolean>,
+  rechargeandtransfer:(data1: Uint8Array, data2: Uint8Array) => Promise<boolean>
 }
 
 

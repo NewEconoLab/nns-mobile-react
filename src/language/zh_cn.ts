@@ -73,11 +73,18 @@ export default {
     },
     auction: {
       title: "NNS域名竞拍",
-      errmsg1: "域名必须为字母和数字，长度在6～32个字符之间",
+      errmsg1: "域名必须为字母和数字，长度在2～32个字符之间",
       errmsg2: "该域名已经被别人拥有啦",
       successmsg: "该域名可以使用",
       successmsg2: '该域名正在进行竞拍',
       successmsg3: '该域名正在出售中'
+    },
+    buy:{
+      title:"域名详情",
+      domain:"域名：",
+      time:"域名到期时间：",
+      price:"出售价格：",
+      unbuy:"（余额不足）"
     }
   },
   topup: {

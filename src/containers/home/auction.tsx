@@ -121,7 +121,7 @@ class Auction extends React.Component<IHomeProps>
             {
               this.props.home.isStatus === 3 &&
               (
-                <Button type="primary" onClick={this.onLookDomain}>查看详情</Button>
+                <Button type="primary" onClick={this.onLookDomain}>{this.prop.btn.lookinfo}</Button>
               )
             }
             {

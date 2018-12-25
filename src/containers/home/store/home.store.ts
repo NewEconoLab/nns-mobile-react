@@ -25,7 +25,7 @@ class Home implements IHomeStore
 
   @observable public auctionInfo: IAuction;
   @observable public sellingDomain: ISaleDomainInfo | null = null;
-  @observable public isOKBuy: boolean = false; // 购买按钮
+  @observable public isOKBuy: boolean = false; // 购买按钮 默认不可购买
   @observable public isShowSaleBox:boolean = false; // 购买弹筐
   constructor()
   {
@@ -194,23 +194,41 @@ class Home implements IHomeStore
       this.isOKBuy = false; 
       return error;
     }
+    
     if (this.sellingDomain && result)
     {
-      // this.nncAmount = res.nep5balance;
       const salePrice = parseFloat(this.sellingDomain.price);
-      const nnc = parseFloat(result.nep5balance);
-      if (salePrice > nnc)
+      const nnc = parseFloat(result[0].nep5balance);
+      if (salePrice > nnc)// 钱不够
       {
         this.isOKBuy = false;
-      } else
+      } else // 钱够
       {
         this.isOKBuy = true;
       }
     }
-    else
+    else // 没有钱
     {
       this.isOKBuy = false;
     }
+    return true;
+  }
+  /**
+   * 两笔交易提交给服务器发送
+   * @param data1 第一笔交易数据
+   * @param data2 第二笔交易数据
+   */
+  @action public async rechargeandtransfer(data1: Uint8Array, data2: Uint8Array)
+  {
+    let result: any = null;
+    try
+    {
+      result = await Api.rechargeandtransfer(data1,data2);
+    } catch (error)
+    {
+      return error;
+    }
+    console.log(result);    
     return true;
   }
 }
