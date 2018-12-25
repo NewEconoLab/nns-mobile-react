@@ -16,7 +16,7 @@ import common from '@/store/common';
 // import classnames from 'classnames';
 
 // 获取竞拍状态：getauctionstate 参数：域名
-@inject('common', 'home','statemanager')
+@inject('common', 'home', 'statemanager')
 @observer
 class BuyDomain extends React.Component<IHomeProps>{
   public prop = this.props.intl.messages;
@@ -59,11 +59,11 @@ class BuyDomain extends React.Component<IHomeProps>{
   public domainBuy = async (domain: string, amount: string) =>
   {
     const data1 = await nnstools.registerNNC(amount);
-    console.log("data1");    
-    console.log(data1);    
+    console.log("data1");
+    console.log(data1);
     const data2 = await nnstools.buyDomain(domain);
-    console.log("data2");    
-    console.log(data2);    
+    console.log("data2");
+    console.log(data2);
     const res = await this.prop.home.rechargeandtransfer(data1, data2);
     if (res && res['errCode']) // 检测是否有对应的通知 changeOwnerInfo
     {

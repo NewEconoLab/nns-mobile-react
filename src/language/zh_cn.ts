@@ -12,6 +12,8 @@ export default {
     '/topup': '充值',
     '/withdraw': '提取',
     '/traderecord': '域名交易记录',
+    '/setting': '设置',
+    '/language': '语言设置'
   },
   header: {
     back: '返回'
@@ -44,6 +46,7 @@ export default {
     apply: "申请",
     applying: "已申请",
     applyed: "已发放",
+    save: "保存",
     sell: "出售",
     selling: "出售中",
     delist: "下架",
@@ -66,7 +69,8 @@ export default {
       manager: '域名管理',
       bonus: '我的分红',
       record: '操作记录',
-      traderecord: '域名交易记录'
+      traderecord: '域名交易记录',
+      setting: '设置',
     },
     account: {
       title: "竞拍账户",
@@ -79,12 +83,12 @@ export default {
       successmsg2: '该域名正在进行竞拍',
       successmsg3: '该域名正在出售中'
     },
-    buy:{
-      title:"域名详情",
-      domain:"域名：",
-      time:"域名到期时间：",
-      price:"出售价格：",
-      unbuy:"（余额不足）"
+    buy: {
+      title: "域名详情",
+      domain: "域名：",
+      time: "域名到期时间：",
+      price: "出售价格：",
+      unbuy: "（余额不足）"
     }
   },
   topup: {
@@ -169,18 +173,18 @@ export default {
     delistcheck1: "您确定要将",
     delistcheck2: "下架吗？",
     transfercheck1: "您确定要将",
-    transfercheck2:"转让给",
-    transfercheck3:"吗？",
+    transfercheck2: "转让给",
+    transfercheck3: "吗？",
     sellcheck1: "您确定要将",
     sellcheck2: "以",
-    sellcheck3:"的价格出售吗？",
+    sellcheck3: "的价格出售吗？",
     domaintransfer: "转让域名",
     transferto: "转让至",
     timeMsg: "有效期至: ",
-    sellplaceholder:"请输入您想出售的价格",
-    transferplaceholder:"请输入您想转让至的地址",
-    selldomain:"出售域名",
-    delistdomain:"域名下架"
+    sellplaceholder: "请输入您想出售的价格",
+    transferplaceholder: "请输入您想转让至的地址",
+    selldomain: "出售域名",
+    delistdomain: "域名下架"
   },
   bonus: {
     title: "分红历史",
@@ -218,8 +222,8 @@ export default {
     domaintransfer: "转让域名",
   },
   traderecord: {
-    mysell:"我出售的",
-    mybuy:"我购买的",
+    mysell: "我出售的",
+    mybuy: "我购买的",
     selltime: "交易时间：",
     sellprice: "交易金额：",
   },
@@ -246,5 +250,9 @@ export default {
     buymsg: '"购买" ',
     claimnncmsg: '"提取NNC" ',
     domaintransfermsg: '"转让域名" ',
+  },
+  setting: {
+    title: '语言设置',
+    language: "当前语言："
   }
 }

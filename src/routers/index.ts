@@ -3,6 +3,14 @@ import asyncComponent from '@/components/asyncComponent';
 
 export default [
   {
+    component: asyncComponent(() => import('../containers/setting/language')),
+    path: '/language',
+  },
+  {
+    component: asyncComponent(() => import('../containers/setting')),
+    path: '/setting',
+  },
+  {
     component: asyncComponent(() => import('../containers/traderecord')),
     path: '/traderecord',
   },

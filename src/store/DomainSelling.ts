@@ -4,14 +4,18 @@ import { DomainInfo, IDomainSelling } from './interface/domain.interface';
 import common from './common';
 class DomainSelling implements IDomainSelling {
     @observable
-    public RootNeo: DomainInfo = new DomainInfo("testnet"===common.network?'test':'neo');
+    public RootNeo: DomainInfo = new DomainInfo();
     @observable
-    public day:number = (common.network==="testnet"? 5*60*1000:24*60*60*1000);
+    public day:number = 0;
     @action
     public async initRoot() {
-        try {            
-            const res = await Api.getDomainInfo(this.RootNeo.root);
+        try {
+            this.RootNeo.root="testnet"===common.network?'test':'neo';
+            this.day=(this.RootNeo.root==="test"? 5*60*1000:24*60*60*1000);
+            const res = await Api.getDomainInfo(this.RootNeo.root);            
         if (res) {
+            console.log(res);
+            
             this.RootNeo.owner = res[0].owner;
             this.RootNeo.register = Neo.Uint160.parse((res[0].register as string).replace("0x",""));
             this.RootNeo.resolver = res.resolver ? Neo.Uint160.parse(res[0].resolver) : null;

@@ -12,6 +12,8 @@ export default {
     '/topup': 'Topup',
     '/withdraw': 'Withdraw',
     '/traderecord': 'Trading History',
+    '/setting': 'Setting',
+    '/language': 'Language setting'
   },
   header: {
     back: 'Back'
@@ -44,6 +46,7 @@ export default {
     apply: "Apply",
     applying: "Applyed",
     applyed: "Distributed",
+    save: "Save",
     sell: "Sell",
     selling: "Selling",
     delist: "Delist",
@@ -55,7 +58,7 @@ export default {
     claimnncing: "Claiming",
     edit: "Edit",
     transfer: "Transfer",
-    transfering:"Transfering"
+    transfering: "Transfering"
   },
   home: {
     action: {
@@ -66,7 +69,8 @@ export default {
       manager: 'My domain',
       bonus: 'Bonus',
       record: 'Record',
-      traderecord: 'Trading History'
+      traderecord: 'Trading History',
+      setting: 'Setting',
     },
     account: {
       title: "Auction account",
@@ -79,12 +83,12 @@ export default {
       successmsg2: 'This domain is currently in auction.Click "Join auction" to bid for it.',
       successmsg3: 'This name is on selling'
     },
-    buy:{
-      title:"Domain information",
-      domain:"Domain：",
-      time:"Expiration Time：",
-      price:"Selling price：",
-      unbuy:"（insufficient NNC balance）"
+    buy: {
+      title: "Domain information",
+      domain: "Domain：",
+      time: "Expiration Time：",
+      price: "Selling price：",
+      unbuy: "（insufficient NNC balance）"
     }
   },
   topup: {
@@ -169,18 +173,18 @@ export default {
     delistcheck1: "Are you sure to delist ",
     delistcheck2: "?",
     transfercheck1: "Are you sure to transfer ",
-    transfercheck2:" to ",
-    transfercheck3:"?",
+    transfercheck2: " to ",
+    transfercheck3: "?",
     sellcheck1: "Are you sure to sell ",
     sellcheck2: " at the price of ",
-    sellcheck3:"?",
+    sellcheck3: "?",
     domaintransfer: "Domain transfer",
     transferto: "Transfer to：",
     timeMsg: "Expiry date: ",
-    sellplaceholder:"Please enter the price at which you want to sell",
-    transferplaceholder:"Please enter the address you wish to transfer to",
-    selldomain:"Domain for sale",
-    delistdomain:"Domain for delist"
+    sellplaceholder: "Please enter the price at which you want to sell",
+    transferplaceholder: "Please enter the address you wish to transfer to",
+    selldomain: "Domain for sale",
+    delistdomain: "Domain for delist"
   },
   bonus: {
     title: "Bonus history",
@@ -219,8 +223,8 @@ export default {
 
   },
   traderecord: {
-    mysell:"Sold",
-    mybuy:"Bought",
+    mysell: "Sold",
+    mybuy: "Bought",
     selltime: "Trading time：",
     sellprice: "Trading price：",
   },
@@ -247,5 +251,9 @@ export default {
     buymsg: '"Buy" ',
     claimnncmsg: '"NNC Claim" ',
     domaintransfermsg: '"Domain transfer" ',
+  },
+  setting: {
+    title: 'Language setting',
+    language: "Language："
   }
 }

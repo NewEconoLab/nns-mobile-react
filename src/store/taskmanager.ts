@@ -19,6 +19,7 @@ class TaskManager implements ITaskmanagerStore
         [TaskType.collectDomain]:`collectDomain`,
         [TaskType.domainMapping]:`setResolverData`,
         [TaskType.domainResovle]:`changeOwnerInfo`,
+        [TaskType.domainRenewal]:`changeOwnerInfo`,
         [TaskType.tranfer]:`changeOwnerInfo`,
         [TaskType.saleDomain]:`NNSfixedSellingLaunched`,
         [TaskType.unSaleDomain]:`NNSfixedSellingDiscontinued`,
