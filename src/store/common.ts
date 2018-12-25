@@ -16,6 +16,7 @@ class Common{
   @action public initWalletConfig = () =>
   {
     const params:{} = $_GET();
+    const sessionLanguage = sessionStorage.getItem('language');
     if(Object.keys(params).length>0)
     {
       const fee = params[`fee`];
@@ -24,11 +25,12 @@ class Common{
       const language = params[`lang`];
       this.fee = Neo.Fixed8.fromNumber(fee);
       // alert(JSON.stringify(params))
-      // alert(network);
+      // alert(network);      
       this.network = network;
-      this.language = language;
-      console.log(wallet); 
+      this.language = sessionLanguage?sessionLanguage:language;
+      console.log(wallet);      
     }
+
   }
 
   /**

@@ -12,6 +12,8 @@ export default {
     '/topup': '充值',
     '/withdraw': '提取',
     '/traderecord': '域名交易记录',
+    '/setting':'设置',
+    '/language':'语言设置'
   },
   header:{
     back:'返回'
@@ -43,7 +45,8 @@ export default {
     select:"筛选",
     apply:"申请",
     applying:"已申请",
-    applyed:"已发放"
+    applyed:"已发放",
+    save:"保存"
   },
   home: {
     action: {
@@ -54,7 +57,8 @@ export default {
       manager: '域名管理',
       bonus: '我的分红',
       record: '操作记录',
-      traderecord: '域名交易记录'
+      traderecord: '域名交易记录',
+      setting:'设置',
     },
     account: {
       title: "竞拍账户",
@@ -183,5 +187,9 @@ export default {
     editdomainmsg3: '续约域名 ',
     isnotok:" 未生效！请再次尝试！",
     empty:"这里是空的"
+  },
+  setting:{
+    title:'语言设置',
+    language:"当前语言："
   }
 }

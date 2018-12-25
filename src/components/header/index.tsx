@@ -12,7 +12,7 @@ interface IProps {
 @observer
 export default class Header extends React.Component<IProps> {
     public cons = () => {
-        history.go(-1);
+        history.back();
     }
     public render() {
         return (

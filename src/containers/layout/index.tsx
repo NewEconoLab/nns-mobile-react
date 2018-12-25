@@ -29,9 +29,10 @@ export default class LayoutIndex extends React.Component<any, any> {
 
     // 监听路由改变，重新匹配title
     this.context.router.history.listen(() => {
+      const titles2 = store.language === 'en' ? en_US.title : zh_CN.title;
       const arr2 = titleKeys.filter(v => new RegExp(v).test(this.context.router.history.location.pathname));
-      document.title = titles[arr2[arr2.length - 1]];
-      store.title = titles[arr2[arr2.length - 1]];
+      document.title = titles2[arr2[arr2.length - 1]];
+      store.title = titles2[arr2[arr2.length - 1]];
     });
   }
 

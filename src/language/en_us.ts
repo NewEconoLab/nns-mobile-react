@@ -12,6 +12,8 @@ export default {
     '/topup':'Topup',
     '/withdraw':'Withdraw',
     '/traderecord': 'Trading History',
+    '/setting':'Setting',
+    '/language':'Language setting'
   },
   header:{
     back:'Back'
@@ -43,7 +45,8 @@ export default {
     select:"Filter",
     apply:"Apply",
     applying:"Applyed",
-    applyed:"Distributed"
+    applyed:"Distributed",
+    save:"Save"
   },
   home:{
     action:{
@@ -54,7 +57,8 @@ export default {
       manager:'My domain',
       bonus:'Bonus',
       record:'Record',
-      traderecord: 'Trading History'
+      traderecord: 'Trading History',
+      setting:'Setting',
     },
     account:{
       title:"Auction account",
@@ -183,5 +187,9 @@ export default {
     editdomainmsg3:'"Edit domain - renewal" ',
     isnotok:" is unconfirmed！Please try it again！",
     empty:"It's empty."
+  },
+  setting:{
+    title:'Language setting',
+    language:"Language："
   }
 }
