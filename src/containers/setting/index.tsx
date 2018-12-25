@@ -23,8 +23,8 @@ class Setting extends React.Component<IProp, any> {
   public prop = this.props.intl.messages;
   public componentDidMount()
   {
-    const sessionLanguage = sessionStorage.getItem('language');
-    const lang = sessionLanguage?sessionLanguage:this.props.common.language;
+    const localLanguage = localStorage.getItem('nns-language');
+    const lang = localLanguage?localLanguage:this.props.common.language;
     if(lang==='en'){
       this.setState({
         language:'English'

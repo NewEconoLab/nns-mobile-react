@@ -16,7 +16,7 @@ class Common{
   @action public initWalletConfig = () =>
   {
     const params:{} = $_GET();
-    const sessionLanguage = sessionStorage.getItem('language');
+    const localLanguage = localStorage.getItem('nns-language');
     if(Object.keys(params).length>0)
     {
       const fee = params[`fee`];
@@ -27,7 +27,7 @@ class Common{
       // alert(JSON.stringify(params))
       // alert(network);      
       this.network = network;
-      this.language = sessionLanguage?sessionLanguage:language;
+      this.language = localLanguage?localLanguage:language;
       console.log(wallet);      
     }
 

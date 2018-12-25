@@ -25,8 +25,8 @@ class Language extends React.Component<IProp, any> {
   public prop = this.props.intl.messages;
   public componentDidMount()
   {
-    const sessionLanguage = sessionStorage.getItem('language');
-    const lang = sessionLanguage?sessionLanguage:this.props.common.language;
+    const localLanguage = localStorage.getItem('nns-language');
+    const lang = localLanguage?localLanguage:this.props.common.language;
     if (lang === 'en')
     {
       this.setState({
@@ -50,7 +50,7 @@ class Language extends React.Component<IProp, any> {
   public onSaveLanguage = () =>
   {
     this.props.common.language = this.state.value === 0 ? 'zh' : 'en';
-    sessionStorage.setItem('language',this.props.common.language);
+    localStorage.setItem('nns-language',this.props.common.language);
     this.props.history.goBack();
   }
   public render()
