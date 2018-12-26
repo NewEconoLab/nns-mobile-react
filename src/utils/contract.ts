@@ -30,7 +30,7 @@ export class Contract
      * @param method 方法名
      * @param param 参数
      */
-    public static buildScript_random(appCall: Neo.Uint160|Uint8Array, method: string, param: string[]): ThinNeo.ScriptBuilder
+    public static buildScript_random(appCall: Neo.Uint160|Uint8Array, method: string, param: any[]): ThinNeo.ScriptBuilder
     {
         const sb = new ThinNeo.ScriptBuilder();
         // 生成随机数
@@ -54,6 +54,7 @@ export class Contract
     const gass = utxos[HASH_CONFIG.ID_GAS];
     const tran: Transaction = new Transaction()
     tran.setScript(script)
+    console.log("fee---------");    
     console.log(common.fee.toString());
     
     if (gass && common.fee.compareTo(Neo.Fixed8.Zero)>0) {
@@ -70,15 +71,28 @@ export class Contract
     // MarkUtxo.setMark(tran.marks);
     // return data;
     const promise:Promise<Uint8Array> = new Promise((resolve, reject) =>{
-      o3tools.sign(msg.toHexString(),res =>{        
-        tran.AddWitness((res as string).hexToBytes(),common.publicKey.hexToBytes(), common.address);
-        try {
-          const data: Uint8Array = tran.GetRawData();   
-          MarkUtxo.setMark(tran.marks);
-          resolve(data);
-        } catch (error) {
-          reject(error);
-        }        
+      console.log("sign data :");
+      console.log(msg.toHexString());    
+      o3tools.sign(msg.toHexString(),res =>{    
+        console.log(res);
+        if(res)
+        {            
+          tran.AddWitness((res as string).hexToBytes(),common.publicKey.hexToBytes(), common.address);
+          try {
+            const data: Uint8Array = tran.GetRawData();   
+            MarkUtxo.setMark(tran.marks);
+            resolve(data);
+          } catch (error) {
+            
+            reject(error);
+          }       
+        }
+        else
+        {
+          console.error("签名返回值异常")
+          console.log(res);
+          
+        } 
       })
     })
     return promise;

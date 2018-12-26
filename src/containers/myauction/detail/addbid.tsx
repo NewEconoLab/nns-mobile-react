@@ -16,67 +16,73 @@ import { Task, ConfirmType, TaskType } from '@/store/interface/taskmanager.inter
 // import { accAdd } from '@/utils/alculator';
 import { toNumFixed } from '@/utils/function';
 
-interface Istate {
+interface Istate
+{
     inputMessage: string,
     inputState: string,
     inputColor: string,
-    btnWait:boolean,
+    btnWait: boolean,
 }
 
 // 获取竞拍状态：getauctionstate 参数：域名
 @inject('common', 'myauction')
 @observer
 
-class Addbid extends React.Component<IAuctionAddbidProps&IAuctionDetailProps, Istate>{
+class Addbid extends React.Component<IAuctionAddbidProps & IAuctionDetailProps, Istate>{
     public state = {
         inputMessage: '',
         inputState: '',
         inputColor: '',
-        btnWait:false
+        btnWait: false
     }
     public prop = this.props.intl.messages;
-    public componentDidMount(){
-        const currentPrice = this.props.myauction.detail?this.props.myauction.detail.addWho.totalValue:0;
+    public componentDidMount()
+    {
+        const currentPrice = this.props.myauction.detail ? this.props.myauction.detail.addWho.totalValue : 0;
         this.setState({
-            inputMessage:this.prop.myauction.info.msg2+currentPrice+' CGAS'
+            inputMessage: this.prop.myauction.info.msg2 + currentPrice + ' CGAS'
         })
     }
-    public change = (value: string) => {
+    public change = (value: string) =>
+    {
         const state = {
             inputMessage: '',
             inputState: '',
             inputColor: ''
         }
-        if (/\./.test(value) && value.split('.')[1].length >= 2) {
+        if (/\./.test(value) && value.split('.')[1].length >= 2)
+        {
             return false;
         }
-        const currentPrice = this.props.myauction.detail?this.props.myauction.detail.addWho.totalValue:0;
-        const heightPrice = this.props.myauction.detail?this.props.myauction.detail.maxPrice:0;
+        const currentPrice = this.props.myauction.detail ? this.props.myauction.detail.addWho.totalValue : 0;
+        const heightPrice = this.props.myauction.detail ? this.props.myauction.detail.maxPrice : 0;
         // const myBidPrice = value?(accAdd(value,currentPrice)):currentPrice;
-        const myBidPrice = value ? parseFloat(value) + parseFloat(currentPrice.toString()) : currentPrice; 
-        state.inputMessage = this.prop.myauction.info.msg2+myBidPrice+' CGAS';
+        const myBidPrice = value ? parseFloat(value) + parseFloat(currentPrice.toString()) : currentPrice;
+        state.inputMessage = this.prop.myauction.info.msg2 + myBidPrice + ' CGAS';
         state.inputColor = '';
-        if(this.props.myauction.detail)
+        if (this.props.myauction.detail)
         {
-            if(this.props.myauction.detail.auctionState === AuctionState.fixed)
+            if (this.props.myauction.detail.auctionState === AuctionState.fixed)
             {
-                const num =toNumFixed(currentPrice*0.1,1);
-                if(parseFloat(value)<num)
+                const num = toNumFixed(currentPrice * 0.1, 1);
+                if (parseFloat(value) < num)
                 {
                     state.inputMessage = this.prop.myauction.info.errmsg3;
-                    state.inputColor='red-color';
+                    state.inputColor = 'red-color';
                     return false;
                 }
             }
         }
-        
-        
-        if(myBidPrice < heightPrice) {
+
+
+        if (myBidPrice < heightPrice)
+        {
             state.inputMessage = this.prop.myauction.info.errmsg2;
             state.inputColor = 'red-color';
         }
 
-        if (parseFloat(value) > parseFloat(this.props.common.accountBalance)) {
+        if (parseFloat(value) > parseFloat(this.props.common.accountBalance))
+        {
             state.inputMessage = this.prop.myauction.info.errmsg;
             state.inputColor = 'red-color';
         }
@@ -87,41 +93,49 @@ class Addbid extends React.Component<IAuctionAddbidProps&IAuctionDetailProps, Is
 
         return true;
     }
-    public addBid = async () => {
+    public addBid = async () =>
+    {
         const auction = this.props.myauction.detail as IAuction;
-        try {
-            this.setState({btnWait:true});
+        try
+        {
+            this.setState({ btnWait: true });
             const res = await nnstools.raise(auction.auctionId, this.props.myauction.myBid, DomainSelling.RootNeo.register);
-            if (res) {
+            if (res)
+            {
                 taskmanager.addTask(new Task(TaskType.raise, ConfirmType.contract, res['txid'], { domain: auction["fulldomain"], amount: this.props.myauction.myBid }))
-                Alert(this.prop.message.successmsg, this.prop.message.waitmsg, this.prop.btn.confirm, () => {
+                Alert(this.prop.message.successmsg, this.prop.message.waitmsg, this.prop.btn.confirm, () =>
+                {
                     return;
                 });
             }
             else
             {
-                Alert(this.prop.message.errmsg, this.prop.message.errmsgtip1, this.prop.btn.confirm, () => {
+                Alert(this.prop.message.errmsg, this.prop.message.errmsgtip1, this.prop.btn.confirm, () =>
+                {
                     return;
-                });
+                }, 'error');
             }
-            this.setState({btnWait:false});
-        } catch (error) {
+            this.setState({ btnWait: false });
+        } catch (error)
+        {
             console.log(error);
-            this.setState({btnWait:false});
+            this.setState({ btnWait: false });
         }
         this.onClose();
     }
 
-    public onClose = () => {
+    public onClose = () =>
+    {
         this.props.myauction.showDialog = false;
-        const currentPrice = this.props.myauction.detail?this.props.myauction.detail.addWho.totalValue:0;
+        const currentPrice = this.props.myauction.detail ? this.props.myauction.detail.addWho.totalValue : 0;
         this.setState({
-            inputMessage: this.prop.myauction.info.msg2+currentPrice+' CGAS',
+            inputMessage: this.prop.myauction.info.msg2 + currentPrice + ' CGAS',
             inputState: '',
             inputColor: ''
         })
     }
-    public render() {
+    public render()
+    {
         const isDisabled = !!this.state.inputColor || !!!this.props.myauction.myBid || parseFloat(this.props.myauction.myBid) === 0
         return (
             <div className="addbid-wrapper">
@@ -154,8 +168,8 @@ class Addbid extends React.Component<IAuctionAddbidProps&IAuctionDetailProps, Is
                     </div>
                     {
                         this.state.btnWait
-                        ?<Button type="primary" style={{ borderRadius: '0' }} className="detail-btn" loading={true}>{this.prop.btn.placebid}</Button>
-                        :<Button type="primary" onClick={this.addBid} disabled={ isDisabled} style={{ borderRadius: '0' }} className="detail-btn" >{this.prop.btn.placebid}</Button>
+                            ? <Button type="primary" style={{ borderRadius: '0' }} className="detail-btn" loading={true}>{this.prop.btn.placebid}</Button>
+                            : <Button type="primary" onClick={this.addBid} disabled={isDisabled} style={{ borderRadius: '0' }} className="detail-btn" >{this.prop.btn.placebid}</Button>
                     }
                 </div>
             </div>

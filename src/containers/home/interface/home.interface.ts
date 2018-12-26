@@ -32,10 +32,11 @@ export interface IHomeStore {
   sellingDomain:ISaleDomainInfo|null,
   isOKBuy:boolean,
   isShowSaleBox:boolean,
+  reChargeResult:IRechargeResult|null,
   getAuctionInfo:() => Promise<boolean>,
   getSaleDomainInfo:() => Promise<boolean>,
   getnep5balanceofaddress:() => Promise<boolean>,
-  rechargeandtransfer:(data1: Uint8Array, data2: Uint8Array) => Promise<boolean>
+  reChargeandtransfer:(data1: Uint8Array, data2: Uint8Array) => Promise<boolean>
 }
 
 
@@ -53,4 +54,10 @@ export interface ISaleDomainInfo {
   ttl: number,
   price: string,
   state: string
+}
+
+export interface IRechargeResult {
+  errCode:string,
+  errMessage:string,
+  txid:string
 }

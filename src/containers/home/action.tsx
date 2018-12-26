@@ -13,6 +13,7 @@ import myauction from '@/img/myauction.png'
 import domainmanager from '@/img/domainmanage.png'
 import bonus from '@/img/bonus.png'
 import record from '@/img/record.png'
+import setting from '@/img/setting.png'
 // 引入小标题组件
 import TitleText from '@/components/titletext';
 // 引入数据类型
@@ -69,6 +70,11 @@ class Action extends React.Component<IHomeProps, any> {
                 icon: trade,
                 text: this.home.action.traderecord,
                 page: 'traderecord'
+            },
+            {
+                icon: setting,
+                text: this.home.action.setting,
+                page:'setting'
             }
             // {
             //     icon: tutorial,

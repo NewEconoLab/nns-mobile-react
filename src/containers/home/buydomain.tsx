@@ -5,7 +5,6 @@ import './index.less';
 import close from '@/img/close.png';
 import { Button } from 'antd-mobile';
 import { nnstools } from '@/utils/nnstools';
-// import DomainSelling from '@/store/DomainSelling';
 import { injectIntl } from 'react-intl'
 import Alert from '@/components/alert';
 import taskmanager from '@/store/taskmanager';
@@ -13,9 +12,7 @@ import { Task, ConfirmType, TaskType } from '@/store/interface/taskmanager.inter
 import { IHomeProps } from './interface/home.interface';
 import * as formatTime from 'utils/formatTime';
 import common from '@/store/common';
-// import classnames from 'classnames';
 
-// 获取竞拍状态：getauctionstate 参数：域名
 @inject('common', 'home', 'statemanager')
 @observer
 class BuyDomain extends React.Component<IHomeProps>{
@@ -29,8 +26,6 @@ class BuyDomain extends React.Component<IHomeProps>{
   // 购买操作
   public onBuyDomain = async () =>
   {
-    alert("to buy domain");
-    alert(this.props.statemanager.buyDomainState);
     const domain = this.props.home.sellingDomain ? this.props.home.sellingDomain.domain : '';
     const price = this.props.home.sellingDomain ? this.props.home.sellingDomain.price : '0';
     if (price === '0')
@@ -50,7 +45,7 @@ class BuyDomain extends React.Component<IHomeProps>{
       Alert(this.prop.message.errmsg, this.prop.message.errmsgtip1, this.prop.btn.confirm, () =>
       {
         return;
-      });
+      }, 'error');
       this.props.statemanager.buyDomainStateDel(domain);
     }
     this.onClose();
@@ -64,34 +59,40 @@ class BuyDomain extends React.Component<IHomeProps>{
     const data2 = await nnstools.buyDomain(domain);
     console.log("data2");
     console.log(data2);
-    const res = await this.prop.home.rechargeandtransfer(data1, data2);
-    if (res && res['errCode']) // 检测是否有对应的通知 changeOwnerInfo
+    if (data1)
     {
-      switch (res['errCode'])
-      {
-        case '0000':// 成功
-          taskmanager.addTask(
-            new Task(
-              TaskType.buyDomain,
-              ConfirmType.recharge,
-              res["txid"],
-              { domain: domain, price: amount }
-            )
-          );
-          return true;
-        case '3001':// 失败
-          break;
-        case '3002':// 失败
-          break;
-      }
+      await this.props.home.reChargeandtransfer(data1, data2);
+      console.log("合并发送交易结果");
+      console.log(JSON.stringify(this.props.home.reChargeResult));
+      if(this.props.home.reChargeResult){
+        switch (this.props.home.reChargeResult.errCode)
+        {
+          case '0000':// 成功
+            taskmanager.addTask(
+              new Task(
+                TaskType.buyDomain,
+                ConfirmType.recharge,
+                this.props.home.reChargeResult.txid,
+                { domain: domain, price: amount }
+              )
+            );
+            return true;
+          case '3001':// 失败
+            break;
+          case '3002':// 失败
+            break;
+        }
+      }            
     }
     return false
   }
   // 下架发送交易
   public onDelistDomain = async () =>
   {
-    console.log("send delist");
     const domain = this.props.home.sellingDomain ? this.props.home.sellingDomain.domain : '';
+    if(domain === ''){
+      return;
+    }
     this.props.statemanager.delistDomainState.push(domain);
     const res = await nnstools.unSaleDomain(domain)
     if (res && res["txid"])
@@ -115,7 +116,7 @@ class BuyDomain extends React.Component<IHomeProps>{
       Alert(this.prop.message.errmsg, this.prop.message.errmsgtip1, this.prop.btn.confirm, () =>
       {
         return;
-      });
+      }, 'error');
       this.props.statemanager.delistDomainStateDel(domain);
     }
   }
@@ -130,11 +131,6 @@ class BuyDomain extends React.Component<IHomeProps>{
   public render()
   {
     const time = this.props.home.sellingDomain ? this.props.home.sellingDomain.ttl : 0;
-    // const btnClassName = classnames('detail-btn',
-    //   {
-    //     'ghost': this.props.home.isOKBuy ? this.props.home.isOKBuy : false,
-    //   })
-    // const btnType = !!!this.props.home.isOKBuy?'ghost':'primary';
     return (
       <div className="saledomain-wrapper">
         <div className="saledomain-box">

@@ -59,8 +59,7 @@ export const rechargeandtransfer = (data1: Uint8Array, data2: Uint8Array) =>
     params: [
       data1.toHexString(),
       data2.toHexString()
-    ],
-    baseUrl: 'common'
+    ]
   }
   return request(opts);
 }

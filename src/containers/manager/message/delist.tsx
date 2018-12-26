@@ -28,10 +28,9 @@ class DelistDomain extends React.Component<IDelistDomainProps, any>
         this.props.onClose();
     }
     // 域名转让发送交易
-    public toDelistOwner = async() => {
-        console.log("send delist");
+    public toDelistDomain = async() => {
         this.props.statemanager.delistDomainState.push(this.props.domain);
-        const res = await nnstools.unSaleDomain(this.props.domain)
+        const res = await nnstools.unSaleDomain(this.props.domain);
         if (res && res["txid"]){
             const txid = res["txid"];            
             taskmanager.addTask(
@@ -49,10 +48,10 @@ class DelistDomain extends React.Component<IDelistDomainProps, any>
             });
         }else
         {
-          Alert(this.prop.message.errmsg, this.prop.message.errmsgtip1, this.prop.btn.confirm, () =>
-          {
-            return;
-          });
+            Alert(this.prop.message.errmsg, this.prop.message.errmsgtip1, this.prop.btn.confirm, () =>
+			{
+				return;
+			}, 'error');
           this.props.statemanager.delistDomainStateDel(this.props.domain);
         }
         this.onCloseDelist();
@@ -65,7 +64,7 @@ class DelistDomain extends React.Component<IDelistDomainProps, any>
                         <Message
                             title={this.prop.manager.delistdomain}
                             onClose={this.onCloseDelist}
-                            onConfirm={this.toDelistOwner}
+                            onConfirm={this.toDelistDomain}
                         >
                             <div className="message-checkagain-box">
                                 <span>

@@ -58,9 +58,10 @@ class Topup extends React.Component<ITopupProps>
 		}
 		else
 		{			
-			Alert(this.prop.message.errmsg, this.prop.message.errmsgtip1, this.prop.btn.confirm, () => {
+			Alert(this.prop.message.errmsg, this.prop.message.errmsgtip1, this.prop.btn.confirm, () =>
+			{
 				return;
-			});
+			}, 'error');
 		}
 	}
 	public componentWillUnmount() {

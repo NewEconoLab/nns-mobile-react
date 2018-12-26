@@ -116,7 +116,7 @@ class DomainMap extends React.Component<IProps, IState>
       Alert(this.prop.message.errmsg, this.prop.message.errmsgtip1, this.prop.btn.confirm, () =>
       {
         return;
-      });
+      }, 'error');
       this.props.statemanager.renewDomainStateDel(this.state.detail.domain);
     }
   }
@@ -148,7 +148,7 @@ class DomainMap extends React.Component<IProps, IState>
       Alert(this.prop.message.errmsg, this.prop.message.errmsgtip1, this.prop.btn.confirm, () =>
       {
         return;
-      });
+      }, 'error');
       this.props.statemanager.setResolverStateDel(this.state.detail.domain);
     }
   }
@@ -162,12 +162,9 @@ class DomainMap extends React.Component<IProps, IState>
   {
     this.props.statemanager.setResolverDataState.push(this.state.detail.domain);
     const res = await nnstools.setResolveData(this.state.detail.domain, this.state.resolverAddr, this.state.detail.resolver);
-    console.log(res);
-
     if (res && res["txid"])
     {
       const txid = res["txid"];
-      alert(this.state.resolverAddr)
       taskmanager.addTask(
         new Task(TaskType.domainMapping, ConfirmType.contract, txid, { domain: this.state.detail.domain, address: this.state.resolverAddr })
       );
@@ -183,7 +180,7 @@ class DomainMap extends React.Component<IProps, IState>
       Alert(this.prop.message.errmsg, this.prop.message.errmsgtip1, this.prop.btn.confirm, () =>
       {
         return;
-      });
+      }, 'error');
       this.props.statemanager.setResolverDataStateDel(this.state.detail.domain);
     }
   }

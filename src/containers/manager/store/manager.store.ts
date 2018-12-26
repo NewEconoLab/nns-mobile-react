@@ -21,7 +21,7 @@ class manager implements IManagerStore {
   @action public getdomainbyaddress = async (address: string) => {
     let result: any = null;
     try {
-      result = await Api.getdomainbyaddress("ATBTRWX8v8teMHCvPXovir3Hy92RPnwdEi");
+      result = await Api.getdomainbyaddress(address);
     } catch (error) {
       this.domainList = [];
       this.filterDomainList = [];
@@ -65,7 +65,7 @@ class manager implements IManagerStore {
       return false;
     }
     console.log(result);
-    this.domainAddress = result ? result[0].data : null;
+    this.domainAddress = result ? result[0] : null;
     return true;
   }
 }

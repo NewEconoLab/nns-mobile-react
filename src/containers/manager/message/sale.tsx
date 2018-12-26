@@ -4,7 +4,7 @@ import { injectIntl } from 'react-intl';
 import '../index.less'
 // import DomainSelling from '@/store/DomainSelling';
 import Alert from '@/components/alert';
-import { Task, ConfirmType, TaskType } from '@/store/interface/taskmanager.interface'; 
+import { Task, ConfirmType, TaskType } from '@/store/interface/taskmanager.interface';
 import taskmanager from '@/store/taskmanager';
 import { IStatemanagerStore } from '@/store/interface/statemanager.interface';
 import Message from '@/components/message';
@@ -17,7 +17,7 @@ interface ISaleDomainProps
     domain: string,
     manager: IManagerStore,
     showSale: boolean,
-    statemanager:IStatemanagerStore,
+    statemanager: IStatemanagerStore,
     onClose: () => void
 }
 
@@ -27,7 +27,7 @@ class SaleDomain extends React.Component<ISaleDomainProps, any>
     public state = {
         salePrice: '', // 出售价格
         checkAgain: 0, // 再次确认,0为第一次确认，1为第二次确认，2为确认完毕
-        isCanSale:true // 按钮是不可出售，false为可点击，true为不可点击
+        isCanSale: true // 按钮是不可出售，false为可点击，true为不可点击
     }
     public prop = this.props.intl.messages;
 
@@ -38,50 +38,51 @@ class SaleDomain extends React.Component<ISaleDomainProps, any>
         this.setState({
             salePrice: '',
             checkAgain: 0,
-            isCanSale:true
+            isCanSale: true
         }, () =>
-        {
-            this.props.onClose();
-        })
+            {
+                this.props.onClose();
+            })
     }
     // 域名出售金额的输入 --todo
     public changeSellingPrice = (value: string) =>
     {
         this.setState({
-            salePrice:value
+            salePrice: value
         })
-        if (/\./.test(value) && value.split('.')[1].length >= 2) {
+        if (/\./.test(value) && value.split('.')[1].length >= 2)
+        {
             this.setState({
-                isCanSale:true
+                isCanSale: true
             })
             return false;
         }
         if (parseFloat(value) <= 0 || value === '')
         {
             this.setState({
-                isCanSale:true
+                isCanSale: true
             })
             return false
         }
         this.setState({
-            isCanSale:false
+            isCanSale: false
         })
         return true
     }
     // 域名出售发送交易--todo
     public toSellDomain = async () =>
     {
-        console.log("send selldomain");
         this.props.statemanager.sellDomainState.push(this.props.domain);
-        const res = await nnstools.saleDomain(this.props.domain,this.state.salePrice)
-        if (res && res["txid"]){
-            const txid = res["txid"];            
+        const res = await nnstools.saleDomain(this.props.domain, this.state.salePrice);
+        if (res && res["txid"])
+        {
+            const txid = res["txid"];
             taskmanager.addTask(
                 new Task(
-                    TaskType.saleDomain, 
-                    ConfirmType.contract, 
-                    txid, 
-                    { domain: this.props.domain,price:this.state.salePrice }
+                    TaskType.saleDomain,
+                    ConfirmType.contract,
+                    txid,
+                    { domain: this.props.domain, price: this.state.salePrice }
                 )
             );
 
@@ -89,13 +90,13 @@ class SaleDomain extends React.Component<ISaleDomainProps, any>
             {
                 console.log("成功了");
             });
-        }else
+        } else
         {
-          Alert(this.prop.message.errmsg, this.prop.message.errmsgtip1, this.prop.btn.confirm, () =>
-          {
-            return;
-          });
-          this.props.statemanager.sellDomainStateDel(this.props.domain);
+            Alert(this.prop.message.errmsg, this.prop.message.errmsgtip1, this.prop.btn.confirm, () =>
+            {
+                return;
+            }, 'error');
+            this.props.statemanager.sellDomainStateDel(this.props.domain);
         }
         this.onCloseSale();
     }
@@ -106,7 +107,7 @@ class SaleDomain extends React.Component<ISaleDomainProps, any>
             checkAgain: 1
         })
     }
-    
+
     public render()
     {
         return (
@@ -144,7 +145,7 @@ class SaleDomain extends React.Component<ISaleDomainProps, any>
                         >
                             <div className="message-checkagain-box">
                                 <span>
-                                {this.prop.manager.sellcheck1}" {this.props.domain} "{this.prop.manager.sellcheck2} " {this.state.salePrice} NNC " {this.prop.manager.sellcheck3}
+                                    {this.prop.manager.sellcheck1}" {this.props.domain} "{this.prop.manager.sellcheck2} " {this.state.salePrice} NNC " {this.prop.manager.sellcheck3}
                                 </span>
                             </div>
                         </Message>

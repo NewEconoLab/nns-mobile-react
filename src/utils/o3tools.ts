@@ -10,7 +10,17 @@ export class O3Tool {
    */
   public sign(data: string, call: any) {
     this.signcall = call
-    o3.requestToSignRawTransaction(data)
+    try {
+      console.log("this is will sign data");      
+      console.log(data);
+      o3.requestToSignRawTransaction(data)
+    } catch (error) {
+      console.log("error------msg");      
+      console.log(error);
+      
+    }
+      
+      // o3.requestToSignRawTransaction(data)
   }
 
   public async initAwait()

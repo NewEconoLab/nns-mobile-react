@@ -146,7 +146,8 @@ export const getnep5asset=(asset: string)=>{
     method:"getnep5asset",
     params:[
       asset
-    ]
+    ],
+    baseUrl: 'common'
   }
   return request(opts);
 }

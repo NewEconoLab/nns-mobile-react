@@ -103,7 +103,7 @@ class ManagerList extends React.Component<IManagerListProps, any>
     const transfering = this.props.statemanager.transferDomainState.includes(this.props.item.domain);
     const selling = this.props.statemanager.sellDomainState.includes(this.props.item.domain);
     const delisting = this.props.statemanager.delistDomainState.includes(this.props.item.domain);
-
+    const sellBtn = transfering||selling||!!this.props.item.resolverAddr;
     return (
       <React.Fragment>
         <div className="">
@@ -128,7 +128,7 @@ class ManagerList extends React.Component<IManagerListProps, any>
                     this.props.item.state !== '0901' && (
                       <div className="edit-btn">
                         <Button
-                          type={(transfering||selling)?"primary":"ghost"}
+                          type={(transfering||selling)?"ghost":"primary"}
                           inline={true}
                           size="small"
                           style={{ width: '105px' }}
@@ -139,22 +139,23 @@ class ManagerList extends React.Component<IManagerListProps, any>
                           transfering ?
                             <Button type="primary" inline={true} size="small" loading={true}>{this.prop.btn.transfering}</Button> :
                             <Button
-                              type={(transfering||selling)?"primary":"ghost"}
+                              type={(transfering||selling)?"ghost":"primary"}
                               inline={true}
                               size="small"
                               style={{ width: '105px' }}
                               onClick={this.onOpenTransfer}
+                              disabled={transfering||selling}
                             >{this.prop.btn.transfer}</Button>
                         }
                         {
                           selling ?
                             <Button type="primary" inline={true} size="small" loading={true}>{this.prop.btn.selling}</Button> :
                             <Button
-                              type={((!this.props.item.resolverAddr)||transfering||selling) ? 'primary' : 'ghost'}
+                              type={sellBtn ? "ghost":"primary"}
                               inline={true}
                               size="small"
                               style={{ width: '105px' }}
-                              disabled={(!this.props.item.resolverAddr)||transfering||selling}
+                              disabled={sellBtn}
                               onClick={this.onOpenSellDomain}
                             >{this.prop.btn.sell}</Button>
                         }
