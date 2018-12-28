@@ -65,7 +65,7 @@ class Withdraw extends React.Component<IWithDrawProps>
 		{			
 			Alert(this.prop.message.errmsg, this.prop.message.errmsgtip1, this.prop.btn.confirm, () => {
 				return;
-			});
+			},'error');
 		}
 		this.btnWait=false;
 		this.btnDis=false;

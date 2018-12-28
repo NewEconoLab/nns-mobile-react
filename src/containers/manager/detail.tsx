@@ -85,7 +85,7 @@ class DomainMap extends React.Component<IProps, IState>
 	public onReNew = async () => {
 		this.props.statemanager.renewDomainState.push(this.state.detail.domain);
 		const res = await nnstools.renewDomain(this.state.detail.domain,DomainSelling.RootNeo.register);
-		if(res && res["txid"])
+		if(res && res["txid"]!=='')
 		{
 			const txid = res[ "txid" ];
 			const time = formatTime.formatUnixTime((this.props.manager.detail as IManagerList).ttl)+365*DomainSelling.day;
@@ -102,7 +102,7 @@ class DomainMap extends React.Component<IProps, IState>
 		{
 			Alert(this.prop.message.errmsg, this.prop.message.errmsgtip1, this.prop.btn.confirm, () => {
 				return;
-			});
+			},'error');
 			this.props.statemanager.renewDomainStateDel(this.state.detail.domain);
 		}
 	}
@@ -114,7 +114,7 @@ class DomainMap extends React.Component<IProps, IState>
 	public onConfirmMessageResolver = async () => {
 		this.props.statemanager.setResolverState.push(this.state.detail.domain);
 		const res = await nnstools.setResolve(this.state.detail.domain,HASH_CONFIG.resolverHash);
-		if(res && res["txid"])
+		if(res && res["txid"]!=='')
 		{
 			const txid = res[ "txid" ];
 			taskmanager.addTask(
@@ -130,7 +130,7 @@ class DomainMap extends React.Component<IProps, IState>
 		{
 			Alert(this.prop.message.errmsg, this.prop.message.errmsgtip1, this.prop.btn.confirm, () => {
 				return;
-			});
+			},'error');
 			this.props.statemanager.setResolverStateDel(this.state.detail.domain);
 		}
 	}
@@ -144,7 +144,7 @@ class DomainMap extends React.Component<IProps, IState>
 		const res = await nnstools.setResolveData(this.state.detail.domain,this.state.resolverAddr,this.state.detail.resolver);
 		console.log(res);
 		
-		if(res && res["txid"])
+		if(res && res["txid"]!=='')
 		{
 			const txid = res[ "txid" ];
 			// alert(this.state.resolverAddr)
@@ -161,7 +161,7 @@ class DomainMap extends React.Component<IProps, IState>
 		{
 			Alert(this.prop.message.errmsg, this.prop.message.errmsgtip1, this.prop.btn.confirm, () => {
 				return;
-			});
+			},'error');
 			this.props.statemanager.setResolverDataStateDel(this.state.detail.domain);
 		}
 	}

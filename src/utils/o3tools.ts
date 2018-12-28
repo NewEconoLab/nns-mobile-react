@@ -10,7 +10,12 @@ export class O3Tool {
    */
   public sign(data: string, call: any) {
     this.signcall = call
-    o3.requestToSignRawTransaction(data)
+    try {
+      o3.requestToSignRawTransaction(data);
+    } catch (error) {
+      return false
+    }  
+    return true;  
   }
 
   public async initAwait()

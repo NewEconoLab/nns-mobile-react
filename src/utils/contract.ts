@@ -101,21 +101,16 @@ export class Contract
     const msg = tran.GetMessage().clone();
     const txidvalue = tran.getTxid();
     // console.log(txidvalue);
-    console.log("-----------------msg to hex");
-    
-    console.log(msg.toHexString());
-    
+    console.log("-----------------msg to hex");    
+    console.log(msg.toHexString());    
+    let result = true;
     const promise = new Promise<{txid:string}>((resolve, reject) =>{
-      o3tools.sign(msg.toHexString(),res =>{
-        console.log("-----------o3 result");
-        
-        console.log(res);
-        
-        console.log("---------------------------------------msg hex");
-        
+      result = o3tools.sign(msg.toHexString(),res =>{
+        console.log("-----------o3 result");        
+        console.log(res);        
+        console.log("---------------------------------------msg hex");        
         console.log(msg.toHexString());
-        console.log('--------------------------- sign result');
-        
+        console.log('--------------------------- sign result');        
         console.log(res);
         
         tran.AddWitness((res as string).hexToBytes(),common.publicKey.hexToBytes(), common.address);
@@ -132,8 +127,11 @@ export class Contract
           // reject(error)
           return {txid:txidvalue};
         })
-      })
+      })     
     })
+    if(!!!result){
+      return {txid:''};
+    }
     return promise;
   }
 }

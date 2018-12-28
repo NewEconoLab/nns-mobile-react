@@ -49,10 +49,7 @@ class Auction extends React.Component<IHomeProps>
     this.setState({ btnWait: true });
     const roothash = nnstools.nameHash(DomainSelling.RootNeo.root);
     const res = await nnstools.startAuciton(DomainSelling.RootNeo.register, roothash, this.props.home.inputModule.inputValue);
-    console.log("open");    
-    console.log(res);
-    
-    if (res['txid'])
+    if (res['txid'] !== '')
     {
       const auction = {} as IAuction;
       auction["auctionId"] = res["txid"];
@@ -75,7 +72,7 @@ class Auction extends React.Component<IHomeProps>
       Alert(this.prop.message.errmsg, this.prop.message.errmsgtip1, this.prop.btn.confirm, () =>
       {
         return;
-      });
+      },'error');  
     }
     this.setState({ btnWait: false });
   }
@@ -94,6 +91,7 @@ class Auction extends React.Component<IHomeProps>
     this.props.home.inputModule.status = '';
     this.props.home.inputModule.message = '';
     this.props.home.inputModule.color = '';
+    this.props.home.isStatus = 0;
   }
   public render()
   {

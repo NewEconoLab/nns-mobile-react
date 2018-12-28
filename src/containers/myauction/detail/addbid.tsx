@@ -92,7 +92,7 @@ class Addbid extends React.Component<IAuctionAddbidProps&IAuctionDetailProps, Is
         try {
             this.setState({btnWait:true});
             const res = await nnstools.raise(auction.auctionId, this.props.myauction.myBid, DomainSelling.RootNeo.register);
-            if (res) {
+            if (res['txid'] !== '') {
                 taskmanager.addTask(new Task(TaskType.raise, ConfirmType.contract, res['txid'], { domain: auction["fulldomain"], amount: this.props.myauction.myBid }))
                 Alert(this.prop.message.successmsg, this.prop.message.waitmsg, this.prop.btn.confirm, () => {
                     return;
@@ -100,9 +100,10 @@ class Addbid extends React.Component<IAuctionAddbidProps&IAuctionDetailProps, Is
             }
             else
             {
-                Alert(this.prop.message.errmsg, this.prop.message.errmsgtip1, this.prop.btn.confirm, () => {
+                Alert(this.prop.message.errmsg, this.prop.message.errmsgtip1, this.prop.btn.confirm, () =>
+                {
                     return;
-                });
+                },'error'); 
             }
             this.setState({btnWait:false});
         } catch (error) {

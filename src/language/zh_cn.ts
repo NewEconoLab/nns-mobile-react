@@ -173,7 +173,7 @@ export default {
     successmsg: "操作成功",
     waitmsg: "操作生效需要区块被确认，请耐心等待...",
     errmsg: "操作失败",
-    errmsgtip1: "请求错误，请稍好再次尝试哦...",
+    errmsgtip1: "请求错误，请稍后再次尝试哦...",
     isok:" 已生效！",
     exchangemsg: '"兑换CGAS ',
     startauctionmsg: '域名开标 ',

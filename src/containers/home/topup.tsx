@@ -49,7 +49,7 @@ class Topup extends React.Component<ITopupProps>
 	public onTopup = async () => {
 		const amount = this.props.topup.inputModule.inputValue
 		const res = await nnstools.rechargeReg(amount);
-		if(res.txid)
+		if(res.txid!=='')
 		{
 			taskmanager.addTask(new Task(TaskType.topup,ConfirmType.tranfer,res.txid,{amount}));
 			Alert(this.prop.message.successmsg, this.prop.message.waitmsg, this.prop.btn.confirm, function () {
@@ -60,7 +60,7 @@ class Topup extends React.Component<ITopupProps>
 		{			
 			Alert(this.prop.message.errmsg, this.prop.message.errmsgtip1, this.prop.btn.confirm, () => {
 				return;
-			});
+			},'error');
 		}
 	}
 	public componentWillUnmount() {
