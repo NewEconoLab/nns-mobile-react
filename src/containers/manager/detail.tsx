@@ -97,7 +97,7 @@ class DomainMap extends React.Component<IProps, IState>
   {
     this.props.statemanager.renewDomainState.push(this.state.detail.domain);
     const res = await nnstools.renewDomain(this.state.detail.domain, DomainSelling.RootNeo.register);
-    if (res && res["txid"])
+    if (res && res["txid"]!=='')
     {
       const txid = res["txid"];
       const time = formatTime.formatUnixTime((this.props.manager.detail as IManagerList).ttl) + 365 * DomainSelling.day;
@@ -130,7 +130,7 @@ class DomainMap extends React.Component<IProps, IState>
   {
     this.props.statemanager.setResolverState.push(this.state.detail.domain);
     const res = await nnstools.setResolve(this.state.detail.domain, HASH_CONFIG.resolverHash);
-    if (res && res["txid"])
+    if (res && res["txid"]!=='')
     {
       const txid = res["txid"];
       taskmanager.addTask(
@@ -162,7 +162,7 @@ class DomainMap extends React.Component<IProps, IState>
   {
     this.props.statemanager.setResolverDataState.push(this.state.detail.domain);
     const res = await nnstools.setResolveData(this.state.detail.domain, this.state.resolverAddr, this.state.detail.resolver);
-    if (res && res["txid"])
+    if (res && res["txid"]!=='')
     {
       const txid = res["txid"];
       taskmanager.addTask(

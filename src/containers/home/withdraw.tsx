@@ -59,7 +59,7 @@ class Withdraw extends React.Component<IWithDrawProps>
 		this.btnDis = true;
 		const amount = parseFloat(this.props.withdraw.inputModule.inputValue);
 		const res = await nnstools.getMoneyBack(amount, DomainSelling.RootNeo.register);
-		if (res.txid)
+		if (res.txid!=='')
 		{
 			taskmanager.addTask(new Task(TaskType.withdraw, ConfirmType.tranfer, res.txid, { amount }));
 			Alert(this.prop.message.successmsg, this.prop.message.waitmsg, this.prop.btn.confirm, function ()

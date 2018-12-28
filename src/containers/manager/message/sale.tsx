@@ -74,7 +74,7 @@ class SaleDomain extends React.Component<ISaleDomainProps, any>
     {
         this.props.statemanager.sellDomainState.push(this.props.domain);
         const res = await nnstools.saleDomain(this.props.domain, this.state.salePrice);
-        if (res && res["txid"])
+        if (res && res["txid"]!=='')
         {
             const txid = res["txid"];
             taskmanager.addTask(

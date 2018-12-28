@@ -82,7 +82,7 @@ class TransferDomain extends React.Component<ITransferDomainProps, any>
     public toTransferOwner = async () => {
         this.props.statemanager.transferDomainState.push(this.props.domain);
         const res = await nnstools.setOwner(this.props.domain,this.state.transferAddress);
-        if (res && res["txid"]){
+        if (res && res["txid"]!==''){
             const txid = res["txid"];            
             taskmanager.addTask(
                 new Task(

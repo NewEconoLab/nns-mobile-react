@@ -21,7 +21,7 @@ class ClaimNNC extends React.Component<IManagerProps, any>
         console.log("send getnnc");
         this.props.statemanager.getSaleNNCState = true;
         const res = await nnstools.getAllMyNNC()
-        if (res && res["txid"])
+        if (res && res["txid"]!=='')
         {
             const txid = res["txid"];
             taskmanager.addTask(

@@ -52,7 +52,7 @@ class Auction extends React.Component<IHomeProps>
     console.log("open");
     console.log(res);
 
-    if (res['txid'])
+    if (res['txid']!=='')
     {
       const auction = {} as IAuction;
       auction["auctionId"] = res["txid"];

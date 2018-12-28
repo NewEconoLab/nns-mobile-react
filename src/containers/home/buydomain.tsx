@@ -95,7 +95,7 @@ class BuyDomain extends React.Component<IHomeProps>{
     }
     this.props.statemanager.delistDomainState.push(domain);
     const res = await nnstools.unSaleDomain(domain)
-    if (res && res["txid"])
+    if (res && res["txid"]!=='')
     {
       const txid = res["txid"];
       taskmanager.addTask(

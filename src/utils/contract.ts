@@ -54,7 +54,7 @@ export class Contract
     const gass = utxos[HASH_CONFIG.ID_GAS];
     const tran: Transaction = new Transaction()
     tran.setScript(script)
-    console.log("fee---------");    
+    console.log("fee---------");  
     console.log(common.fee.toString());
     
     if (gass && common.fee.compareTo(Neo.Fixed8.Zero)>0) {
@@ -71,28 +71,15 @@ export class Contract
     // MarkUtxo.setMark(tran.marks);
     // return data;
     const promise:Promise<Uint8Array> = new Promise((resolve, reject) =>{
-      console.log("sign data :");
-      console.log(msg.toHexString());    
-      o3tools.sign(msg.toHexString(),res =>{    
-        console.log(res);
-        if(res)
-        {            
-          tran.AddWitness((res as string).hexToBytes(),common.publicKey.hexToBytes(), common.address);
-          try {
-            const data: Uint8Array = tran.GetRawData();   
-            MarkUtxo.setMark(tran.marks);
-            resolve(data);
-          } catch (error) {
-            
-            reject(error);
-          }       
-        }
-        else
-        {
-          console.error("签名返回值异常")
-          console.log(res);
-          
-        } 
+      o3tools.sign(msg.toHexString(),res =>{        
+        tran.AddWitness((res as string).hexToBytes(),common.publicKey.hexToBytes(), common.address);
+        try {
+          const data: Uint8Array = tran.GetRawData();   
+          MarkUtxo.setMark(tran.marks);
+          resolve(data);
+        } catch (error) {
+          reject(error);
+        }        
       })
     })
     return promise;
@@ -115,21 +102,16 @@ export class Contract
     const msg = tran.GetMessage().clone();
     const txidvalue = tran.getTxid();
     // console.log(txidvalue);
-    console.log("-----------------msg to hex");
-    
-    console.log(msg.toHexString());
-    
+    console.log("-----------------msg to hex");    
+    console.log(msg.toHexString());    
+    let result = true;
     const promise = new Promise<{txid:string}>((resolve, reject) =>{
-      o3tools.sign(msg.toHexString(),res =>{
-        console.log("-----------o3 result");
-        
-        console.log(res);
-        
-        console.log("---------------------------------------msg hex");
-        
+      result = o3tools.sign(msg.toHexString(),res =>{
+        console.log("-----------o3 result");        
+        console.log(res);        
+        console.log("---------------------------------------msg hex");        
         console.log(msg.toHexString());
-        console.log('--------------------------- sign result');
-        
+        console.log('--------------------------- sign result');        
         console.log(res);
         
         tran.AddWitness((res as string).hexToBytes(),common.publicKey.hexToBytes(), common.address);
@@ -146,8 +128,11 @@ export class Contract
           // reject(error)
           return {txid:txidvalue};
         })
-      })
+      })     
     })
+    if(!!!result){
+      return {txid:''};
+    }
     return promise;
   }
 }

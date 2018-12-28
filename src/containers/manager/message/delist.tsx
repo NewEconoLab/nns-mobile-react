@@ -27,11 +27,11 @@ class DelistDomain extends React.Component<IDelistDomainProps, any>
     public onCloseDelist = () => {
         this.props.onClose();
     }
-    // 域名转让发送交易
+    // 域名下架发送交易
     public toDelistDomain = async() => {
         this.props.statemanager.delistDomainState.push(this.props.domain);
         const res = await nnstools.unSaleDomain(this.props.domain);
-        if (res && res["txid"]){
+        if (res && res["txid"]!==''){
             const txid = res["txid"];            
             taskmanager.addTask(
                 new Task(

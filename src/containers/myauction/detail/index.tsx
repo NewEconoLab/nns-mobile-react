@@ -56,7 +56,7 @@ class DomainDetail extends React.Component<IAuctionDetailProps, IDetailState>
         {
             const data = await nnstools.bidSettlement(this.detail.auctionId, DomainSelling.RootNeo.register);
             const res = await common.sendrawtransaction(data.toHexString());
-            if (res["txid"])
+            if (res["txid"]!=='')
             {
                 const txid = res["txid"];
                 taskmanager.addTask(
