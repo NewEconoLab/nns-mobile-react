@@ -137,7 +137,8 @@ export default {
     msg: "（即将过期）",
     msg2: "（已过期）",
     title2: "域名",
-    noset:"未设置"
+    noset:"未设置",
+    msg1:"您的地址不正确"
   },
   bonus: {
     title: "分红历史",

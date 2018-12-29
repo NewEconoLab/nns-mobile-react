@@ -7,7 +7,9 @@ export interface IState {
   showResolver: boolean,
   showResolverAddr: boolean,
   detail:IDetail,
-  resolverAddr:string
+  inputresolverAddr:string,// 输入映射地址
+  toResoverAddr:string,// 映射地址
+  inputMessage:string
 }
 
 export interface IProps extends RouteComponentProps {

@@ -18,6 +18,7 @@ import Alert from '@/components/alert';
 import DomainSelling from '@/store/DomainSelling';
 import { HASH_CONFIG } from '@/config';
 import { IManagerList } from './interface/index.interface';
+import * as VerifyAddress from '@/utils/verifyAddress'
 
 @inject('manager','statemanager')
 @observer
@@ -33,7 +34,9 @@ class DomainMap extends React.Component<IProps, IState>
 			resolver:"",
 			resolverAddr:""
 		},
-		resolverAddr:""
+		inputresolverAddr:"",// 输入映射地址
+		toResoverAddr:"",// 映射地址		
+		inputMessage:"" // 输入错误提示
 	}
 	public componentDidMount() {
 		if (!this.props.manager.detail) {
@@ -68,9 +71,25 @@ class DomainMap extends React.Component<IProps, IState>
 		
 	}
 	public changeReaolverAddress = (value:string)=>{
+		if(value === ''){
+			return
+		}
 		this.setState({
-			resolverAddr:value
-		})	
+			inputresolverAddr:value
+		})
+		// 验证地址
+		const res = VerifyAddress.verifyAddress(value);
+		if(res){
+			this.setState({
+				toResoverAddr:value,
+				inputMessage:""
+			})	
+		}else{
+			this.setState({
+				toResoverAddr:'',
+				inputMessage:this.prop.manager.msg1
+			})
+		}
 	}
 	public onChangeResolver = () => {
 		this.setState({
@@ -139,9 +158,13 @@ class DomainMap extends React.Component<IProps, IState>
 			showResolverAddr: false
 		})
 	}
+	// 提交映射地址
 	public onConfirmMessageResolverAddr = async () => {
+		if(this.state.toResoverAddr===''){	
+			return
+		}
 		this.props.statemanager.setResolverDataState.push(this.state.detail.domain);
-		const res = await nnstools.setResolveData(this.state.detail.domain,this.state.resolverAddr,this.state.detail.resolver);
+		const res = await nnstools.setResolveData(this.state.detail.domain,this.state.toResoverAddr,this.state.detail.resolver);
 		console.log(res);
 		
 		if(res && res["txid"]!=='')
@@ -149,7 +172,7 @@ class DomainMap extends React.Component<IProps, IState>
 			const txid = res[ "txid" ];
 			// alert(this.state.resolverAddr)
 			taskmanager.addTask(
-				new Task(TaskType.domainMapping,ConfirmType.contract, txid, { domain: this.state.detail.domain, address: this.state.resolverAddr })
+				new Task(TaskType.domainMapping,ConfirmType.contract, txid, { domain: this.state.detail.domain, address: this.state.toResoverAddr })
 			);
 			
 			Alert(this.prop.message.successmsg, this.prop.message.waitmsg, this.prop.btn.confirm, ()=>{ 
@@ -244,7 +267,13 @@ class DomainMap extends React.Component<IProps, IState>
 							onConfirm={this.onConfirmMessageResolverAddr}
 						>
 							<div className="message-resolveraddr-box">
-								<Input type="text" placeholder="" value={this.state.resolverAddr} onChange={this.changeReaolverAddress} />
+								<Input 
+									type="text" 
+									placeholder="" 
+									value={this.state.inputresolverAddr} 
+									onChange={this.changeReaolverAddress} 
+									message={this.state.inputMessage}
+								/>
 							</div>
 						</Message>
 					)

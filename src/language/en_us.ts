@@ -137,7 +137,8 @@ export default {
     msg:"（ Expiring soon ）",
     msg2:"（ Expired ）",
     title2:"Domain",
-    noset:"not configured"
+    noset:"not configured",
+    msg1:"Your address is incorrect."
   },
   bonus:{
     title: "Bonus history",
