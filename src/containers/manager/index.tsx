@@ -27,9 +27,9 @@ class Manager extends React.Component<IManagerProps, any>
       isLoadingMore: false,
       wrapper: null
     }
-  public componentDidMount()
+  public async componentDidMount()
   {
-    this.props.manager.getdomainbyaddress(this.props.common.address);
+    await this.props.manager.getdomainbyaddress(this.props.common.address);    
     window.addEventListener('scroll', this.onScroll, false);
   }
 
@@ -87,11 +87,11 @@ class Manager extends React.Component<IManagerProps, any>
     this.props.manager.modal = false;
     this.props.manager.chooseStatus = this.props.manager.clickSellStatus;
     const list = this.props.manager.domainList;
-    const newList: IManagerList[] = [];
+    let newList: IManagerList[] = [];
     
     if (this.props.manager.chooseStatus.toString() === "0")// 全部
     {
-      this.props.manager.filterDomainList = list;
+      newList = list;
     }
     else if(this.props.manager.chooseStatus.toString() === "1")// 已出售
     {
@@ -114,7 +114,7 @@ class Manager extends React.Component<IManagerProps, any>
     // 输入搜索置空
     this.setState({
       searchValue: ''
-    })    
+    })        
     this.props.manager.filterDomainList = newList;
   }
   public onSearchChange = (value: string) =>
@@ -145,7 +145,7 @@ class Manager extends React.Component<IManagerProps, any>
   {
     const srcImg = (this.props.manager.chooseStatus === '0') ? require('@/img/noselect.png') : require('@/img/yesselect.png');
     return (
-      <div className="manager-wrap" ref={this.listRef}>
+      <div className="manager-wrap box-wrap" ref={this.listRef}>
         {/* 搜索功能 */}
         <React.Fragment>
           <div className="search-box">
@@ -187,7 +187,7 @@ class Manager extends React.Component<IManagerProps, any>
               <p>{this.prop.manager.note2}</p>
             </div>
             <div className="manager-list">
-              {
+              {                
                 this.props.manager.domainListFroPage.map((item: IManagerList, index: number) =>
                 {
                   return <ManagerList item={item} key={index} {...this.props} />;

@@ -27,8 +27,6 @@ class manager implements IManagerStore {
       this.filterDomainList = [];
       return false;
     }
-    console.log("domain by address");    
-    console.log(result);
     this.domainList = result || [];
     this.filterDomainList = result || [];
     return true;

@@ -1,6 +1,6 @@
 import request from 'utils/request';
 import {HASH_CONFIG} from 'config';
-import DomainSelling from '../DomainSelling';
+// import DomainSelling from '../DomainSelling';
 /**
  * 获取nep5的资产（CGAS）
  */
