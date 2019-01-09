@@ -26,58 +26,67 @@ class Withdraw extends React.Component<IWithDrawProps>
 	public prop = this.props.intl.messages;
 	public btnWait = false;
 	public btnDis = false;
-	public componentDidMount() {
+	public componentDidMount()
+	{
 		this.props.withdraw.messages = {
-			msg:this.prop.topup.msg,
-			errmsg:this.prop.topup.errmsg,
+			msg: this.prop.topup.msg,
+			errmsg: this.prop.topup.errmsg,
 		}
-	  }
-	public change = (value: string) => {
+	}
+	public change = (value: string) =>
+	{
 
-		if(/\./.test(value) && value.split('.')[1].length > 8) {
+		if (/\./.test(value) && value.split('.')[1].length > 8)
+		{
 			return false;
 		}
 		this.props.withdraw.inputModule = {
-			inputValue:value,
+			inputValue: value,
 		}
 
 		return true;
 	}
-	public onGetAll = () => {
+	public onGetAll = () =>
+	{
 		this.props.withdraw.inputModule = {
-			inputValue:this.props.common.accountBalance
+			inputValue: this.props.common.accountBalance
 		}
 	}
-	public onWithDraw = async () => {
+	public onWithDraw = async () =>
+	{
 		// todo
 		this.btnWait = true;
 		this.btnDis = true;
 		const amount = parseFloat(this.props.withdraw.inputModule.inputValue);
-		const res = await nnstools.getMoneyBack(amount,DomainSelling.RootNeo.register);
-		if(res.txid)
+		const res = await nnstools.getMoneyBack(amount, DomainSelling.RootNeo.register);
+		if (res.txid!=='')
 		{
-			taskmanager.addTask(new Task(TaskType.withdraw,ConfirmType.tranfer,res.txid,{amount}));
-			Alert(this.prop.message.successmsg, this.prop.message.waitmsg, this.prop.btn.confirm, function () {
+			taskmanager.addTask(new Task(TaskType.withdraw, ConfirmType.tranfer, res.txid, { amount }));
+			Alert(this.prop.message.successmsg, this.prop.message.waitmsg, this.prop.btn.confirm, function ()
+			{
 				return;
-			  });	
+			});
 		}
 		else
-		{			
-			Alert(this.prop.message.errmsg, this.prop.message.errmsgtip1, this.prop.btn.confirm, () => {
+		{
+			Alert(this.prop.message.errmsg, this.prop.message.errmsgtip1, this.prop.btn.confirm, () =>
+			{
 				return;
-			},'error');
+			}, 'error');
 		}
-		this.btnWait=false;
-		this.btnDis=false;
+		this.btnWait = false;
+		this.btnDis = false;
 	}
-	public componentWillUnmount() {
-    this.props.withdraw.inputModule.inputValue = '';
-    this.props.withdraw.inputModule.status = '';
-    this.props.withdraw.inputModule.message = '';
-    this.props.withdraw.inputModule.color = '';
-  }
+	public componentWillUnmount()
+	{
+		this.props.withdraw.inputModule.inputValue = '';
+		this.props.withdraw.inputModule.status = '';
+		this.props.withdraw.inputModule.message = '';
+		this.props.withdraw.inputModule.color = '';
+	}
 	// 发送交易接口sendrawtransaction 传参：已附加签名鉴证的txHex
-	public render() {
+	public render()
+	{
 		this.btnDis = this.props.withdraw.inputModule.color !== '' || !this.props.withdraw.inputModule.inputValue || parseFloat(this.props.withdraw.inputModule.inputValue) === 0;
 		return (
 			<div className="topup-wrap">
@@ -114,7 +123,7 @@ class Withdraw extends React.Component<IWithDrawProps>
 				</div>
 				<div className="topup-footer">
 					<WingBlank>
-						<Button 
+						<Button
 							type="primary"
 							loading={this.btnWait}
 							disabled={this.btnDis}

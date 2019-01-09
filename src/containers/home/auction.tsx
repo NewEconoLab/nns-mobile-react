@@ -49,7 +49,7 @@ class Auction extends React.Component<IHomeProps>
     this.setState({ btnWait: true });
     const roothash = nnstools.nameHash(DomainSelling.RootNeo.root);
     const res = await nnstools.startAuciton(DomainSelling.RootNeo.register, roothash, this.props.home.inputModule.inputValue);
-    if (res['txid'] !== '')
+    if (res['txid']!=='')
     {
       const auction = {} as IAuction;
       auction["auctionId"] = res["txid"];
@@ -72,17 +72,17 @@ class Auction extends React.Component<IHomeProps>
       Alert(this.prop.message.errmsg, this.prop.message.errmsgtip1, this.prop.btn.confirm, () =>
       {
         return;
-      },'error');  
+      }, 'error');
     }
     this.setState({ btnWait: false });
   }
-  public onRaiseAuction = async () => 
+  public onRaiseAuction = async () =>
   {
     await this.props.home.getAuctionInfo();
     this.props.myauction.detail = this.props.home.auctionInfo;
   }
-  public onLookDomain = async () => {
-    await this.props.home.getSaleDomainInfo();
+  public onLookDomain = async () =>
+  {
     this.props.home.isShowSaleBox = true;
   }
   public componentWillUnmount()
@@ -114,7 +114,7 @@ class Auction extends React.Component<IHomeProps>
         {
           this.props.home.inputModule.status !== 'error' &&
           <WingBlank>
-            {/* 0 默认活着不可用(已结束)，1 未使用（可开拍），2 正在竞拍(可加价),3 可购买,4为开标中 */}            
+            {/* 0 默认活着不可用(已结束)，1 未使用（可开拍），2 正在竞拍(可加价),3 可购买,4为开标中 */}
             {
               this.props.home.isStatus === 1 &&
               (
@@ -127,18 +127,18 @@ class Auction extends React.Component<IHomeProps>
               this.props.home.isStatus === 2 &&
               <Link to="/auction/detail"><Button type="primary" onClick={this.onRaiseAuction}>{this.prop.btn.join}</Button></Link>
             }
-            {/* {
+            {
               this.props.home.isStatus === 3 &&
               (
-                <Button type="primary" onClick={this.onLookDomain}>查看详情</Button>
+                <Button type="primary" onClick={this.onLookDomain}>{this.prop.btn.lookinfo}</Button>
               )
-            }      */}
+            }
             {
               this.props.home.isStatus === 4 &&
               (
                 <Button type="primary" loading={true}>{this.prop.btn.startauction}</Button>
               )
-            }        
+            }
           </WingBlank>
         }
       </div>

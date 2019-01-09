@@ -2,6 +2,7 @@ import { RouteComponentProps } from 'react-router-dom';
 import {ICommonStore} from '@/store/interface/common.interface';
 import { IAuction } from '@/store/interface/auction.interface';
 import { IMyAuctionStore } from '@/containers/myauction/interface/index.interface';
+import { IStatemanagerStore } from '@/store/interface/statemanager.interface';
 export interface IGriddataItem {
   icon:string,
   text:string,
@@ -29,11 +30,13 @@ export interface IHomeStore {
   messages:IMessages,
   auctionInfo:IAuction,
   sellingDomain:ISaleDomainInfo|null,
-  isOKSale:boolean,
+  isOKBuy:boolean,
   isShowSaleBox:boolean,
+  reChargeResult:IRechargeResult|null,
   getAuctionInfo:() => Promise<boolean>,
   getSaleDomainInfo:() => Promise<boolean>,
-  getnep5balanceofaddress:() => Promise<boolean>
+  getnep5balanceofaddress:() => Promise<boolean>,
+  reChargeandtransfer:(data1: Uint8Array, data2: Uint8Array) => Promise<boolean>
 }
 
 
@@ -42,6 +45,7 @@ export interface IHomeProps extends RouteComponentProps {
   common:ICommonStore,
   home:IHomeStore,
   myauction:IMyAuctionStore,
+  statemanager:IStatemanagerStore,
 }
 
 export interface ISaleDomainInfo {
@@ -50,4 +54,10 @@ export interface ISaleDomainInfo {
   ttl: number,
   price: string,
   state: string
+}
+
+export interface IRechargeResult {
+  errCode:string,
+  errMessage:string,
+  txid:string
 }

@@ -1,5 +1,5 @@
 import { observable, autorun, action } from 'mobx';
-import { IHomeStore, InputModule, IMessages, ISaleDomainInfo } from '../interface/home.interface';
+import { IHomeStore, InputModule, IMessages, ISaleDomainInfo, IRechargeResult } from '../interface/home.interface';
 import * as Api from '../api/home.api';
 import { IAuction, IAuctionAddress, AuctionState } from '@/store/interface/auction.interface';
 import common from '@/store/common';
@@ -25,8 +25,9 @@ class Home implements IHomeStore
 
   @observable public auctionInfo: IAuction;
   @observable public sellingDomain: ISaleDomainInfo | null = null;
-  @observable public isOKSale: boolean = false; // 购买按钮
+  @observable public isOKBuy: boolean = false; // 购买按钮 默认不可购买
   @observable public isShowSaleBox:boolean = false; // 购买弹筐
+  @observable public reChargeResult:IRechargeResult|null = null;
   constructor()
   {
     autorun(() =>
@@ -167,7 +168,9 @@ class Home implements IHomeStore
     }
     return true
   }
-
+  /**
+   * 查询出售域名的详情
+   */
   @action public async getSaleDomainInfo()
   {
     let result: any = null;
@@ -182,6 +185,9 @@ class Home implements IHomeStore
     this.sellingDomain = result ? result[0] : null;
     return true;
   }
+  /**
+   * 查询当前地址的NNC资产
+   */
   @action public async getnep5balanceofaddress()
   {
     let result: any = null;
@@ -190,27 +196,46 @@ class Home implements IHomeStore
       result = await Api.getnep5balanceofaddress(HASH_CONFIG.ID_NNC.toString(), common.address);
     } catch (error)
     {
-      this.isOKSale = false; 
+      this.isOKBuy = false; 
       return error;
     }
+    
     if (this.sellingDomain && result)
     {
-      // this.nncAmount = res.nep5balance;
       const salePrice = parseFloat(this.sellingDomain.price);
-      const nnc = parseFloat(result.nep5balance);
-      if (salePrice > nnc)
+      const nnc = parseFloat(result[0].nep5balance);
+      if (salePrice > nnc)// 钱不够
       {
-        this.isOKSale = false;
-      } else
+        this.isOKBuy = false;
+      } else // 钱够
       {
-        this.isOKSale = true;
+        this.isOKBuy = true;
       }
     }
-    else
+    else // 没有钱
     {
-      this.isOKSale = false;
+      this.isOKBuy = false;
     }
     return true;
+  }
+  /**
+   * 两笔交易提交给服务器发送
+   * @param data1 第一笔交易数据
+   * @param data2 第二笔交易数据
+   */
+  @action public async reChargeandtransfer(data1: Uint8Array, data2: Uint8Array)
+  {
+    let result: any = null;
+    try
+    {
+      result = await Api.rechargeandtransfer(data1,data2);
+    } catch (error)
+    {
+      this.reChargeResult = null;
+      return error;
+    }
+    this.reChargeResult = result[0]||null;  
+    return result;
   }
 }
 // 外部使用require

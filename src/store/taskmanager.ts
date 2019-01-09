@@ -20,6 +20,10 @@ class TaskManager implements ITaskmanagerStore
         [TaskType.domainMapping]:`setResolverData`,
         [TaskType.domainResovle]:`changeOwnerInfo`,
         [TaskType.domainRenewal]:`changeOwnerInfo`,
+        [TaskType.tranfer]:`changeOwnerInfo`,
+        [TaskType.saleDomain]:`NNSfixedSellingLaunched`,
+        [TaskType.unSaleDomain]:`NNSfixedSellingDiscontinued`,
+        [TaskType.getMyNNC]:`getMoneyBack`,     
     }
 
     constructor()
@@ -112,7 +116,10 @@ class TaskManager implements ITaskmanagerStore
             }
             if(task.state !== TaskState.watting)
             {
-                TaskTool.stateUpdate(task);
+                // 延迟15秒更新状态
+                setTimeout(() => {
+                    TaskTool.stateUpdate(task);
+                }, 15000);                
             }
             return task;
         });

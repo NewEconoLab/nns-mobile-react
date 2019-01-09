@@ -12,11 +12,11 @@ export default {
     '/topup': '充值',
     '/withdraw': '提取',
     '/traderecord': '域名交易记录',
-    '/setting':'设置',
-    '/language':'语言设置'
+    '/setting': '设置',
+    '/language': '语言设置'
   },
-  header:{
-    back:'返回'
+  header: {
+    back: '返回'
   },
   btn: {
     withdraw: "提取",
@@ -42,11 +42,23 @@ export default {
     starting: "开标中...",
     join: "参与竞拍",
     gotit: "我知道了",
-    select:"筛选",
-    apply:"申请",
-    applying:"已申请",
-    applyed:"已发放",
-    save:"保存"
+    select: "筛选",
+    apply: "申请",
+    applying: "已申请",
+    applyed: "已发放",
+    save: "保存",
+    sell: "出售",
+    selling: "出售中",
+    delist: "下架",
+    delisting: "下架中",
+    check: "确认",
+    lookinfo: "查看详情",
+    buy: "购买",
+    claim: "提取",
+    claimnncing: "提取中",
+    edit: "编辑",
+    transfer: "转让",
+    transfering: "转让中"
   },
   home: {
     action: {
@@ -58,18 +70,25 @@ export default {
       bonus: '我的分红',
       record: '操作记录',
       traderecord: '域名交易记录',
-      setting:'设置',
+      setting: '设置',
     },
     account: {
       title: "竞拍账户",
     },
     auction: {
       title: "NNS域名竞拍",
-      errmsg1: "域名必须为字母和数字，长度在6～32个字符之间",
+      errmsg1: "域名必须为字母和数字，长度在2～32个字符之间",
       errmsg2: "该域名已经被别人拥有啦",
       successmsg: "该域名可以使用",
       successmsg2: '该域名正在进行竞拍',
-      successmsg3:'该域名正在出售中'
+      successmsg3: '该域名正在出售中'
+    },
+    buy: {
+      title: "域名详情",
+      domain: "域名：",
+      time: "域名到期时间：",
+      price: "出售价格：",
+      unbuy: "（余额不足）"
     }
   },
   topup: {
@@ -107,9 +126,9 @@ export default {
     ended: "已结束",
     other: "他人",
     me: "我",
-    all:"全部",
-    selecttype:"选择筛选状态",
-    selecttype2:"选择筛选出价人",
+    all: "全部",
+    selecttype: "选择筛选状态",
+    selecttype2: "选择筛选出价人",
     tip1: "确定期为竞拍第一阶段，时长为3天，此期间所有的出价都有效。当确定期最后一天有人出价时将触发最大时长为2天的随机期。否则竞拍即在确定期结束。",
     tip2: " 随机期为竞拍第二阶段，最大时长为2天，此期间任意一个出价都有可能触发该域名竞拍的结束从而出价无效，越靠后的出价触发结束的可能性越大，因此请尽早出价以免错失该域名。",
     info: {
@@ -138,7 +157,35 @@ export default {
     msg2: "（已过期）",
     title2: "域名",
     noset:"未设置",
-    msg1:"您的地址不正确"
+    msg1:"您的地址不正确",
+    search: "按域名查找",
+    selecttype: "选择筛选状态",
+    all: "全部",
+    selltype: "上架中",
+    unselltype: "未出售",
+    myIncome: "我的收入",
+    unclaimed: "未提取的NNC",
+    note: "注意 : 出售域名所获的NNC会显示在这里，您可以点击提取按钮，将其提取至您的钱包余额。",
+    note2: "注意 : 如果您要出售您的地址，请确保域名的地址映射栏处于未配置的状态（设置过的域名请在在编辑页中使用重置功能。）",
+    domainsell: "域名出售",
+    selltips: "注意 : 出售中的域名将会在域名过期后自动下架，请注意对快到期的域名进行下架并续约，以免错失域名。",
+    domainname: "域名",
+    setprice: "出售价格（NNC）",
+    delistcheck1: "您确定要将",
+    delistcheck2: "下架吗？",
+    transfercheck1: "您确定要将",
+    transfercheck2: "转让给",
+    transfercheck3: "吗？",
+    sellcheck1: "您确定要将",
+    sellcheck2: "以",
+    sellcheck3: "的价格出售吗？",
+    domaintransfer: "转让域名",
+    transferto: "转让至",
+    timeMsg: "有效期至: ",
+    sellplaceholder: "请输入您想出售的价格",
+    transferplaceholder: "请输入您想转让至的地址",
+    selldomain: "出售域名",
+    delistdomain: "域名下架"
   },
   bonus: {
     title: "分红历史",
@@ -146,9 +193,9 @@ export default {
     pool: "奖金池快照：",
     mytotal: "我的NNC总量：",
     time: "快照时间：",
-    bonus:"分红",
-    tips:"注意：为了防止自动分红所造成的网络拥堵，我们在NNS分红上增加了手动申请的步骤，您需要点击申请来获得您的分红，分红会在您申请的一周内发放。",
-    blocktime:"时间："
+    bonus: "分红",
+    tips: "注意：为了防止自动分红所造成的网络拥堵，我们在NNS分红上增加了手动申请的步骤，您需要点击申请来获得您的分红，分红会在您申请的一周内发放。",
+    blocktime: "时间："
   },
   record: {
     title: "操作记录",
@@ -169,28 +216,44 @@ export default {
     successmsg: "已确认",
     resolver: "确认地址解析器：",
     mapping: "地址映射：",
+    list: "上架",
+    delist: "下架",
+    buy: "购买",
+    claimnnc: "提取NNC",
+    domaintransfer: "转让域名",
+  },
+  traderecord: {
+    mysell: "我出售的",
+    mybuy: "我购买的",
+    selltime: "交易时间：",
+    sellprice: "交易金额：",
   },
   message: {
     successmsg: "操作成功",
     waitmsg: "操作生效需要区块被确认，请耐心等待...",
     errmsg: "操作失败",
-    errmsgtip1: "请求错误，请稍后再次尝试哦...",
-    isok:" 已生效！",
-    exchangemsg: '"兑换CGAS ',
-    startauctionmsg: '域名开标 ',
-    raisebidmsg: '域名加价 ',
-    claimdomainmsg: '领域域名 ',
-    reclaimmsg: '领回CGAS ',
-    topupmsg: '充值 ',
-    withdrawmsg: '提取 ',
-    editdomainmsg: '设置地址解析器 ',
-    editdomainmsg2: '地址映射 ',
-    editdomainmsg3: '续约域名 ',
-    isnotok:" 未生效！请再次尝试！",
-    empty:"这里是空的"
+    errmsgtip1: "请求错误，请稍好再次尝试哦...",
+    isok: " 已生效！",
+    exchangemsg: '"兑换CGAS" ',
+    startauctionmsg: '"域名开标" ',
+    raisebidmsg: '"域名加价" ',
+    claimdomainmsg: '"领域域名" ',
+    reclaimmsg: '"领回CGAS" ',
+    topupmsg: '"充值" ',
+    withdrawmsg: '"提取" ',
+    editdomainmsg: '"设置地址解析器" ',
+    editdomainmsg2: '"地址映射" ',
+    editdomainmsg3: '"续约域名" ',
+    isnotok: " 未生效！请再次尝试！",
+    empty: "这里是空的",
+    listmsg: '"上架" ',
+    delistmsg: '"下架" ',
+    buymsg: '"购买" ',
+    claimnncmsg: '"提取NNC" ',
+    domaintransfermsg: '"转让域名" ',
   },
-  setting:{
-    title:'语言设置',
-    language:"当前语言："
+  setting: {
+    title: '语言设置',
+    language: "当前语言："
   }
 }

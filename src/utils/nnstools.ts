@@ -298,7 +298,6 @@ export class nnstools
     {
         const who = new Neo.Uint160(ThinNeo.Helper.GetPublicKeyScriptHash_FromAddress(common.address).buffer as ArrayBuffer);
         const toWho = new Neo.Uint160(ThinNeo.Helper.GetPublicKeyScriptHash_FromAddress(newOwner).buffer as ArrayBuffer);
-
         const nnshash: Neo.Uint256 = nnstools.nameHashArray(domain.split("."));
         const scriptaddress = HASH_CONFIG.baseContract;
         try
@@ -358,14 +357,14 @@ export class nnstools
         arr[0] = "(str)" + arr[0]
         arr[1] = "(str)" + arr[1]
         const scriptaddress = HASH_CONFIG.saleContract;
-        const count = parseFloat(price).toFixed(result.decimals).replace(".", "");
+        const count = parseFloat(price).toFixed(result[0].decimals).replace(".", "");
         try
         {
             const sb = Contract.buildScript_random(
                 scriptaddress,
                 "launch",
                 [
-                    // arr,
+                    arr,
                     "(int)" + count
                 ]
             );
@@ -382,14 +381,13 @@ export class nnstools
      */
     public static async registerNNC(amount)
     {
-        const result = await commonAPI.getnep5asset(HASH_CONFIG.ID_NNC.toString());
+        const result = await commonAPI.getnep5asset(HASH_CONFIG.ID_NNC.toString());    
         if (!result)
         {
-            return;
+            return false;
         }
         const register = HASH_CONFIG.saleContract;
-        // const amount = Neo.Fixed8.fromNumber(0.1333333);
-        const value = parseFloat(amount).toFixed(result.decimals).replace(".", "");
+        const value = parseFloat(amount).toFixed(result[0].decimals).replace(".", "");
         const addressto = ThinNeo.Helper.GetAddressFromScriptHash(register);
         const sb = Contract.buildScript_random(
             HASH_CONFIG.ID_NNC,
@@ -409,10 +407,10 @@ export class nnstools
         sb.Emit(ThinNeo.OpCode.PACK);
         sb.EmitPushString("setMoneyIn");
         sb.EmitAppCall(register);
-        const script = sb.ToArray();
+        const script = sb.ToArray();        
         try
         {
-            const res = await Contract.contractInvokeTrans_attributes(script);
+            const res = await Contract.buildInvokeTrans_attributes(script);
             if (res)
             {
                 return res;
@@ -424,7 +422,7 @@ export class nnstools
         } catch (error)
         {
             // alert(JSON.stringify(error));
-            throw new Error(error);
+            throw error;
         }
     }
     /**
@@ -447,7 +445,7 @@ export class nnstools
                     "(hex256)" + domainHash.toString()
                 ]
             );
-            const res = await Contract.contractInvokeTrans_attributes(sb.ToArray());
+            const res = await Contract.buildInvokeTrans_attributes(sb.ToArray());
             return res;
         } catch (error)
         {

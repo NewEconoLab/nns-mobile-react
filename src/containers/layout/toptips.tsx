@@ -13,17 +13,22 @@ interface IProps {
 @observer
 export default class TopTips extends React.Component<IProps> {
   public textList = {
-    startAuction: (domain,isok) => `${this.props.locale.startauctionmsg}${domain}${isok?this.props.locale.isok:this.props.locale.isnotok}`,
-    raise: (msg,isok) => `${this.props.locale.raisebidmsg}域名加价 ${msg.domain} （ ${msg.amount} CGAS ）${isok?this.props.locale.isok:this.props.locale.isnotok}`,// 资产更新 在tx交易成功后添加资产更新任务，资产更新立即执行
-    topup: (amount,isok) => `${this.props.locale.topupmsg}充值 ${amount}${isok?this.props.locale.isok:this.props.locale.isnotok}`,// 充值
-    withdraw: (amount,isok) => `${this.props.locale.withdrawmsg}提取 ${amount}${isok?this.props.locale.isok:this.props.locale.isnotok}`,// 退款
-    domainRenewal: (domain,isok) => `${this.props.locale.editdomainmsg3}续约域名 ${domain}${isok?this.props.locale.isok:this.props.locale.isnotok}`,// 域名续约
-    domainMapping: (msg,isok) => `${this.props.locale.editdomainmsg2}地址映射 ${msg.domain} ( ${msg.address.replace(/^(\w{6})(.*)(\w{6})$/, '$1...$3')} )${isok?this.props.locale.isok:this.props.locale.isnotok}`,// 域名映射
-    domainResovle: (domain,isok) => `${this.props.locale.editdomainmsg}设置地址解析器  ${domain}${isok?this.props.locale.isok:this.props.locale.isnotok}`,// 域名合约地址
-    gasToSgas: (amount,isok) => `${this.props.locale.exchangemsg}兑换CGAS ( ${amount} GAS → ${amount} CGAS )${isok?this.props.locale.isok:this.props.locale.isnotok}`,// gas转sgas
-    sgasToGas: (amount,isok) => `${this.props.locale.exchangemsg}兑换GAS ( ${amount} CGAS → ${amount} GAS ) ${isok?this.props.locale.isok:this.props.locale.isnotok}`,// sgas转gas
-    collectDomain: (domain,isok) => `${this.props.locale.claimdomainmsg}领域域名 ${domain}${isok?this.props.locale.isok:this.props.locale.isnotok}`,// 领取域名
-    recoverCgas: (amount,isok) => `${this.props.locale.reclaimmsg}领回CGAS ${amount}${isok?this.props.locale.isok:this.props.locale.isnotok}`,// 退回sgas
+    startAuction: (domain,isok) => `${this.props.locale.startauctionmsg}${domain}${isok?this.props.locale.isok:this.props.locale.isnotok}`,// 开标
+    raise: (msg,isok) => `${this.props.locale.raisebidmsg}${msg.domain} （ ${msg.amount} CGAS ）${isok?this.props.locale.isok:this.props.locale.isnotok}`,// 资产更新 在tx交易成功后添加资产更新任务，资产更新立即执行
+    topup: (amount,isok) => `${this.props.locale.topupmsg}${amount}${isok?this.props.locale.isok:this.props.locale.isnotok}`,// 充值
+    withdraw: (amount,isok) => `${this.props.locale.withdrawmsg}${amount}${isok?this.props.locale.isok:this.props.locale.isnotok}`,// 退款
+    domainRenewal: (domain,isok) => `${this.props.locale.editdomainmsg3}${domain}${isok?this.props.locale.isok:this.props.locale.isnotok}`,// 域名续约
+    domainMapping: (msg,isok) => `${this.props.locale.editdomainmsg2}${msg.domain} ( ${msg.address.replace(/^(\w{6})(.*)(\w{6})$/, '$1...$3')} )${isok?this.props.locale.isok:this.props.locale.isnotok}`,// 域名映射
+    domainResovle: (domain,isok) => `${this.props.locale.editdomainmsg}${domain}${isok?this.props.locale.isok:this.props.locale.isnotok}`,// 域名合约地址
+    gasToSgas: (amount,isok) => `${this.props.locale.exchangemsg}( ${amount} GAS → ${amount} CGAS )${isok?this.props.locale.isok:this.props.locale.isnotok}`,// gas转sgas
+    sgasToGas: (amount,isok) => `${this.props.locale.exchangemsg}( ${amount} CGAS → ${amount} GAS ) ${isok?this.props.locale.isok:this.props.locale.isnotok}`,// sgas转gas
+    collectDomain: (domain,isok) => `${this.props.locale.claimdomainmsg}${domain}${isok?this.props.locale.isok:this.props.locale.isnotok}`,// 领取域名
+    recoverCgas: (amount,isok) => `${this.props.locale.reclaimmsg}${amount}${isok?this.props.locale.isok:this.props.locale.isnotok}`,// 退回sgas
+    transferDomain:(msg,isok) => `${this.props.locale.domaintransfermsg}${msg.domain} ( ${msg.address.replace(/^(\w{6})(.*)(\w{6})$/, '$1...$3')} )${isok?this.props.locale.isok:this.props.locale.isnotok}`,// 域名转让
+    saleDomain: (msg,isok) => `${this.props.locale.listmsg}${msg.domain} （ ${msg.price} NNC ）${isok?this.props.locale.isok:this.props.locale.isnotok}`,// 域名出售
+    buyDomain: (msg,isok) => `${this.props.locale.buymsg}${msg.domain} （ ${msg.price} NNC ）${isok?this.props.locale.isok:this.props.locale.isnotok}`,// 域名购买
+    getNNC: (amount,isok) => `${this.props.locale.claimnncmsg}${amount}${isok?this.props.locale.isok:this.props.locale.isnotok}`,// 提取nnc
+    delistDomain: (domain,isok) => `${this.props.locale.delistmsg}${domain}${isok?this.props.locale.isok:this.props.locale.isnotok}`,// 下架
   }
   public renderNoticeText = () => {
     const item = this.props.taskmanager.selfTask;
@@ -108,6 +113,41 @@ export default class TopTips extends React.Component<IProps> {
         return this.textList.recoverCgas(item.message.amount,true);
       }else{
         return this.textList.recoverCgas(item.message.amount,false);
+      }
+    }
+    if(item.taskType === TaskType.tranfer) {
+      if(item.state === 1) {
+        return this.textList.transferDomain(item.message,true);
+      }else{
+        return this.textList.transferDomain(item.message,false);
+      }
+    }
+    if(item.taskType === TaskType.saleDomain) {
+      if(item.state === 1) {
+        return this.textList.saleDomain(item.message,true);
+      }else{
+        return this.textList.saleDomain(item.message,false);
+      }
+    }
+    if(item.taskType === TaskType.buyDomain) {
+      if(item.state === 1) {
+        return this.textList.buyDomain(item.message,true);
+      }else{
+        return this.textList.buyDomain(item.message,false);
+      }
+    }
+    if(item.taskType === TaskType.getMyNNC) {
+      if(item.state === 1) {
+        return this.textList.getNNC(item.message.amount,true);
+      }else{
+        return this.textList.getNNC(item.message.amount,false);
+      }
+    }
+    if(item.taskType === TaskType.unSaleDomain) {
+      if(item.state === 1) {
+        return this.textList.delistDomain(item.message.domain,true);
+      }else{
+        return this.textList.delistDomain(item.message.domain,false);
       }
     }
 

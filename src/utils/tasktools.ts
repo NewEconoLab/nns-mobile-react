@@ -111,6 +111,21 @@ export class TaskTool
             case TaskType.domainMapping:
                 statemanager.setResolverDataStateDel(task.message["domain"]);
                 break;
+            case TaskType.domainTransfer:
+                statemanager.transferDomainStateDel(task.message["domain"]);
+                break;
+            case TaskType.saleDomain:
+                statemanager.sellDomainStateDel(task.message["domain"]);
+                break;
+            case TaskType.unSaleDomain:
+                statemanager.delistDomainStateDel(task.message["domain"]);
+                break;
+            case TaskType.buyDomain:
+                statemanager.buyDomainStateDel(task.message["domain"]);
+                break;
+            case TaskType.getMyNNC:
+                statemanager.getSaleNNCStateDel();
+                break;
             default:
                 break;
         }

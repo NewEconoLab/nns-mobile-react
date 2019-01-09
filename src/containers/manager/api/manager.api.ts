@@ -24,3 +24,16 @@ export const getNNCfromSellingHash = (address:string)=>{
   }
   return request(opts);
 }
+/**
+ * 查询域名映射地址
+ * @param domain 域名
+ */
+export const getresolvedaddress = (domain:string)=>{
+  const opts = {
+    method:"getresolvedaddress",
+    params:[
+      domain
+    ]
+  }
+  return request(opts);
+}

@@ -27,7 +27,7 @@ export const getregisteraddressbalance =  (address:string) => {
    params:[
     address,
     // "0x"+HASH_CONFIG.accountCGAS.toString()
-    "0x"+DomainSelling.RootNeo.register.toString()
+    // "0x"+DomainSelling.RootNeo.register.toString()
    ]
   }
   return request(opts);
@@ -148,7 +148,8 @@ export const getnep5asset=(asset: string)=>{
     method:"getnep5asset",
     params:[
       asset
-    ]
+    ],
+    baseUrl: 'common'
   }
   return request(opts);
 }

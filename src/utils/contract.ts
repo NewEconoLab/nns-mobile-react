@@ -30,7 +30,7 @@ export class Contract
      * @param method 方法名
      * @param param 参数
      */
-    public static buildScript_random(appCall: Neo.Uint160|Uint8Array, method: string, param: string[]): ThinNeo.ScriptBuilder
+    public static buildScript_random(appCall: Neo.Uint160|Uint8Array, method: string, param: any[]): ThinNeo.ScriptBuilder
     {
         const sb = new ThinNeo.ScriptBuilder();
         // 生成随机数
@@ -54,6 +54,7 @@ export class Contract
     const gass = utxos[HASH_CONFIG.ID_GAS];
     const tran: Transaction = new Transaction()
     tran.setScript(script)
+    console.log("fee---------");  
     console.log(common.fee.toString());
     
     if (gass && common.fee.compareTo(Neo.Fixed8.Zero)>0) {
