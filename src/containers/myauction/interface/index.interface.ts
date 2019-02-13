@@ -1,6 +1,6 @@
 import { RouteComponentProps } from 'react-router-dom';
 import {ICommonStore} from '@/store/interface/common.interface'
-import { IAuction,IAuctionListStore } from '@/store/interface/auction.interface';
+import { IAuction } from '@/store/interface/auction.interface';
 import { IStatemanagerStore } from '@/store/interface/statemanager.interface';
 
 export interface IProps extends RouteComponentProps{
@@ -25,7 +25,7 @@ export interface IAuctionState {
 
 
 export interface IAuctionProps extends RouteComponentProps{
-  auctionmanager:IAuctionListStore,
+  // auctionmanager:IAuctionListStore,
   common:ICommonStore,
   myauction:IMyAuctionStore,
   intl:any
@@ -47,8 +47,13 @@ export interface IMyAuctionStore {
   peopleValue:string,
   clickStatus:string,
   clickPeople:string,
-  setDetail:(detail:IAuction)=>void,
-  // getauctioninfobyaddress:(address:string)=>Promise<boolean>,
+  pageIndex: number,
+  pageSize: number,
+  isLast: boolean,
+  isLoading: boolean,
+  filterAuctionList:IAuction[],
+  // setDetail:(detail:IAuction)=>void,
+  getauctioninfobyaddress:(address:string,search:string,isSelect?:boolean)=>Promise<boolean>,
 }
 
 export interface IAuctionListProps extends RouteComponentProps {

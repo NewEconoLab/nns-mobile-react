@@ -20,7 +20,6 @@ class TradeRecord implements ITradeStore {
     let result: any = null;
     try {
       result = await Api.getsaleorbuylist(address, type, showtype, this.pageIndex, this.pageSize);
-
     } catch (error) {
       // 报错 了统一认为到底部了
       this.isLast = true;
@@ -29,7 +28,6 @@ class TradeRecord implements ITradeStore {
       // 加载完成 后 把 值设置成 false
       this.isLoading = false;
     }
-
     const list = result ? result[0].list : [];
     // 如果加载到的没结果了，认为是 last 最后一页了
     if (list.length === 0) {
@@ -38,7 +36,6 @@ class TradeRecord implements ITradeStore {
     // 每次都往里面push
     this.tradeList.push(...list);
     this.tradeCount = this.tradeList.length || 0;
-    console.log(this.tradeCount);
     return true;
   }
 }

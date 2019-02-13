@@ -71,7 +71,7 @@ class Detail extends React.Component<IAuctionDetailProps>
 						<div className="auction-normal">{this.prop.myauction.highbid}{detail.maxPrice} CGAS</div>
 						<div className="auction-normal">{this.prop.myauction.bidder}{this.bidder()}</div>
 						<div className="auction-normal">{this.prop.myauction.starttime}{formatTime.format('yyyy/MM/dd hh:mm:ss', detail.startTime.blocktime.toString(), this.props.intl.locale)}</div>
-						<div className="auction-normal">{this.prop.myauction.info.mybidmsg}<span className="text-red">{detail.addWho.totalValue}</span> CGAS</div>   {/*todo  出价总和怎么求*/ /*这一看就是你男票帮你写的吧*/ }
+						<div className="auction-normal">{this.prop.myauction.info.mybidmsg}<span className="text-red">{detail.addWho.totalValue} </span> CGAS</div>   {/*todo  出价总和怎么求*/ /*这一看就是你男票帮你写的吧*/ }
 					</div>
 				</div>
 			</React.Fragment>

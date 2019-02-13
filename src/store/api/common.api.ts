@@ -1,6 +1,6 @@
 import request from 'utils/request';
 import {HASH_CONFIG} from 'config';
-// import DomainSelling from '../DomainSelling';
+import DomainSelling from '../DomainSelling';
 /**
  * 获取nep5的资产（CGAS）
  */
@@ -27,7 +27,7 @@ export const getregisteraddressbalance =  (address:string) => {
    params:[
     address,
     // "0x"+HASH_CONFIG.accountCGAS.toString()
-    // "0x"+DomainSelling.RootNeo.register.toString()
+    "0x"+DomainSelling.RootNeo.register.toString()
    ]
   }
   return request(opts);

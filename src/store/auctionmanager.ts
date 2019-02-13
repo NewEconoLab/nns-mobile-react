@@ -30,7 +30,7 @@ class AuctionManager implements IAuctionListStore {
   
   @action public getAuctionInfoByAddress = async (address:string) => 
   {
-    let list:IAuction[]=[];
+    const list:IAuction[]=[];
     try 
     {
       const res = await Api.getAuctionInfoCount(address,DomainSelling.RootNeo.root);
@@ -40,15 +40,15 @@ class AuctionManager implements IAuctionListStore {
       {
         for(;count2>0;)
         {
-          const result = await Api.getauctioninfobyaddress(address, 1, count2<100?count2:100,DomainSelling.RootNeo.root);
-          list = list.concat(result?result[0].list:[]);
+          // const result = await Api.getauctioninfobyaddress(address, 1, count2<100?count2:100,DomainSelling.RootNeo.root);
+          // list = list.concat(result?result[0].list:[]);
           count2 -= 100;
         }
       }
       else
       {
-        const result = await Api.getauctioninfobyaddress(address, 1, count,DomainSelling.RootNeo.root);
-        list = list.concat(result?result[0].list:[]);
+        // const result = await Api.getauctioninfobyaddress(address, 1, count,DomainSelling.RootNeo.root);
+        // list = list.concat(result?result[0].list:[]);
       }
     }
     catch(e)

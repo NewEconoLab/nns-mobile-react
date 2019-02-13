@@ -1,14 +1,26 @@
 import request from 'utils/request';
 import DomainSelling from '@/store/DomainSelling';
-
-export const getdomainbyaddress = (address:string)=>{
+/**
+ * 获取域名列表
+ * @param address 当前地址
+ * @param type 出售状态
+ * @param currentPage 当前页
+ * @param pageSize 每页显示条数
+ * @param search 搜索字段
+ */
+export const getdomainbyaddress = (address:string,type:string,currentPage:number,pageSize:number,search:string)=>{
   const opts = {
     method:"getdomainbyaddress",
     params:[
       address,
-      "."+DomainSelling.RootNeo.root
+      "."+DomainSelling.RootNeo.root,
+      type,
+      currentPage,
+      pageSize,
+      search
     ]
   }
+  console.log(JSON.stringify(opts));
   return request(opts);
 }
 /**

@@ -18,21 +18,28 @@ class DomainDetail extends React.Component<IAuctionDetailProps>
 
     public render()
     {
-        const process = Process.getProcess(this.props.myauction.detail as IAuction,DomainSelling.day);
-        const wrapperClassNames = classnames('timeline-wrapper', {'active-over': this.props.myauction.detail ? this.props.myauction.detail.auctionState === AuctionState.end : false});
+        const process = this.props.myauction.detail ? Process.getProcess(this.props.myauction.detail as IAuction, DomainSelling.day) : null;
+        const wrapperClassNames = classnames('timeline-wrapper', { 'active-over': this.props.myauction.detail ? this.props.myauction.detail.auctionState === AuctionState.end : false });
         return (
             <div className="timelist-wrapper">
-                <TitleText text={this.prop.myauction.info.title2}/>
-                <p className="time-tip"> {process.timearr.length===4?this.prop.myauction.info.tips1:this.prop.myauction.info.tips2}</p>
-                <div className={wrapperClassNames}>
-                    <div className="time-line" style={{width:process.width+'%'}}/>
-                    {
-                        process.timearr.map((value,key)=>
-                        {
-                            return <TimeDetail key={key} dian={key===process.timearr.length-1} index={key} time={value.time} active={value.active} />
-                        })
-                    }
-                </div>
+                <TitleText text={this.prop.myauction.info.title2} />
+                {
+                    process && (
+                        <>
+                            <p className="time-tip"> {process.timearr.length === 4 ? this.prop.myauction.info.tips1 : this.prop.myauction.info.tips2}</p>
+                            <div className={wrapperClassNames}>
+                                <div className="time-line" style={{ width: process.width + '%' }} />
+                                {
+                                    process.timearr.map((value, key) =>
+                                    {
+                                        return <TimeDetail key={key} dian={key === process.timearr.length - 1} index={key} time={value.time} active={value.active} />
+                                    })
+                                }
+                            </div>
+                        </>
+                    )
+                }
+
             </div>
         );
     }

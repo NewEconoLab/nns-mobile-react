@@ -4,9 +4,9 @@
 import * as React from 'react';
 import { injectIntl } from 'react-intl';
 import { inject, observer } from 'mobx-react';
-import Detail from './detail'
-import TimeList from './timelist'
-import Addbid from './addbid'
+import Detail from './detail';
+import TimeList from './timelist';
+import Addbid from './addbid';
 import { Button } from 'antd-mobile';
 import { IAuctionDetailProps } from '../interface/index.interface';
 import '../index.less'

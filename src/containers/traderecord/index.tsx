@@ -36,7 +36,6 @@ class TradeRecord extends React.Component<ITradeProps, any> {
       this.props.traderecord.pageIndex++;
       this.toGetList();
     }
-
   }
   public componentWillUnmount() {
     this.props.traderecord.tradeCount = 0;

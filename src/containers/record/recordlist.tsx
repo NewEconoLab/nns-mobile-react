@@ -118,7 +118,7 @@ class RecordList extends React.Component<IRecordListProps, IRecordListState>
               </div>
               <div className="up-right">
                 <div className="upright-up">
-                  <a href="#" className="text-green">{item.message.domain}</a>
+                  <a href="javascript:;" className="text-green">{item.message.domain}</a>
                 </div>
               </div>
             </div>
@@ -136,7 +136,7 @@ class RecordList extends React.Component<IRecordListProps, IRecordListState>
                 <div className="btn-wrapper">{this.text[item.taskType]}</div>
               </div>
               <div className="up-right">
-                <div className="upright-up"><a href="#" className="text-green">{item.message.domain}</a> </div>
+                <div className="upright-up"><a href="javascript:;" className="text-green">{item.message.domain}</a> </div>
                 {
                   (item.taskType === TaskType.raise || item.taskType === TaskType.recoverCgas) &&
                   <div className="upright-down">{item.message.amount} CGAS</div>
@@ -190,7 +190,7 @@ class RecordList extends React.Component<IRecordListProps, IRecordListState>
             </div>
           }
           <div className="list-down">
-            <span>TXID:&nbsp;&nbsp;<a href="#" className="text-green">{txidtext}</a></span>
+            <span>TXID:&nbsp;&nbsp;<a href="javascript:;" className="text-green">{txidtext}</a></span>
             {
               this.state.clodTime > 0 && <span>Status:&nbsp;&nbsp;<span className="text-red">{this.prop.record.waitingmsg}( {this.state.clodTime}s )</span></span>
             }

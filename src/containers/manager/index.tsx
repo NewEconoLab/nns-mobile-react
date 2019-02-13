@@ -10,7 +10,6 @@ import './index.less';
 import ClaimNNC from './claimnnc';
 import { injectIntl } from 'react-intl';
 import { Modal, Button, SearchBar } from 'antd-mobile';
-import { AuctionState } from '@/store/interface/auction.interface';
 
 @inject('manager', 'common','statemanager')
 @observer
@@ -27,15 +26,15 @@ class Manager extends React.Component<IManagerProps, any>
       isLoadingMore: false,
       wrapper: null
     }
-  public async componentDidMount()
+  public componentDidMount()
   {
-    await this.props.manager.getdomainbyaddress(this.props.common.address);    
+    this.props.manager.getdomainbyaddress(this.props.common.address,'');
     window.addEventListener('scroll', this.onScroll, false);
   }
 
   public onScroll = () =>
-  {
-    if (this.props.manager.domainList.length === 0)
+  {        
+    if (this.props.manager.filterDomainList.length === 0)
     {
       return;
     }
@@ -45,21 +44,21 @@ class Manager extends React.Component<IManagerProps, any>
     }
 
     const winScroll = window.pageYOffset || (document.documentElement && document.documentElement.scrollTop) || (document.body && document.body.scrollTop);
-    if (winScroll + (document.documentElement ? document.documentElement.clientHeight : 0) >= this.listRef.current.offsetHeight + this.listRef.current.offsetTop + 46)
+    if (winScroll + (document.documentElement ? document.documentElement.clientHeight : 0) >= this.listRef.current.offsetHeight + this.listRef.current.offsetTop + 100)
     {
       this.props.manager.pageIndex++;
+      this.props.manager.getdomainbyaddress(this.props.common.address,this.state.searchValue);
     }
-
   }
 
   public componentWillUnmount()
   {
     window.removeEventListener('scroll', this.onScroll);
-    this.props.manager.pageIndex = 0;
+    this.props.manager.pageIndex = 1;
     this.props.manager.filterDomainList = [];
     this.props.manager.domainList = [];
-    this.props.manager.chooseStatus = "0";
-    this.props.manager.clickSellStatus = "0"; 
+    this.props.manager.chooseStatus = "all";
+    this.props.manager.clickSellStatus = "all"; 
   }
 
   // 显示选项框
@@ -73,7 +72,6 @@ class Manager extends React.Component<IManagerProps, any>
   {
     this.props.manager.modal = false;
     this.props.manager.clickSellStatus = this.props.manager.chooseStatus;
-    console.log("close");
   }
   // 筛选域名状态
   public chooseSellStatus = (event: any) =>
@@ -86,64 +84,32 @@ class Manager extends React.Component<IManagerProps, any>
   {
     this.props.manager.modal = false;
     this.props.manager.chooseStatus = this.props.manager.clickSellStatus;
-    const list = this.props.manager.domainList;
-    let newList: IManagerList[] = [];
-    
-    if (this.props.manager.chooseStatus.toString() === "0")// 全部
-    {
-      newList = list;
-    }
-    else if(this.props.manager.chooseStatus.toString() === "1")// 已出售
-    {
-      list.forEach((item: IManagerList, index: number) =>
-      {
-        if (list[index].state === AuctionState.sale)
-        {
-          newList.push(list[index]);
-        }
-      })      
-    }else{ // 未出售
-      list.forEach((item: IManagerList, index: number) =>
-      {
-        if (list[index].state !== AuctionState.sale)
-        {
-          newList.push(list[index]);
-        }
-      })  
-    }
+    this.props.manager.filterDomainList = [];
+    this.props.manager.pageIndex = 1;
+    this.props.manager.getdomainbyaddress(this.props.common.address,'');
     // 输入搜索置空
     this.setState({
       searchValue: ''
-    })        
-    this.props.manager.filterDomainList = newList;
+    }) 
   }
   public onSearchChange = (value: string) =>
   {
     this.setState({
       searchValue: value
     })
-    const list = this.props.manager.domainList;
-    const newList: IManagerList[] = [];
-    // 输入筛选
-    list.forEach((item: IManagerList, index: number) =>
-    {
-      if (list[index].domain.indexOf(value) !== -1)
-      {
-        console.log(list[index]);
-        newList.push(list[index]);
-      }
-    })
     // 筛选置空
-    if (this.props.manager.chooseStatus !== "0")
+    if (this.props.manager.chooseStatus !== "all")
     {
-      this.props.manager.chooseStatus = "0";
-      this.props.manager.clickSellStatus = "0";      
+      this.props.manager.chooseStatus = "all";
+      this.props.manager.clickSellStatus = "all";      
     }
-    this.props.manager.filterDomainList = newList;
+    this.props.manager.filterDomainList = [];
+    this.props.manager.pageIndex = 1;
+    this.props.manager.getdomainbyaddress(this.props.common.address,value);
   }
   public render()
   {
-    const srcImg = (this.props.manager.chooseStatus === '0') ? require('@/img/noselect.png') : require('@/img/yesselect.png');
+    const srcImg = (this.props.manager.chooseStatus === 'all') ? require('@/img/noselect.png') : require('@/img/yesselect.png');
     return (
       <div className="manager-wrap box-wrap" ref={this.listRef}>
         {/* 搜索功能 */}
@@ -168,9 +134,9 @@ class Manager extends React.Component<IManagerProps, any>
             <div className="select-box">
               <TitleText text={this.prop.manager.selecttype} />
               <div className="select-wrap">
-                <label className={this.props.manager.clickSellStatus === '0' ? 'checked-input' : ''}>{this.prop.manager.all}<input type="radio" name='people' value="0" onChange={this.chooseSellStatus} /></label>
-                <label className={this.props.manager.clickSellStatus === '1' ? 'checked-input' : ''} >{this.prop.manager.selltype}<input type="radio" name='people' value="1" onChange={this.chooseSellStatus} /></label>
-                <label className={this.props.manager.clickSellStatus === '2' ? 'checked-input' : ''}>{this.prop.manager.unselltype}<input type="radio" name='people' value="2" onChange={this.chooseSellStatus} /></label>
+                <label className={this.props.manager.clickSellStatus === 'all' ? 'checked-input' : ''}>{this.prop.manager.all}<input type="radio" name='status' value="all" onChange={this.chooseSellStatus} /></label>
+                <label className={this.props.manager.clickSellStatus === 'selling' ? 'checked-input' : ''} >{this.prop.manager.selltype}<input type="radio" name='status' value="selling" onChange={this.chooseSellStatus} /></label>
+                <label className={this.props.manager.clickSellStatus === 'notSelling' ? 'checked-input' : ''}>{this.prop.manager.unselltype}<input type="radio" name='status' value="notSelling" onChange={this.chooseSellStatus} /></label>
               </div>
             </div>
             <Button type="primary" onClick={this.applyChoose} style={{ borderRadius: '0' }}>{this.prop.btn.select}</Button>
@@ -180,7 +146,7 @@ class Manager extends React.Component<IManagerProps, any>
         <ClaimNNC {...this.props} />
         {/* 域名列表 */}
         {
-          this.props.manager.domainList.length !== 0 &&
+          this.props.manager.filterDomainList.length !== 0 &&
           <React.Fragment>
             <div className="hastips-title">
               <h3>{this.prop.manager.title}</h3>
@@ -188,7 +154,7 @@ class Manager extends React.Component<IManagerProps, any>
             </div>
             <div className="manager-list">
               {                
-                this.props.manager.domainListFroPage.map((item: IManagerList, index: number) =>
+                this.props.manager.filterDomainList.map((item: IManagerList, index: number) =>
                 {
                   return <ManagerList item={item} key={index} {...this.props} />;
                 })

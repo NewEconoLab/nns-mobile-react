@@ -17,7 +17,7 @@ import { nnstools } from '@/utils/nnstools';
 import DomainSelling from '@/store/DomainSelling';
 import taskmanager from '@/store/taskmanager';
 import { Task, ConfirmType, TaskType } from '@/store/interface/taskmanager.interface';
-import auctionmanager from '@/store/auctionmanager';
+// import auctionmanager from '@/store/auctionmanager';
 import { IAuction, IAuctionAddress, AuctionState } from '@/store/interface/auction.interface';
 import common from '@/store/common';
 
@@ -60,7 +60,7 @@ class Auction extends React.Component<IHomeProps>
       who["address"] = common.address;
       who["totalValue"] = 0;
       auction["addWho"] = who
-      auctionmanager.addAuction(auction);
+      // auctionmanager.addAuction(auction);
       taskmanager.addTask(new Task(TaskType.startAuction, ConfirmType.contract, res['txid'], { domain: auction["fulldomain"] }))
       Alert(this.prop.message.successmsg, this.prop.message.waitmsg, this.prop.btn.confirm, function ()
       {

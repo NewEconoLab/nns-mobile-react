@@ -3,13 +3,16 @@ import { ICommonStore } from '@/store/interface/common.interface'
 import { IStatemanagerStore } from '@/store/interface/statemanager.interface';
 
 export interface IManagerList {
-  domain: string,      // 域名
+  blockindex:number,   // 区块高度
   resolver: string,    // 地址解析器
   resolverAddr: string,// 地址映射
   ttl: string          // 到期时间
-  price: string,       // 出售金额
-  state: string,       // 域名状态
-  blockindex:number,   // 区块高度
+  domain: string,      // 域名
+  price: {
+    $numberDecimal:string
+  },       // 出售金额  
+  type:string,
+  state: string,       // 域名状态  
 }
 
 export interface IManagerListProps extends RouteComponentProps {
@@ -28,9 +31,9 @@ export interface IManagerStore {
   myNNCBalance: string,
   pageIndex: number,
   pageSize: number,
-  getdomainbyaddress: (address: string) => Promise<boolean>,
+  getdomainbyaddress: (address: string,search:string) => Promise<boolean>,
   getNNCfromSellingHash: (address: string) => Promise<boolean>,
-  domainListFroPage: IManagerList[],
+  // domainListFroPage: IManagerList[],
   filterDomainList:IManagerList[],
   domainAddress:IDomainAddress|null,
   getResolveAddress:(domain: string) => Promise<boolean>,

@@ -118,7 +118,7 @@ class ManagerList extends React.Component<IManagerListProps, any>
             <div className="manager-normal">{this.prop.manager.expirationtime}：<br />{formatTime.format('yyyy/MM/dd hh:mm:ss', this.props.item.ttl, this.props.intl.locale)} {this.dateComputed(this.props.item.ttl)} </div>
             {
               this.props.item.state === '0901' && (
-                <div className="manager-normal">出售价格：<br />{this.props.item.price ? this.props.item.price : '0'} NNC</div>
+                <div className="manager-normal">出售价格：<br />{this.props.item.price ? this.props.item.price.$numberDecimal : '0'} NNC</div>
               )
             }
             {
