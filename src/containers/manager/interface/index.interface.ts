@@ -31,6 +31,8 @@ export interface IManagerStore {
   myNNCBalance: string,
   pageIndex: number,
   pageSize: number,
+  isLast:boolean,
+  isLoading:boolean,
   getdomainbyaddress: (address: string,search:string) => Promise<boolean>,
   getNNCfromSellingHash: (address: string) => Promise<boolean>,
   // domainListFroPage: IManagerList[],

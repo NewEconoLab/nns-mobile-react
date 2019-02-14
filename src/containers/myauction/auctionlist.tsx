@@ -17,7 +17,6 @@ class MyAuctionList extends React.Component<IAuctionListProps>
 	// 跳转到竞拍详情页
 	public onGotoDetail = () => {		
 		this.props.myauction.detail = this.props.item;
-		console.log(this.props.myauction.detail)
 		this.props.history.push('/auction/detail')
 	}
 

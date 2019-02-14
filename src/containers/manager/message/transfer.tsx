@@ -47,7 +47,6 @@ class TransferDomain extends React.Component<ITransferDomainProps, any>
     }
     // 域名转让地址的输入 --todo
     public changeTransferAddress = (value: string) => {
-        console.log(value);
         this.setState({
             inputAddress:value,
             isOkTransfer:true
@@ -121,7 +120,6 @@ class TransferDomain extends React.Component<ITransferDomainProps, any>
     public getDomainAddress = async (domainName: string) =>
     {
         await this.props.manager.getResolveAddress(domainName);
-        console.log(this.props.manager.domainAddress);
         
         if(this.props.manager.domainAddress){
             this.setState({

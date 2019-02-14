@@ -19,8 +19,6 @@ class Bonus implements IBonusStore {
     } catch (e) {
       return false;
     }
-    console.log(result);
-
     this.myBonusInfo = result[0] || null;
     if (this.myBonusInfo) {
       const myBonus = parseFloat(result[0].send) !== 0 ? result[0].send : '0';

@@ -29,7 +29,7 @@ class manager implements IManagerStore {
     this.isLoading = true;
     let result: any = null;
     try {
-      result = await Api.getdomainbyaddress(address,this.chooseStatus,this.pageIndex,this.pageSize,search);
+      result = await Api.getdomainbyaddress('APEiJeZCbNFknjahEdzHzWC2zKpD5KHyPp',this.chooseStatus,this.pageIndex,this.pageSize,search);
     } catch (error) {
       // 报错 了统一认为到底部了
       this.isLast = true;
@@ -45,7 +45,6 @@ class manager implements IManagerStore {
     }
     // 每次都往里面push
     this.filterDomainList=[...this.filterDomainList,...list];
-    console.log(this.filterDomainList.length);   
     return true;
   }
   /**
@@ -77,7 +76,6 @@ class manager implements IManagerStore {
       this.domainAddress = null;
       return false;
     }
-    console.log(result);
     this.domainAddress = result ? result[0] : null;
     return true;
   }

@@ -79,8 +79,6 @@ class Home implements IHomeStore
       this.inputModule.status = 'success';
       this.isStatus = 0;
     }
-    console.log("search domain")
-    console.log(result[0]);
     // 竞拍状态 0 默认活着不可用(已结束)，1 未使用（可开拍），2 正在竞拍(可加价),3 可购买，4为开标中
     switch (result[0].state)
     {

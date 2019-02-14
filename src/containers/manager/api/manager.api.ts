@@ -20,7 +20,6 @@ export const getdomainbyaddress = (address:string,type:string,currentPage:number
       search
     ]
   }
-  console.log(JSON.stringify(opts));
   return request(opts);
 }
 /**

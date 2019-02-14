@@ -59,6 +59,7 @@ class Manager extends React.Component<IManagerProps, any>
     this.props.manager.domainList = [];
     this.props.manager.chooseStatus = "all";
     this.props.manager.clickSellStatus = "all"; 
+    this.props.manager.isLast = false;
   }
 
   // 显示选项框

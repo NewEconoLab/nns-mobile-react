@@ -78,8 +78,6 @@ class MyAuctuon implements IMyAuctionStore
       // this.auctionList[auction.auctionId] = auction;
       this.filterAuctionList.push(auction);
     }
-    // console.log("filterauctionlist--------------");
-    console.log(this.filterAuctionList);
     // sessionStorage.setItem(TABLE_CONFIG.auctionList,JSON.stringify(this.auctionList));
     return true;
   }

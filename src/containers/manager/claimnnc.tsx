@@ -18,7 +18,6 @@ class ClaimNNC extends React.Component<IManagerProps, any>
     }
     public toGetNNC = async () =>
     {
-        console.log("send getnnc");
         this.props.statemanager.getSaleNNCState = true;
         const res = await nnstools.getAllMyNNC()
         if (res && res["txid"]!=='')

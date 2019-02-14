@@ -170,7 +170,6 @@ class DomainMap extends React.Component<IProps, IState>
     }
     this.props.statemanager.setResolverDataState.push(this.state.detail.domain);
     const res = await nnstools.setResolveData(this.state.detail.domain, this.state.toResoverAddr, this.state.detail.resolver);
-    console.log(res);
 
     if (res && res["txid"] !== '')
     {

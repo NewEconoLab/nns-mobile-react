@@ -8,16 +8,13 @@ export function toNonExponential(num: number) {
   return num.toFixed(fiexed);
 }
 
-export function toNumFixed(params:number,num:number) {
-  console.log("params: "+params);
-  
+export function toNumFixed(params:number,num:number) {  
   let res:number = 0;
   if(params.toString().includes('.'))
   {
     const arr = params.toString().split('.');
     arr[1] = arr[1].split('')[num-1];
     res = parseFloat(arr.join('.'));
-    console.log(arr);    
   }
   else
   {

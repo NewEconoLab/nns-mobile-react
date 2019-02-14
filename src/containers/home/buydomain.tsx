@@ -54,16 +54,10 @@ class BuyDomain extends React.Component<IHomeProps>{
   public domainBuy = async (domain: string, amount: string) =>
   {
     const data1 = await nnstools.registerNNC(amount);
-    console.log("data1");
-    console.log(data1);
     const data2 = await nnstools.buyDomain(domain);
-    console.log("data2");
-    console.log(data2);
     if (data1)
     {
       await this.props.home.reChargeandtransfer(data1, data2);
-      console.log("合并发送交易结果");
-      console.log(JSON.stringify(this.props.home.reChargeResult));
       if(this.props.home.reChargeResult){
         switch (this.props.home.reChargeResult.errCode)
         {
@@ -123,7 +117,6 @@ class BuyDomain extends React.Component<IHomeProps>{
 
   public onClose = () =>
   {
-    console.log("close buy");
     this.props.home.isShowSaleBox = false;
     this.props.home.isStatus = 0;
     this.props.home.inputModule.inputValue = '';

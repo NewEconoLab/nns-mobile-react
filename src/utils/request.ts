@@ -12,10 +12,6 @@ interface IOpts {
 const baseCommonUrl: string = "https://api.nel.group/api";
 const baseUrl: string = "https://apiwallet.nel.group/api";
 
-console.log(baseCommonUrl);
-console.log(baseUrl);
-
-
 const makeRpcPostBody = (method: string, params: any): {} => {
     
   const body = {};
