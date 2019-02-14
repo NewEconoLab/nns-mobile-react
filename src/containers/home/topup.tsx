@@ -31,8 +31,6 @@ class Topup extends React.Component<ITopupProps>
 		}
 		this.props.common.getregisteraddressbalance();
 		this.props.common.getnep5balanceofaddress();
-		alert('注册器余额：'+this.props.common.accountBalance);
-		alert('CGAS余额：'+this.props.common.cgasBalance);
 	}
 	public change = (value: string) => {
 		if (/\./.test(value) && value.split('.')[1].length > 8) {
