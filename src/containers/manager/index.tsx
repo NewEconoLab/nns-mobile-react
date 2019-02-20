@@ -42,9 +42,8 @@ class Manager extends React.Component<IManagerProps, any>
     {
       return;
     }
-
     const winScroll = window.pageYOffset || (document.documentElement && document.documentElement.scrollTop) || (document.body && document.body.scrollTop);
-    if (winScroll + (document.documentElement ? document.documentElement.clientHeight : 0) >= this.listRef.current.offsetHeight + this.listRef.current.offsetTop + 100)
+    if (winScroll + (document.documentElement ? document.documentElement.clientHeight : 0) >= this.listRef.current.offsetHeight + this.listRef.current.offsetTop )
     {
       this.props.manager.pageIndex++;
       this.props.manager.getdomainbyaddress(this.props.common.address,this.state.searchValue);

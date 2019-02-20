@@ -46,7 +46,7 @@ class MyAuction extends React.Component<IAuctionProps, any>
     }
 
     const winScroll = window.pageYOffset || (document.documentElement && document.documentElement.scrollTop) || (document.body && document.body.scrollTop);
-    if (winScroll + (document.documentElement ? document.documentElement.clientHeight : 0) >= this.listRef.current.offsetHeight + this.listRef.current.offsetTop + 56)
+    if (winScroll + (document.documentElement ? document.documentElement.clientHeight : 0) >= this.listRef.current.offsetHeight + this.listRef.current.offsetTop)
     {
       this.props.myauction.pageIndex++;
       this.toGetList();
