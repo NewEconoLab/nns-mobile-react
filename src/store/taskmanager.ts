@@ -23,7 +23,9 @@ class TaskManager implements ITaskmanagerStore
         [TaskType.tranfer]:`changeOwnerInfo`,
         [TaskType.saleDomain]:`NNSfixedSellingLaunched`,
         [TaskType.unSaleDomain]:`NNSfixedSellingDiscontinued`,
-        [TaskType.getMyNNC]:`getMoneyBack`,     
+        [TaskType.getMyNNC]:`getMoneyBack`,  
+        [TaskType.bindDoamin]:`addrCreditRegistered`,
+        [TaskType.delBindDomain]:`addrCreditRevoke`,   
     }
 
     constructor()

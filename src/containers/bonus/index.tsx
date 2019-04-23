@@ -36,7 +36,6 @@ class Bonus extends React.Component<IBonusProps, any>
       this.props.bonus.pageIndex++;
       this.props.bonus.getBonusListByAddress();
     }
-
   }
   public componentWillUnmount() {
     this.props.bonus.myBonusInfo = null;

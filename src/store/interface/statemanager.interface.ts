@@ -10,6 +10,8 @@ export interface IStatemanagerStore
     sellDomainState:string[];
     delistDomainState:string[];
     buyDomainState:string[];
+    bindDomainState:string[];
+    delBindDomainState:string[];
 
     domainStatePush:(domain:string)=>void;
     domainStateDel:(domain:string)=>void;
@@ -23,4 +25,6 @@ export interface IStatemanagerStore
     sellDomainStateDel:(domain:string)=>void;
     delistDomainStateDel:(domain:string)=>void;
     buyDomainStateDel:(domain:string)=>void;
+    bindDomainStateDel:(domain:string)=>void;
+    delBindDomainStateDel:(domain:string)=>void;
 }

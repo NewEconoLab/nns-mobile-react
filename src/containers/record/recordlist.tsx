@@ -35,6 +35,8 @@ class RecordList extends React.Component<IRecordListProps, IRecordListState>
     [TaskType.unSaleDomain]: this.prop.record.delist,
     [TaskType.buyDomain]: this.prop.record.buy,
     [TaskType.getMyNNC]: this.prop.record.claimnnc,
+    [TaskType.bindDoamin]: this.prop.record.bind,
+    [TaskType.delBindDomain]: this.prop.record.unbind,    
   }
 
   public componentDidMount()
@@ -106,12 +108,14 @@ class RecordList extends React.Component<IRecordListProps, IRecordListState>
               </div>
             </div>
           }
-          {/* 开标 或 领取域名 或 下架*/}
+          {/* 开标 或 领取域名 或 下架 或 绑定域名 或 解除绑定*/}
           {
             (
               item.taskType === TaskType.startAuction ||
               item.taskType === TaskType.collectDomain ||
-              item.taskType === TaskType.unSaleDomain) &&
+              item.taskType === TaskType.unSaleDomain ||
+              item.taskType === TaskType.bindDoamin ||
+              item.taskType === TaskType.delBindDomain) &&
             <div className="list-up">
               <div className="up-left">
                 <div className="btn-wrapper">{this.text[item.taskType]}</div>

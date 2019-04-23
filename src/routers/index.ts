@@ -3,6 +3,14 @@ import asyncComponent from '@/components/asyncComponent';
 
 export default [
   {
+    component: asyncComponent(() => import('../containers/bind/bindlist')),
+    path: '/bindlist',
+  },
+  {
+    component: asyncComponent(() => import('../containers/bind/index')),
+    path: '/bind',
+  },
+  {
     component: asyncComponent(() => import('../containers/setting/language')),
     path: '/language',
   },

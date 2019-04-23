@@ -8,4 +8,5 @@ export default {
   ID_NEO:"0xc56f33fc6ecfcd0c225c4ab356fee59390af8560be0e930faebe74a6daff7c9b",
   saleContract: Neo.Uint160.parse("c4d09243258364e0e028852640218e08534f0466"),
   ID_NNC: Neo.Uint160.parse('fc732edee1efdf968c23c20a9628eaa5a6ccb934'),
+  bindContract: Neo.Uint160.parse("960b41a05588d2f55acbc13a1e3aa464eec6fff5")
 }

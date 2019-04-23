@@ -79,6 +79,8 @@ export enum TaskType
     buyDomain,// 购买域名
     getMyNNC,// 获取收入的NNC
     requestNNC,// 索取NNC
+    bindDoamin, // 绑定域名
+    delBindDomain, // 解除绑定域名
 }
 
 export interface ITaskmanagerStore 

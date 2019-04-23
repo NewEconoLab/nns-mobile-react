@@ -90,9 +90,9 @@ export class nnstools
         try
         {
             console.log("------------script");
-            
+
             console.log(script.toHexString());
-            
+
             const res = await Contract.contractInvokeTrans_attributes(script);
             if (res)
             {
@@ -169,7 +169,7 @@ export class nnstools
 
 
     /**
-     * 结束竞拍
+     * 结束竞拍 
      * @param domain 域名
      */
     public static async bidSettlement(id: string, register: Neo.Uint160)
@@ -381,7 +381,7 @@ export class nnstools
      */
     public static async registerNNC(amount)
     {
-        const result = await commonAPI.getnep5asset(HASH_CONFIG.ID_NNC.toString());    
+        const result = await commonAPI.getnep5asset(HASH_CONFIG.ID_NNC.toString());
         if (!result)
         {
             return false;
@@ -407,7 +407,7 @@ export class nnstools
         sb.Emit(ThinNeo.OpCode.PACK);
         sb.EmitPushString("setMoneyIn");
         sb.EmitAppCall(register);
-        const script = sb.ToArray();        
+        const script = sb.ToArray();
         try
         {
             const res = await Contract.buildInvokeTrans_attributes(script);
@@ -477,7 +477,58 @@ export class nnstools
             throw error;
         }
     }
+    /**
+     * 绑定域名地址
+     * @param doamin 域名字符串
+     * @param address 当前地址
+     */
+    public static async bindDomain(domain: string, address: string)
+    {
+        let arr = domain.split(".").reverse();
+        arr = arr.map(str => `(str)${str}`);
+        const scriptaddress = HASH_CONFIG.bindContract;
+        try
+        {
+            const sb = Contract.buildScript_random(
+                scriptaddress,
+                "authenticate",
+                [
+                    `(addr)${address}`,
+                    arr
+                ]
+            );
 
+            const res = await Contract.contractInvokeTrans_attributes(sb.ToArray());
+            return res;
+        } catch (error)
+        {
+            throw new Error(error)
+        }
+    }
+    /**
+     * 解除绑定域名地址
+     * @param address 当前地址
+     */
+    public static async cancalBindDomain(address: string)
+    {
+        const scriptaddress = HASH_CONFIG.bindContract;
+        try
+        {
+            const sb = Contract.buildScript_random(
+                scriptaddress,
+                "revoke",
+                [
+                    `(addr)${address}`
+                ]
+            );
+
+            const res = await Contract.contractInvokeTrans_attributes(sb.ToArray());
+            return res;
+        } catch (error)
+        {
+            throw new Error(error)
+        }
+    }
     /**
      * Gas兑换CGas
      * @param count 兑换数量
@@ -533,6 +584,4 @@ export class nnstools
             throw error;
         }
     }
-
-
 }

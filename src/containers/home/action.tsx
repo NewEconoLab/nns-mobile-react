@@ -14,6 +14,7 @@ import domainmanager from '@/img/domainmanage.png'
 import bonus from '@/img/bonus.png'
 import record from '@/img/record.png'
 import setting from '@/img/setting.png'
+import bind from '@/img/bind.png'
 // 引入小标题组件
 import TitleText from '@/components/titletext';
 // 引入数据类型
@@ -75,6 +76,11 @@ class Action extends React.Component<IHomeProps, any> {
                 icon: setting,
                 text: this.home.action.setting,
                 page:'setting'
+            },
+            {
+                icon: bind,
+                text: this.home.action.bind,
+                page:'bind'
             }
             // {
             //     icon: tutorial,

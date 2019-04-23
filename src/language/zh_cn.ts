@@ -13,7 +13,9 @@ export default {
     '/withdraw': '提取',
     '/traderecord': '域名交易记录',
     '/setting': '设置',
-    '/language': '语言设置'
+    '/language': '语言设置',
+    '/bind':'绑定域名',
+    '/bindlist':'选择域名'
   },
   header: {
     back: '返回'
@@ -58,7 +60,10 @@ export default {
     claimnncing: "提取中",
     edit: "编辑",
     transfer: "转让",
-    transfering: "转让中"
+    transfering: "转让中",
+    bind:'绑定',
+    replace:'修改',
+    wait:'等待更换'
   },
   home: {
     action: {
@@ -71,6 +76,7 @@ export default {
       record: '操作记录',
       traderecord: '域名交易记录',
       setting: '设置',
+      bind:'绑定域名'
     },
     account: {
       title: "竞拍账户",
@@ -221,6 +227,8 @@ export default {
     buy: "购买",
     claimnnc: "提取NNC",
     domaintransfer: "转让域名",
+    unbind: "取消绑定",
+    bind: "绑定域名",
   },
   traderecord: {
     mysell: "我出售的",
@@ -251,9 +259,19 @@ export default {
     buymsg: '"购买" ',
     claimnncmsg: '"提取NNC" ',
     domaintransfermsg: '"转让域名" ',
+    binddomain: '"绑定域名" ',
+    unbinddomain: '"取消绑定" '
   },
   setting: {
     title: '语言设置',
     language: "当前语言："
+  },
+  bind:{
+    myaddress:'我的地址',
+    bindtitle:'绑定域名',
+    unbindmsg:'未绑定域名',
+    bindlisttitle:'可绑定的域名',
+    search: "按域名查找",
+    unbind:'不绑定域名'
   }
 }

@@ -23,6 +23,10 @@ class StateManager implements IStatemanagerStore
     @observable public delistDomainState:string[] = [];
     // 域名购买
     @observable public buyDomainState:string[] = [];
+    // 绑定域名
+    @observable public bindDomainState:string[] = [];
+    // 解除绑定域名
+    @observable public delBindDomainState:string[] = [];
 
     // 域名竞拍
     @action public domainStatePush = (domain:string) =>{
@@ -71,6 +75,14 @@ class StateManager implements IStatemanagerStore
     // 更新域名购买状态
     @action public buyDomainStateDel = (domain: string) => {
         this.buyDomainState = this.deleteState(this.buyDomainState,domain);
+    }
+    // 更新域名绑定状态
+    @action public bindDomainStateDel = (domain:string) => {
+        this.bindDomainState = this.deleteState(this.bindDomainState,domain);
+    }
+    // 更新解除绑定状态
+    @action public delBindDomainStateDel = (domain:string) => {
+        this.delBindDomainState = this.deleteState(this.delBindDomainState,domain);
     }
     public deleteState(arr:string[],str:string)
     {   

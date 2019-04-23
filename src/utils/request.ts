@@ -11,6 +11,7 @@ interface IOpts {
 
 const baseCommonUrl: string = "https://api.nel.group/api";
 const baseUrl: string = "https://apiwallet.nel.group/api";
+const scanUrl: string = "https://apiscan.nel.group/api";
 
 const makeRpcPostBody = (method: string, params: any): {} => {
     
@@ -30,7 +31,9 @@ export default function request(opts: IOpts): Promise<any> {
   let url = [baseUrl,common.network].join('/');
   if (opts.baseUrl === 'common') {
     url = [baseCommonUrl,common.network].join('/')
-  }  
+  } else if (opts.baseUrl === 'scan') {
+    url = [scanUrl,common.network].join('/')
+  } 
   const params = makeRpcPostBody(opts.method, opts.params);
   const args = {
     url,

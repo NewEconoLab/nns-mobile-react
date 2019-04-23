@@ -13,7 +13,9 @@ export default {
     '/withdraw': 'Withdraw',
     '/traderecord': 'Trading History',
     '/setting': 'Setting',
-    '/language': 'Language setting'
+    '/language': 'Language setting',
+    '/bind': 'Bound Domain',
+    '/bindlist': 'Select domain'
   },
   header: {
     back: 'Back'
@@ -58,7 +60,10 @@ export default {
     claimnncing: "Claiming",
     edit: "Edit",
     transfer: "Transfer",
-    transfering: "Transfering"
+    transfering: "Transfering",
+    bind:'Bind',
+    replace:'Replace',
+    wait:'Waiting'
   },
   home: {
     action: {
@@ -71,6 +76,7 @@ export default {
       record: 'Record',
       traderecord: 'Trading History',
       setting: 'Setting',
+      bind: 'Bound Domain'
     },
     account: {
       title: "Auction account",
@@ -148,16 +154,16 @@ export default {
       tips3: "Tips:The minimum bid increment is 0.1 CGAS. If your cumulative bid is lower than the highest bid, your raise will be  unsuccessful.",
     }
   },
-  manager:{
-    title:"My domain",
-    resolver:"Address resolver",
-    mapping:"Address mapping",
-    expirationtime:"Expiration time",
-    msg:"（ Expiring soon ）",
-    msg2:"（ Expired ）",
-    title2:"Domain",
-    noset:"not configured",
-    msg1:"Your address is incorrect.",
+  manager: {
+    title: "My domain",
+    resolver: "Address resolver",
+    mapping: "Address mapping",
+    expirationtime: "Expiration time",
+    msg: "（ Expiring soon ）",
+    msg2: "（ Expired ）",
+    title2: "Domain",
+    noset: "not configured",
+    msg1: "Your address is incorrect.",
     search: "Search by domain",
     selecttype: "Filter by auction status",
     all: "All",
@@ -221,7 +227,8 @@ export default {
     buy: "Buy",
     claimnnc: "NNC Claim",
     domaintransfer: "Domain transfer",
-
+    unbind: "Unbind",
+    bind: "Bind domain",
   },
   traderecord: {
     mysell: "Sold",
@@ -252,9 +259,19 @@ export default {
     buymsg: '"Buy" ',
     claimnncmsg: '"NNC Claim" ',
     domaintransfermsg: '"Domain transfer" ',
+    binddomain: '"Bind domain" ',
+    unbinddomain: '"Unbind" '
   },
   setting: {
     title: 'Language setting',
     language: "Language："
+  },
+  bind:{
+    myaddress:'My Address',
+    bindtitle:'Domain Bound',
+    unbindmsg:'No Domain Bound',
+    bindlisttitle:'Domain Bindable',
+    search: "Search by domain",
+    unbind:'Not to Bind Domain'
   }
 }

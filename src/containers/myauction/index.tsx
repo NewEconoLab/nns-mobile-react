@@ -9,6 +9,7 @@ import { IAuctionProps, } from './interface/index.interface';
 import { inject, observer } from 'mobx-react';
 import { AuctionState, IAuction } from '@/store/interface/auction.interface';
 import { injectIntl } from 'react-intl';
+import './index.less';
 @inject('common', 'myauction', 'auctionmanager')
 @observer
 class MyAuction extends React.Component<IAuctionProps, any>

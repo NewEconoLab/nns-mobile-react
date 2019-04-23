@@ -29,6 +29,8 @@ export default class TopTips extends React.Component<IProps> {
     buyDomain: (msg,isok) => `${this.props.locale.buymsg}${msg.domain} （ ${msg.price} NNC ）${isok?this.props.locale.isok:this.props.locale.isnotok}`,// 域名购买
     getNNC: (amount,isok) => `${this.props.locale.claimnncmsg}${amount}${isok?this.props.locale.isok:this.props.locale.isnotok}`,// 提取nnc
     delistDomain: (domain,isok) => `${this.props.locale.delistmsg}${domain}${isok?this.props.locale.isok:this.props.locale.isnotok}`,// 下架
+    bindDomain: (domain,isok) => `${this.props.locale.binddomain}${domain}${isok?this.props.locale.isok:this.props.locale.isnotok}`,// 绑定域名
+    delBindDomain: (domain,isok) => `${this.props.locale.unbinddomain}${domain}${isok?this.props.locale.isok:this.props.locale.isnotok}`,// 取消绑定
   }
   public renderNoticeText = () => {
     const item = this.props.taskmanager.selfTask;
@@ -148,6 +150,20 @@ export default class TopTips extends React.Component<IProps> {
         return this.textList.delistDomain(item.message.domain,true);
       }else{
         return this.textList.delistDomain(item.message.domain,false);
+      }
+    }
+    if(item.taskType === TaskType.bindDoamin) {
+      if(item.state === 1) {
+        return this.textList.bindDomain(item.message.domain,true);
+      }else{
+        return this.textList.bindDomain(item.message.domain,false);
+      }
+    }
+    if(item.taskType === TaskType.delBindDomain) {
+      if(item.state === 1) {
+        return this.textList.delBindDomain(item.message.domain,true);
+      }else{
+        return this.textList.delBindDomain(item.message.domain,false);
       }
     }
 
